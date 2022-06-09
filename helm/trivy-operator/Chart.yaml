@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: 0.0.1
+appVersion: 0.0.5
 
 name: trivy-operator
 
@@ -16,9 +16,9 @@ sources:
 - https://github.com/aquasecurity/trivy-operator
 version: [[ .Version ]]
 
-# dependencies:
-# - name: trivy-operator
-#   version: "0.10.3"
+dependencies:
+- name: trivy-operator
+  version: "0.0.5"
   # alias: trivy-operator-app
 
 annotations:
