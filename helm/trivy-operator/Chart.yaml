@@ -1,0 +1,23 @@
+apiVersion: v2
+appVersion: 0.0.1
+
+name: trivy-operator
+
+# Please describe what the app provides in a sentence or two.
+description: A Giant Swarm App for trivy-operator, the cluster security tool from Aqua Security.
+
+home: https://github.com/giantswarm/trivy-operator-app
+
+# If you have an icon/logo, you should add it to https://github.com/giantswarm/web-assets
+# and set the final URL as a value here and uncomment.
+#icon: https://s.giantswarm.io/app-icons/example-app/1/light.svg
+
+sources:
+- https://github.com/aquasecurity/trivy-operator
+version: [[ .Version ]] if you're using architect instead of app-build-suite
+
+annotations:
+  application.giantswarm.io/team: "honeybadger"
+  config.giantswarm.io/version: 1.x.x
+  #   branch: my-branch # Used through .Chart.Annotations.branch (This is not replaced automatically)
+  #   commit: f00bar # Used through .Chart.Annotations.commit (This is not replaced automatically)

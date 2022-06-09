@@ -1,0 +1,12 @@
+name: trivy-operator
+serviceType: managed
+
+# project:
+#   branch: "[[ .Branch ]]"
+#   commit: "[[ .SHA ]]"
+
+image:
+  registry: quay.io
+  name: giantswarm/trivy-operator
+  tag: v0.0.1
+  pullPolicy: IfNotPresent

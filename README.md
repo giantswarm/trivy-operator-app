@@ -1,15 +1,9 @@
-[![CircleCI](https://circleci.com/gh/giantswarm/{APP-NAME}-app.svg?style=shield)](https://circleci.com/gh/giantswarm/{APP-NAME}-app)
+[![CircleCI](https://circleci.com/gh/giantswarm/trivy-operator-app.svg?style=shield)](https://circleci.com/gh/giantswarm/trivy-operator-app)
 
-# {APP-NAME} chart
+# trivy-operator chart
 
-Giant Swarm offers a {APP-NAME} App which can be installed in workload clusters.
-Here we define the {APP-NAME} chart with its templates and default configuration.
-
-**What is this app?**
-
-**Why did we add it?**
-
-**Who can use it?**
+Giant Swarm offers a trivy-operator App which can be installed in workload clusters.
+Here we define the trivy-operator chart with its templates and default configuration.
 
 ## Installing
 
@@ -34,34 +28,10 @@ There are several ways to install this app onto a workload cluster.
 If you have access to the Kubernetes API on the management cluster, you could create
 the App CR and ConfigMap directly.
 
-Here is an example that would install the app to
-workload cluster `abc12`:
-
-```yaml
-# appCR.yaml
-
-```
-
-```yaml
-# user-values-configmap.yaml
-
-```
-
 See our [full reference on how to configure apps](https://docs.giantswarm.io/app-platform/app-configuration/) for more details.
-
-## Compatibility
-
-This app has been tested to work with the following workload cluster release versions:
-
-- _add release version_
-
-## Limitations
-
-Some apps have restrictions on how they can be deployed.
-Not following these limitations will most likely result in a broken deployment.
-
-- _add limitation_
 
 ## Credit
 
-- {APP HELM REPOSITORY}
+- [`trivy-operator`][trivy-operator-upstream]
+
+[trivy-operator-upstream]: https://github.com/aquasecurity/trivy-operator
