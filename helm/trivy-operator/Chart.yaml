@@ -14,7 +14,12 @@ home: https://github.com/giantswarm/trivy-operator-app
 
 sources:
 - https://github.com/aquasecurity/trivy-operator
-version: [[ .Version ]] if you're using architect instead of app-build-suite
+version: [[ .Version ]]
+
+# dependencies:
+# - name: trivy-operator
+#   version: "0.10.3"
+  # alias: trivy-operator-app
 
 annotations:
   application.giantswarm.io/team: "honeybadger"
