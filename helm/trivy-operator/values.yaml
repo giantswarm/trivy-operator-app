@@ -1,12 +1,79 @@
 name: trivy-operator
 serviceType: managed
 
-# project:
-#   branch: "[[ .Branch ]]"
-#   commit: "[[ .SHA ]]"
-
 image:
-  registry: quay.io
-  name: giantswarm/trivy-operator
-  tag: v0.0.1
-  pullPolicy: IfNotPresent
+  registry: docker.io
+
+trivy-operator:
+
+  operator:
+    # Reports are automatically deleted after this duration, causing a re-scan. Empty = never delete.
+    vulnerabilityScannerReportTTL: "168h"  # 7 days
+    # Generate reports for only the currently-deployed version of a replicaset.
+    vulnerabilityScannerScanOnlyCurrentRevisions: true
+
+  image:
+    repository: "quay.io/giantswarm/trivy-operator"
+
+  rbac:
+    pspEnabled: true
+
+  targetNamespaces: ""
+
+  trivy:
+    # Ideally, we use the in-cluster Trivy deployed from https://github.com/giantswarm/trivy-app
+    # We also set the image here so that trivy-operator can be deployed "standalone",
+    # but this image is not used if using in-cluster Trivy.
+    # Change or remove the `mode:` setting to let trivy-operator pull its own Trivy images.
+    imageRef: docker.io/giantswarm/trivy:0.24.0
+    mode: ClientServer
+    serverURL: "http://trivy-app:4954"
+    # Resources for Trivy pods created by trivy-operator
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100M
+      limits:
+        cpu: 500m
+        memory: 1G
+
+  kubeBench:
+    imageRef: docker.io/giantswarm/kube-bench:0.6.3
+
+  polaris:
+    imageRef: docker.io/giantswarm/polaris:4.0
+
+  conftest:
+    imageRef: docker.io/giantswarm/conftest:v0.25.0
+
+  aqua:
+    imageRef: giantswarm/scanner:5.3
+
+# We install CRDs through a Job with the helm specific crd folder.
+crds:
+  image:
+    tag: 1.24.1
+  install: true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+# Upstream offers compliance specs which can be optionally installed.
+specs:
+  image:
+    tag: 1.24.1
+  install: true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+# managedBy is similar to .Release.Service but allows to overwrite the value
+managedBy: Helm
