@@ -20,7 +20,7 @@ trivy-operator:
     vulnerabilityScannerScanOnlyCurrentRevisions: true
 
   image:
-    repository: "docker.io/giantswarm/starboard-operator"
+    repository: "quay.io/giantswarm/trivy-operator"
 
   rbac:
     pspEnabled: true
@@ -29,13 +29,13 @@ trivy-operator:
 
   trivy:
     # Ideally, we use the in-cluster Trivy deployed from https://github.com/giantswarm/trivy-app
-    # We also set the image here so that starboard can be deployed "standalone",
+    # We also set the image here so that trivy-operator can be deployed "standalone",
     # but this image is not used if using in-cluster Trivy.
-    # Change or remove the `mode:` setting to let starboard pull its own Trivy images.
+    # Change or remove the `mode:` setting to let trivy-operator pull its own Trivy images.
     imageRef: docker.io/giantswarm/trivy:0.24.0
     mode: ClientServer
     serverURL: "http://trivy-app:4954"
-    # Resources for Trivy pods created by Starboard
+    # Resources for Trivy pods created by trivy-operator
     resources:
       requests:
         cpu: 100m
