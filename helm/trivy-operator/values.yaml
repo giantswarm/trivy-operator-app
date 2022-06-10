@@ -1,6 +1,9 @@
 name: trivy-operator
 serviceType: managed
 
+image:
+  registry: docker.io
+
 trivy-operator:
 
   operator:
