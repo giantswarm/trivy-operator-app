@@ -29,7 +29,7 @@
                 }
             }
         },
-        "starboard-app": {
+        "trivy-operator": {
             "type": "object",
             "properties": {
                 "aqua": {
