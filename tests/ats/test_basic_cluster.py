@@ -6,7 +6,7 @@ from typing import Dict, List
 import pykube
 import pytest
 from pytest_helm_charts.fixtures import Cluster
-from pytest_helm_charts.utils import wait_for_deployments_to_run
+from pytest_helm_charts.k8s import wait_for_deployments_to_run
 
 logger = logging.getLogger(__name__)
 
