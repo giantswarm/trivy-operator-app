@@ -23,6 +23,6 @@ dependencies:
 
 annotations:
   application.giantswarm.io/team: "honeybadger"
-  config.giantswarm.io/version: 1.x.x
+  config.giantswarm.io/version: "trivy-operator-defaults"  # 1.x.x
   #   branch: my-branch # Used through .Chart.Annotations.branch (This is not replaced automatically)
   #   commit: f00bar # Used through .Chart.Annotations.commit (This is not replaced automatically)
