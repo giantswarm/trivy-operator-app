@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Push tagged releases to AWS and Azure collections.
+
 ### Changed
 
 - Update to upstream [trivy-operator](https://github.com/aquasecurity/trivy-operator) [v0.0.7](https://github.com/aquasecurity/trivy-operator/releases/tag/v0.0.7).
