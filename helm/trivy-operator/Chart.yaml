@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: 0.0.5
+appVersion: 0.0.7
 
 name: trivy-operator
 
@@ -18,7 +18,7 @@ version: [[ .Version ]]
 
 dependencies:
 - name: trivy-operator
-  version: "0.0.5"
+  version: "0.0.7"
   # alias: trivy-operator-app
 
 annotations:
