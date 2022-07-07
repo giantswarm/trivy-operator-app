@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update to upstream [trivy-operator](https://github.com/aquasecurity/trivy-operator) [v0.0.7](https://github.com/aquasecurity/trivy-operator/releases/tag/v0.0.7).
+
 ## [0.0.1] - 2022-06-14
 
 ### Added
