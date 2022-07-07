@@ -37,9 +37,6 @@ trivy-operator:
         cpu: 500m
         memory: 1G
 
-  kubeBench:
-    imageRef: docker.io/giantswarm/kube-bench:0.6.3
-
   polaris:
     imageRef: docker.io/giantswarm/polaris:4.0
 
