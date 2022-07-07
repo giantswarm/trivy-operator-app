@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Push tagged releases to AWS and Azure collections.
+
 ## [0.0.1] - 2022-06-14
 
 ### Added
