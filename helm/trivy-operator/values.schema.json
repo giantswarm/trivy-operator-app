@@ -56,14 +56,6 @@
                         }
                     }
                 },
-                "kubeBench": {
-                    "type": "object",
-                    "properties": {
-                        "imageRef": {
-                            "type": "string"
-                        }
-                    }
-                },
                 "operator": {
                     "type": "object",
                     "properties": {
