@@ -16,6 +16,7 @@ spec:
     - 'emptyDir'
     - 'hostPath'
     - 'secret'
+    - 'projected'
   hostNetwork: false
   hostIPC: false
   hostPID: true
@@ -52,6 +53,7 @@ spec:
   volumes:
     - 'configMap'
     - 'emptyDir'
+    - 'projected'
   hostNetwork: false
   hostIPC: false
   hostPID: false
