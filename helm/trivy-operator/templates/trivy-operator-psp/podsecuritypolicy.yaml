@@ -1,0 +1,107 @@
+{{- if .Values.rbac.pspEnabled }}
+{{- if .Values.operator.kubernetesBenchmarkEnabled }}
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: {{ include "trivy-operator-helpers.fullname" . }}
+  labels:
+    {{- include "trivy-operator-helpers.labels" . | nindent 4 }}
+  annotations:
+    seccomp.security.alpha.kubernetes.io/allowedProfileNames: 'runtime/default'
+spec:
+  privileged: false
+  allowPrivilegeEscalation: false
+  volumes:
+    - 'configMap'
+    - 'emptyDir'
+    - 'hostPath'
+    - 'secret'
+  hostNetwork: false
+  hostIPC: false
+  hostPID: true
+  runAsUser:
+    rule: 'RunAsAny'
+  seLinux:
+    rule: 'RunAsAny'
+  supplementalGroups:
+    rule: 'MustRunAs'
+    ranges:
+    - min: 1
+      max: 65535
+  fsGroup:
+    rule: 'MustRunAs'
+    ranges:
+    - min: 1
+      max: 65535
+  readOnlyRootFilesystem: true
+  requiredDropCapabilities:
+    - ALL
+{{ else }}
+# More minimal PSP without capabilities needed for CIS.
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: {{ include "trivy-operator-helpers.fullname" . }}
+  labels:
+    {{- include "trivy-operator-helpers.labels" . | nindent 4 }}
+  annotations:
+    seccomp.security.alpha.kubernetes.io/allowedProfileNames: 'runtime/default'
+spec:
+  privileged: false
+  allowPrivilegeEscalation: false
+  volumes:
+    - 'configMap'
+    - 'emptyDir'
+  hostNetwork: false
+  hostIPC: false
+  hostPID: false
+  runAsUser:
+    rule: 'MustRunAsNonRoot'
+  seLinux:
+    rule: 'RunAsAny'
+  supplementalGroups:
+    rule: 'MustRunAs'
+    ranges:
+    - min: 1
+      max: 65535
+  fsGroup:
+    rule: 'MustRunAs'
+    ranges:
+    - min: 1
+      max: 65535
+  readOnlyRootFilesystem: true
+  requiredDropCapabilities:
+    - ALL
+{{- end }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ template "trivy-operator-helpers.fullname" . }}-psp
+  labels:
+    {{- include "trivy-operator-helpers.labels" . | nindent 4 }}
+rules:
+  - apiGroups:
+      - extensions
+    resources:
+      - podsecuritypolicies
+    verbs:
+      - use
+    resourceNames:
+      - {{ template "trivy-operator-helpers.fullname" . }}-polr-psp
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ template "trivy-operator-helpers.fullname" . }}-polr-plugin-psp
+  labels:
+    {{- include "trivy-operator-helpers.labels" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ index .Values "trivy-operator" "serviceAccount" "name" }}
+    namespace: {{ include "trivy-operator-helpers.namespace"  . }}
+roleRef:
+  kind: ClusterRole
+  name: {{ template "trivy-operator-helpers.fullname" . }}-polr-psp
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}
