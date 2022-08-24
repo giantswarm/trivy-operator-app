@@ -88,12 +88,12 @@ rules:
     verbs:
       - use
     resourceNames:
-      - {{ template "trivy-operator-helpers.fullname" . }}-polr-psp
+      - {{ template "trivy-operator-helpers.fullname" . }}-psp
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ template "trivy-operator-helpers.fullname" . }}-polr-plugin-psp
+  name: {{ template "trivy-operator-helpers.fullname" . }}-psp
   labels:
     {{- include "trivy-operator-helpers.labels" . | nindent 4 }}
 subjects:
@@ -102,6 +102,6 @@ subjects:
     namespace: {{ include "trivy-operator-helpers.namespace"  . }}
 roleRef:
   kind: ClusterRole
-  name: {{ template "trivy-operator-helpers.fullname" . }}-polr-psp
+  name: {{ template "trivy-operator-helpers.fullname" . }}-psp
   apiGroup: rbac.authorization.k8s.io
 {{- end }}
