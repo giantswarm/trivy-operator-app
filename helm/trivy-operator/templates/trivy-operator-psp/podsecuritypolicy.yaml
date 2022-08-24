@@ -41,7 +41,7 @@ spec:
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
-  name: {{ include "trivy-operator-helpers.fullname" . }}
+  name: {{ include "trivy-operator-helpers.fullname" . }}-psp
   labels:
     {{- include "trivy-operator-helpers.labels" . | nindent 4 }}
   annotations:
