@@ -4,6 +4,10 @@ serviceType: managed
 image:
   registry: docker.io
 
+# PSP is not supported upstream anymore, but we can create our own.
+rbac:
+  pspEnabled: true
+
 trivy-operator:
 
   operator:
@@ -18,9 +22,6 @@ trivy-operator:
 
   image:
     repository: "docker.io/giantswarm/trivy-operator"
-
-  rbac:
-    pspEnabled: true
 
   targetNamespaces: ""
 
