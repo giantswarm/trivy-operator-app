@@ -4,6 +4,10 @@ serviceType: managed
 image:
   registry: docker.io
 
+# PSP is not supported upstream anymore, but we can create our own.
+rbac:
+  pspEnabled: true
+
 trivy-operator:
 
   operator:
@@ -11,14 +15,41 @@ trivy-operator:
     vulnerabilityScannerReportTTL: "168h"  # 7 days
     # Generate reports for only the currently-deployed version of a replicaset.
     vulnerabilityScannerScanOnlyCurrentRevisions: true
+    # scanJobsConcurrentLimit the maximum number of scan jobs create by the operator
+    scanJobsConcurrentLimit: 10
+    # scanJobsRetryDelay the duration to wait before retrying a failed scan job
+    scanJobsRetryDelay: 30s
 
   image:
-    repository: "quay.io/giantswarm/trivy-operator"
-
-  rbac:
-    pspEnabled: true
+    repository: "docker.io/giantswarm/trivy-operator"
 
   targetNamespaces: ""
+
+  # Pod securityContext
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 10000  # UID of `trivyoperator` user from upstream.
+    runAsGroup: 10000  # UID of `trivyoperator` user from upstream
+    seccompProfile:
+      type: RuntimeDefault
+
+  # Container securityContext
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+      - ALL
+    privileged: false
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 10000  # UID of `trivyoperator` user from upstream.
+    runAsGroup: 10000  # UID of `trivyoperator` user from upstream
+    seccompProfile:
+      type: RuntimeDefault
+
+  serviceAccount:
+    # We set the service account name so that we can use it in our FlowSchema.
+    name: "trivy-operator"
 
   trivy:
     # Ideally, we use the in-cluster Trivy deployed from https://github.com/giantswarm/trivy-app
@@ -71,6 +102,29 @@ specs:
     limits:
       cpu: 500m
       memory: 512Mi
+
+# Security contexts for CRD and spec installs.
+# Pod securityContext
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10000
+  runAsGroup: 10000
+  seccompProfile:
+    type: RuntimeDefault
+
+# Container securityContext
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL
+  privileged: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 10000
+  runAsGroup: 10000
+  seccompProfile:
+    type: RuntimeDefault
 
 # managedBy is similar to .Release.Service but allows to overwrite the value
 managedBy: Helm

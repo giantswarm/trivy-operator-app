@@ -64,6 +64,27 @@
                         },
                         "vulnerabilityScannerScanOnlyCurrentRevisions": {
                             "type": "boolean"
+                        },
+                        "scanJobsConcurrentLimit": {
+                            "type": "integer"
+                        },
+                        "scanJobsRetryDelay": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "podSecurityContext": {
+                    "type": "object",
+                    "properties": {
+                        "runAsNonRoot": {
+                            "type": "boolean"
+                        },
+                        "seccompProfile": {
+                            "properties": {
+                                "type": {
+                                    "type": "string"
+                                }
+                            }
                         }
                     }
                 },
@@ -80,6 +101,29 @@
                     "properties": {
                         "pspEnabled": {
                             "type": "boolean"
+                        }
+                    }
+                },
+                "securityContext": {
+                    "type": "object",
+                    "properties": {
+                        "runAsNonRoot": {
+                            "type": "boolean"
+                        },
+                        "seccompProfile": {
+                            "properties": {
+                                "type": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "serviceAccount": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
                         }
                     }
                 },
