@@ -3,6 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: trivy-operator
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "trivy-operator.labels" . | nindent 4 }}
 data:
@@ -29,6 +30,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: trivy-operator
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "trivy-operator.labels" . | nindent 4 }}
 {{- if eq .Values.trivyOperator.vulnerabilityReportsPlugin "Trivy" }}
@@ -39,6 +41,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: trivy-operator-trivy-config
+  namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "trivy-operator.labels" $ | nindent 4 }}
 data:
@@ -64,6 +67,13 @@ data:
   {{- end }}
   trivy.severity: {{ .severity | quote }}
   trivy.dbRepository: {{ .dbRepository | quote }}
+  {{- if .dbRepositoryInsecure }}
+  trivy.dbRepositoryInsecure: {{ .dbRepositoryInsecure | quote }}
+  {{- end }}
+  {{- if .useBuiltinRegoPolicies }}
+  trivy.useBuiltinRegoPolicies: {{ .useBuiltinRegoPolicies | quote }}
+  {{- end }}
+  trivy.supportedConfigAuditKinds: {{ .supportedConfigAuditKinds | quote }}
   {{- if .ignoreUnfixed }}
   trivy.ignoreUnfixed: {{ .ignoreUnfixed | quote }}
   {{- end }}
@@ -100,6 +110,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: trivy-operator-trivy-config
+  namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "trivy-operator.labels" $ | nindent 4 }}
 data:

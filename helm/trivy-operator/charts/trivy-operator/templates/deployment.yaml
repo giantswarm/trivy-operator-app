@@ -3,6 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "trivy-operator.fullname" . }}
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "trivy-operator.labels" . | nindent 4 }}
   {{- with .Values.service.annotations }}
@@ -22,6 +23,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "trivy-operator.fullname" . }}
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "trivy-operator.labels" . | nindent 4 }}
 spec:
@@ -71,6 +73,8 @@ spec:
               value: {{ .Values.operator.batchDeleteDelay | quote }}
             - name: OPERATOR_METRICS_BIND_ADDRESS
               value: ":8080"
+            - name: OPERATOR_METRICS_FINDINGS_ENABLED
+              value: {{ .Values.operator.metricsFindingsEnabled | quote }}
             - name: OPERATOR_HEALTH_PROBE_BIND_ADDRESS
               value: ":9090"
             - name: OPERATOR_CIS_KUBERNETES_BENCHMARK_ENABLED

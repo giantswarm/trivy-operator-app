@@ -55,6 +55,9 @@ operator:
   configAuditScannerScanOnlyCurrentRevisions: false
   # batchDeleteDelay the duration to wait before deleting another batch of config audit reports.
   batchDeleteDelay: 10s
+
+  # metricsFindingsEnabled the flag to enable metrics for findings
+  metricsFindingsEnabled: true
 image:
   repository: "docker.io/aquasec/trivy-operator"
   # tag is an override of the image tag, which is by default set by the
@@ -100,7 +103,7 @@ trivy:
   createConfig: true
 
   # imageRef the Trivy image reference.
-  imageRef: docker.io/aquasec/trivy:0.28.1
+  imageRef: docker.io/aquasec/trivy:0.29.1
 
   # mode is the Trivy client mode. Either Standalone or ClientServer. Depending
   # on the active mode other settings might be applicable or required.
@@ -134,9 +137,9 @@ trivy:
   severity: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
 
   # ignoreUnfixed is the flag to show only fixed vulnerabilities in
-  # vulnerabilities reported by Trivy. Set to "true" to enable it.
+  # vulnerabilities reported by Trivy. Set to true to enable it.
   #
-  ignoreUnfixed: "false"
+  ignoreUnfixed: false
 
   # timeout is the duration to wait for scan completion.
   timeout: "5m0s"
@@ -184,6 +187,19 @@ trivy:
   # serverCustomHeaders: "foo=bar"
 
   dbRepository: "ghcr.io/aquasecurity/trivy-db"
+
+  # The Flag to enable insecure connection for downloading trivy-db via proxy (air-gaped env)
+  #
+  dbRepositoryInsecure: "false"
+
+  # The Flag to enable the usage of builtin rego policies by default
+  #
+  useBuiltinRegoPolicies: "true"
+
+  # The Flag is the list of supported kinds separated by comma delimiter to be scanned by the config audit scanner
+  #
+  supportedConfigAuditKinds: "Workload,Service,Role,ClusterRole,NetworkPolicy,Ingress,LimitRange,ResourceQuota"
+
 
 compliance:
   # failEntriesLimit the flag to limit the number of fail entries per control check in the cluster compliance detail report
