@@ -19,6 +19,7 @@ trivy-operator:
     scanJobsConcurrentLimit: 10
     # scanJobsRetryDelay the duration to wait before retrying a failed scan job
     scanJobsRetryDelay: 30s
+    logDevMode: true  # For testing
 
   image:
     repository: "docker.io/giantswarm/trivy-operator"
