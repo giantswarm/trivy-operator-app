@@ -40,9 +40,11 @@ operator:
   # vulnerabilityScannerEnabled the flag to enable vulnerability scanner
   vulnerabilityScannerEnabled: true
   # vulnerabilityScannerReportTTL the flag to set how long a vulnerability report should exist. "" means that the vulnerabilityScannerReportTTL feature is disabled
-  vulnerabilityScannerReportTTL: ""
+  vulnerabilityScannerReportTTL: "24h"
   # configAuditScannerEnabled the flag to enable configuration audit scanner
   configAuditScannerEnabled: true
+  # rbacAssessmentScannerEnabled the flag to enable rbac assessment scanner
+  rbacAssessmentScannerEnabled: true
   # kubernetesBenchmarkEnabled the flag to enable CIS Kubernetes Benchmark scanner
   kubernetesBenchmarkEnabled: false
   # clusterComplianceEnabled the flag to enable cluster compliance report generation
@@ -50,16 +52,19 @@ operator:
   # batchDeleteLimit the maximum number of config audit reports deleted by the operator when the plugin's config has changed.
   batchDeleteLimit: 10
   # vulnerabilityScannerScanOnlyCurrentRevisions the flag to only create vulnerability scans on the current revision of a deployment.
-  vulnerabilityScannerScanOnlyCurrentRevisions: false
+  vulnerabilityScannerScanOnlyCurrentRevisions: true
   # configAuditScannerScanOnlyCurrentRevisions the flag to only create config audit scans on the current revision of a deployment.
-  configAuditScannerScanOnlyCurrentRevisions: false
+  configAuditScannerScanOnlyCurrentRevisions: true
   # batchDeleteDelay the duration to wait before deleting another batch of config audit reports.
   batchDeleteDelay: 10s
 
   # metricsFindingsEnabled the flag to enable metrics for findings
   metricsFindingsEnabled: true
+
+  # exposedSecretScannerEnabled the flag to enable exposed secret scanner
+  exposedSecretScannerEnabled: true
 image:
-  repository: "docker.io/aquasec/trivy-operator"
+  repository: "ghcr.io/aquasecurity/trivy-operator"
   # tag is an override of the image tag, which is by default set by the
   # appVersion field in Chart.yaml.
   tag: ""
@@ -69,11 +74,18 @@ image:
 # service only expose a metrics endpoint for prometheus to scrape,
 # trivy-operator does not have a user interface.
 service:
-  type: ClusterIP
   metricsPort: 80
-  annotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/path: /metrics
+
+# Prometheus ServiceMonitor configuration
+serviceMonitor:
+  # enabled determines whether a serviceMonitor should be deployed
+  enabled: false
+  # The namespace where Prometheus expects to find service monitors
+  # namespace: ""
+  interval: ""
+  # Additional labels for the serviceMonitor
+  labels: {}
+  # honorLabels: true
 
 trivyOperator:
   # vulnerabilityReportsPlugin the name of the plugin that generates vulnerability reports `Trivy`
@@ -98,12 +110,19 @@ trivyOperator:
   # labeled with. Example: `foo=bar,env=stage` will labeled the scanner pods with the labels `foo: bar` and `env: stage`
   scanJobPodTemplateLabels: ""
 
+  # scanJobPodTemplateSecurityContext podSecurityContext the user wants the scanner pods to be amended with.
+  # Example:
+  #   RunAsUser: 10000
+  #   RunAsGroup: 10000
+  #   RunAsNonRoot: true
+  scanJobPodTemplateSecurityContext: ""
+
 trivy:
   # createConfig indicates whether to create config objects
   createConfig: true
 
   # imageRef the Trivy image reference.
-  imageRef: docker.io/aquasec/trivy:0.29.1
+  imageRef: ghcr.io/aquasecurity/trivy:0.30.0
 
   # mode is the Trivy client mode. Either Standalone or ClientServer. Depending
   # on the active mode other settings might be applicable or required.
@@ -123,6 +142,12 @@ trivy:
 
   # Registries without SSL. There can be multiple registries with different keys.
   nonSslRegistries: {}
+  #  pocRegistry: poc.myregistry.harbor.com.pl
+  #  qaRegistry: qa.registry.aquasec.com
+  #  internalRegistry: registry.registry.svc:5000
+
+  # The registry to which insecure connections are allowed. There can be multiple registries with different keys.
+  insecureRegistries: {}
   #  pocRegistry: poc.myregistry.harbor.com.pl
   #  qaRegistry: qa.registry.aquasec.com
   #  internalRegistry: registry.registry.svc:5000
@@ -200,21 +225,12 @@ trivy:
   #
   supportedConfigAuditKinds: "Workload,Service,Role,ClusterRole,NetworkPolicy,Ingress,LimitRange,ResourceQuota"
 
+  # command. Either `image` or `filesystem` scanning. Depending on the target type required for the scan.
+  command: image
 
 compliance:
   # failEntriesLimit the flag to limit the number of fail entries per control check in the cluster compliance detail report
   failEntriesLimit: 10
-
-aqua:
-  # imageRef Aqua scanner image reference. The tag determines the version of the scanner binary executable and it must
-  # be compatible with version of Aqua server.
-  imageRef: docker.io/aquasec/scanner:5.3
-  # serverURL the endpoint URL of Aqua management console
-  serverURL:
-  # username the Aqua management console username
-  username:
-  # password the Aqua management console password
-  password:
 
 rbac:
   create: true
