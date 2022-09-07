@@ -44,7 +44,7 @@ spec:
           kubectl apply -f /data/ 2>&1
         volumeMounts:
 {{- range $path, $_ := .Files.Glob "crds/**" }}
-        - name: {{ $path | base | trimSuffix ".crd.yaml" | replace "_" "-" }}
+        - name: {{ $path | base | trimSuffix ".yaml" | replace "_" "-" | replace "." "-" }}
           mountPath: /data/{{ $path | base }}
           subPath: {{ $path | base }}
 {{- end }}
@@ -57,9 +57,9 @@ spec:
 {{ $currentScope := . }}
 {{- range $path, $_ := .Files.Glob "crds/**" }}
     {{- with $currentScope }}
-      - name: {{ $path | base | trimSuffix ".crd.yaml" | replace "_" "-" }}
+      - name: {{ $path | base | trimSuffix ".yaml" | replace "_" "-" | replace "." "-" }}
         configMap:
-          name: {{ include "trivy-operator.crdInstall" . }}-{{ $path | base | trimSuffix ".crd.yaml" | replace "_" "-" }}
+          name: {{ include "trivy-operator.crdInstall" . }}-{{ $path | base | trimSuffix ".yaml" | replace "_" "-" | replace "." "-" }}
           items:
           - key: content
             path: {{ $path | base }}
