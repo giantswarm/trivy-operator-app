@@ -70,7 +70,7 @@ trivy-operator:
     # We also set the image here so that trivy-operator can be deployed "standalone",
     # but this image is not used if using in-cluster Trivy.
     # Change or remove the `mode:` setting to let trivy-operator pull its own Trivy images.
-    imageRef: docker.io/giantswarm/trivy:0.28.1
+    imageRef: docker.io/giantswarm/trivy:0.30.4
     mode: ClientServer
     serverURL: "http://trivy-app:4954"
     # Resources for Trivy pods created by trivy-operator
