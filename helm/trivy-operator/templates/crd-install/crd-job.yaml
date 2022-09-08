@@ -41,6 +41,9 @@ spec:
           # piping stderr to stdout means kubectl's errors are surfaced
           # in the pod's logs.
 
+          # Workaround for broken upgrade path going to 0.1.9: https://github.com/aquasecurity/trivy-operator/issues/314
+          kubectl delete service -n $namespace trivy-operator || true
+
           kubectl apply -f /data/ 2>&1
         volumeMounts:
 {{- range $path, $_ := .Files.Glob "crds/**" }}
