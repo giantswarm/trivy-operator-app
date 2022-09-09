@@ -11,6 +11,7 @@ checks:
   - "unset-cpu-requirements"
   - "run-as-non-root"
   - "access-to-secrets"
+  - "env-var-secret" # False positive. Upstream uses an environment variable named 'OPERATOR_EXPOSED_SECRET_SCANNER_ENABLED'.
   - "use-namespace"  # Upstream doesn't include namespace.
   - "minimum-three-replicas"  # Upstream doesn't specify, and only 1 is currently needed.
   - "no-rolling-update-strategy"  # Upstream doesn't include strategy.
