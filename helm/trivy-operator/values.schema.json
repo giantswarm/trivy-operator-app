@@ -170,6 +170,32 @@
                             "type": "string"
                         }
                     }
+                },
+                "trivyOperator": {
+                    "type": "object",
+                    "properties": {
+                        "scanJobPodTemplateSecurityContext": {
+                            "type": "object",
+                            "properties": {
+                                "runAsNonRoot": {
+                                    "type": "boolean"
+                                },
+                                "runAsUser": {
+                                    "type": "integer"
+                                },
+                                "runAsGroup": {
+                                    "type": "integer"
+                                },
+                                "seccompProfile": {
+                                    "properties": {
+                                        "type": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
