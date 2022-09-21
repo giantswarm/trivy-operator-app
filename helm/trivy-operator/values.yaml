@@ -37,7 +37,7 @@ trivy-operator:
       runAsNonRoot: true
       seccompProfile:
         type: RuntimeDefault
-    
+
     scanJobPodTemplateContainerSecurityContext:
       allowPrivilegeEscalation: false
       capabilities:
