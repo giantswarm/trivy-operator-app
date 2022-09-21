@@ -37,6 +37,19 @@ trivy-operator:
       runAsNonRoot: true
       seccompProfile:
         type: RuntimeDefault
+    
+    scanJobPodTemplateContainerSecurityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      privileged: false
+      readOnlyRootFilesystem: true
+      runAsNonRoot: true
+      runAsUser: 10000
+      runAsGroup: 10000
+      seccompProfile:
+        type: RuntimeDefault
 
   # Pod securityContext
   podSecurityContext:
