@@ -38,13 +38,6 @@ trivy-operator:
       seccompProfile:
         type: RuntimeDefault
 
-    scanJobPodTemplateSecurityContext:
-      runAsUser: 10000
-      runAsGroup: 10000
-      runAsNonRoot: true
-      seccompProfile:
-        type: RuntimeDefault
-
     scanJobPodTemplateContainerSecurityContext:
       allowPrivilegeEscalation: false
       capabilities:

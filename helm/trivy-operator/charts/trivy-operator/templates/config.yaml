@@ -19,8 +19,8 @@ data:
   {{- with .Values.trivyOperator.scanJobNodeSelector }}
   scanJob.nodeSelector: {{ . | toJson | quote }}
   {{- end }}
-  {{- with .Values.trivyOperator.scanJobPodTemplateSecurityContext }}
-  scanJob.podTemplatePodSecurityContext: {{ . | toJson | quote }}
+  {{- with .Values.trivyOperator.scanJobPodTemplatePodSecurityContext }}
+  scanJob.podTemplateSecurityContext: {{ . | toJson | quote }}
   {{- end }}
   {{- with .Values.trivyOperator.scanJobPodTemplateContainerSecurityContext }}
   scanJob.podTemplateContainerSecurityContext: {{ . | toJson | quote }}
