@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: 0.1.9
+appVersion: 0.2.1
 
 name: trivy-operator
 
@@ -20,8 +20,7 @@ version: [[ .Version ]]
 
 dependencies:
 - name: trivy-operator
-  version: "0.1.9"
-  # alias: trivy-operator-app
+  version: "0.2.1"
 
 annotations:
   application.giantswarm.io/team: "shield"
