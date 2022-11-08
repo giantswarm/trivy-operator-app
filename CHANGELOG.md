@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Changed `trivy.serverUrl` from `trivy-app` to `trivy` to align with `security-pack` App naming.
+
 ## [0.2.0] - 2022-09-26
 
 ### Changed
