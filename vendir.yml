@@ -12,11 +12,3 @@ directories:
     excludePaths:
       - deploy/helm/crds
     newRootPath: deploy/helm
-  - path: crds
-    git:
-      url: https://github.com/giantswarm/trivy-operator-upstream
-      ref: v0.6.0
-    includePaths:
-      - deploy/crd/*
-    newRootPath: deploy/crd
-
