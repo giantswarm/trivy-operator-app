@@ -16,7 +16,7 @@ maintainers:
 sources:
 - https://github.com/aquasecurity/trivy-operator
 
-version: [[ .Version ]]
+version: 0.0.1 # [[ .Version ]]
 
 dependencies:
 - name: trivy-operator
