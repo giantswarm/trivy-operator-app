@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "trivy-operator.fullname" . }}
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ include "trivy-operator.namespace" . }}
   labels:
     {{- include "trivy-operator.labels" . | nindent 4 }}
 spec:
@@ -12,9 +12,6 @@ spec:
   selector:
     matchLabels:
       {{- include "trivy-operator.selectorLabels" . | nindent 6 }}
-      {{- if .Values.operator.podLabels }}
-      {{- toYaml .Values.operator.podLabels | nindent 6 }}
-      {{- end }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -23,6 +20,9 @@ spec:
       {{- end }}
       labels:
         {{- include "trivy-operator.selectorLabels" . | nindent 8 }}
+        {{- if .Values.operator.podLabels }}
+        {{- toYaml .Values.operator.podLabels | nindent 8 }}
+        {{- end }}
     spec:
       serviceAccountName: {{ include "trivy-operator.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.automountServiceAccountToken }}
@@ -34,11 +34,13 @@ spec:
           {{- end }}
           env:
             - name: OPERATOR_NAMESPACE
-              value: {{ .Release.Namespace | quote }}
+              value: {{ include "trivy-operator.namespace" . }}
             - name: OPERATOR_TARGET_NAMESPACES
               value: {{ .Values.targetNamespaces | quote }}
             - name: OPERATOR_EXCLUDE_NAMESPACES
-              value: {{ tpl .Values.excludeNamespaces . | quote }}
+              value: {{ printf "%s,%s" (tpl .Values.excludeNamespaces .) (include "trivy-operator.namespace" . ) | quote }}
+            - name: OPERATOR_TARGET_WORKLOADS
+              value: {{ tpl .Values.targetWorkloads . | quote }}
             - name: OPERATOR_SERVICE_ACCOUNT
               value: {{ include "trivy-operator.serviceAccountName" . | quote }}
             - name: OPERATOR_LOG_DEV_MODE
@@ -57,28 +59,32 @@ spec:
               value: ":8080"
             - name: OPERATOR_METRICS_FINDINGS_ENABLED
               value: {{ .Values.operator.metricsFindingsEnabled | quote }}
+            - name: OPERATOR_METRICS_VULN_ID_ENABLED
+              value: {{ .Values.operator.metricsVulnIdEnabled | quote }}
             - name: OPERATOR_HEALTH_PROBE_BIND_ADDRESS
               value: ":9090"
             - name: OPERATOR_VULNERABILITY_SCANNER_ENABLED
               value: {{ .Values.operator.vulnerabilityScannerEnabled | quote }}
             - name: OPERATOR_VULNERABILITY_SCANNER_SCAN_ONLY_CURRENT_REVISIONS
               value: {{ .Values.operator.vulnerabilityScannerScanOnlyCurrentRevisions | quote }}
-            - name: OPERATOR_VULNERABILITY_SCANNER_REPORT_TTL
-              value: {{ .Values.operator.vulnerabilityScannerReportTTL | quote }}
+            - name: OPERATOR_SCANNER_REPORT_TTL
+              value: {{ .Values.operator.scannerReportTTL | quote }}
             - name: OPERATOR_CONFIG_AUDIT_SCANNER_ENABLED
               value: {{ .Values.operator.configAuditScannerEnabled | quote }}
             - name: OPERATOR_RBAC_ASSESSMENT_SCANNER_ENABLED
               value: {{ .Values.operator.rbacAssessmentScannerEnabled | quote }}
             - name: OPERATOR_CONFIG_AUDIT_SCANNER_SCAN_ONLY_CURRENT_REVISIONS
               value: {{ .Values.operator.configAuditScannerScanOnlyCurrentRevisions | quote }}
-            - name: OPERATOR_CLUSTER_COMPLIANCE_ENABLED
-              value: {{ .Values.operator.clusterComplianceEnabled | quote }}
             - name: OPERATOR_EXPOSED_SECRET_SCANNER_ENABLED
               value: {{ .Values.operator.exposedSecretScannerEnabled | quote }}
             - name: OPERATOR_WEBHOOK_BROADCAST_URL
               value: {{ .Values.operator.webhookBroadcastURL | quote }}
             - name: OPERATOR_WEBHOOK_BROADCAST_TIMEOUT
               value: {{ .Values.operator.webhookBroadcastTimeout | quote }}
+            - name: OPERATOR_PRIVATE_REGISTRY_SCAN_SECRETS_NAMES
+              value: {{ .Values.operator.privateRegistryScanSecretsNames | toJson | quote }}
+            - name: OPERATOR_ACCESS_GLOBAL_SECRETS_SERVICE_ACCOUNTS
+              value: {{ .Values.operator.accessGlobalSecretsAndServiceAccount | quote }}
             {{- if gt (int .Values.operator.replicas) 1 }}
             - name: OPERATOR_LEADER_ELECTION_ENABLED
               value: "true"

@@ -12,12 +12,19 @@ targetNamespaces: ""
 # excludeNamespaces is a comma separated list of namespaces (or glob patterns)
 # to be excluded from scanning. Only applicable in the all namespaces install
 # mode, i.e. when the targetNamespaces values is a blank string.
-excludeNamespaces: "kube-system,{{ .Release.Namespace }}"
+excludeNamespaces: "kube-system"
+
+# targetWorkloads is a comma seperated list of Kubernetes workload resources
+# to be included in the vulnerability and config-audit scans
+# if left blank, all workload resources will be scanned
+targetWorkloads: "pod,replicaset,replicationcontroller,statefulset,daemonset,cronjob,job"
 
 nameOverride: ""
 fullnameOverride: ""
 
 operator:
+  # namespace to install the operator, defaults to the .Release.Namespace
+  namespace: ""
   # replicas the number of replicas of the operator's pod
   replicas: 1
 
@@ -42,14 +49,12 @@ operator:
 
   # vulnerabilityScannerEnabled the flag to enable vulnerability scanner
   vulnerabilityScannerEnabled: true
-  # vulnerabilityScannerReportTTL the flag to set how long a vulnerability report should exist. "" means that the vulnerabilityScannerReportTTL feature is disabled
-  vulnerabilityScannerReportTTL: "24h"
+  # scannerReportTTL the flag to set how long a report should exist. "" means that the ScannerReportTTL feature is disabled
+  scannerReportTTL: "24h"
   # configAuditScannerEnabled the flag to enable configuration audit scanner
   configAuditScannerEnabled: true
   # rbacAssessmentScannerEnabled the flag to enable rbac assessment scanner
   rbacAssessmentScannerEnabled: true
-  # clusterComplianceEnabled the flag to enable cluster compliance report generation
-  clusterComplianceEnabled: false
   # batchDeleteLimit the maximum number of config audit reports deleted by the operator when the plugin's config has changed.
   batchDeleteLimit: 10
   # vulnerabilityScannerScanOnlyCurrentRevisions the flag to only create vulnerability scans on the current revision of a deployment.
@@ -58,9 +63,15 @@ operator:
   configAuditScannerScanOnlyCurrentRevisions: true
   # batchDeleteDelay the duration to wait before deleting another batch of config audit reports.
   batchDeleteDelay: 10s
+  # accessGlobalSecretsAndServiceAccount The flag to enable access to global secrets/service accounts to allow `vulnerability scan job` to pull images from private registries
+  accessGlobalSecretsAndServiceAccount: true
 
   # metricsFindingsEnabled the flag to enable metrics for findings
   metricsFindingsEnabled: true
+
+  # metricsVulnIdEnabled the flag to enable metrics about cve vulns id
+  # be aware of metrics cardinality is significantly increased with this feature enabled.
+  metricsVulnIdEnabled: false
 
   # exposedSecretScannerEnabled the flag to enable exposed secret scanner
   exposedSecretScannerEnabled: true
@@ -70,6 +81,15 @@ operator:
 
   # webhookBroadcastTimeout the flag to set timeout for webhook requests if webhookBroadcastURL is enabled
   webhookBroadcastTimeout: 30s
+
+  # privateRegistryScanSecretsNames is map of namespace:secrets which can be used to authenticate in private registries in case if there no imagePullSecrets provided
+  privateRegistryScanSecretsNames: {}
+
+  # existingSecret if a secret containing gitHubToken, serverToken or serverCustomHeaders has been created outside the chart (e.g external-secrets, sops, etc...).
+  # Keys must be at least one of the following: trivy.githubToken, trivy.serverToken, trivy.serverCustomHeaders
+  # Overrides trivy.gitHubToken, trivy.serverToken, trivy.serverCustomHeaders values.
+  # Note: The secret has to be named "trivy-operator-trivy-config".
+  # existingSecret: true
 
 image:
   repository: "ghcr.io/aquasecurity/trivy-operator"
@@ -100,7 +120,8 @@ trivyOperator:
   vulnerabilityReportsPlugin: "Trivy"
   # configAuditReportsPlugin the name of the plugin that generates config audit reports.
   configAuditReportsPlugin: "Trivy"
-
+  # scanJobCompressLogs control whether scanjob output should be compressed or plain
+  scanJobCompressLogs: true
   # scanJobTolerations tolerations to be applied to the scanner pods so that they can run on nodes with matching taints
   scanJobTolerations: []
   # If you do want to specify tolerations, uncomment the following lines, adjust them as necessary, and remove the
@@ -118,6 +139,9 @@ trivyOperator:
   #   cpu: sandylake
   #   teamOwner: operators
 
+  # scanJobAutomountServiceAccountToken the flag to enable automount for service account token on scan job
+  scanJobAutomountServiceAccountToken: false
+
   # scanJobAnnotations comma-separated representation of the annotations which the user wants the scanner pods to be
   # annotated with. Example: `foo=bar,env=stage` will annotate the scanner pods with the annotations `foo: bar` and `env: stage`
   scanJobAnnotations: ""
@@ -126,12 +150,12 @@ trivyOperator:
   # labeled with. Example: `foo=bar,env=stage` will labeled the scanner pods with the labels `foo: bar` and `env: stage`
   scanJobPodTemplateLabels: ""
 
-  # scanJobPodTemplateSecurityContext podSecurityContext the user wants the scanner pods to be amended with.
+  # scanJobPodTemplatePodSecurityContext podSecurityContext the user wants the scanner pods to be amended with.
   # Example:
   #   RunAsUser: 10000
   #   RunAsGroup: 10000
   #   RunAsNonRoot: true
-  scanJobPodTemplateSecurityContext: ""
+  scanJobPodTemplatePodSecurityContext: {}
 
   # scanJobPodTemplateContainerSecurityContext SecurityContext the user wants the scanner containers (and their
   # initContainers) to be amended with.
@@ -145,19 +169,32 @@ trivyOperator:
     # For filesystem scanning, Trivy needs to run as the root user
     # runAsUser: 0
 
+  # reportResourceLabels comma-separated scanned resource labels which the user wants to include in the Prometheus
+  # metrics report. Example: `owner,app`
+  reportResourceLabels: ""
+
+  # metricsResourceLabelsPrefix Prefix that will be prepended to the labels names indicated in `reportResourceLabels`
+  # when including them in the Prometheus metrics
+  metricsResourceLabelsPrefix: "k8s_label_"
+
 trivy:
   # createConfig indicates whether to create config objects
   createConfig: true
 
-  # imageRef the Trivy image reference.
-  imageRef: ghcr.io/aquasecurity/trivy:0.31.3
+  # repository of the Trivy image
+  repository: ghcr.io/aquasecurity/trivy
+  # tag version of the Trivy image
+  tag: 0.33.0
+  # imagePullSecret is the secret name to be used when pulling trivy image from private registries example : reg-secret
+  # It is the user responsibility to create the secret for the private registry in `trivy-operator` namespace
+  # imagePullSecret:
 
   # mode is the Trivy client mode. Either Standalone or ClientServer. Depending
   # on the active mode other settings might be applicable or required.
   mode: Standalone
 
   # additionalVulnerabilityReportFields is a comma separated list of additional fields which
-  # can be added to the VulnerabilityReport. Supported parameters: Description, Links, CVSS and Target
+  # can be added to the VulnerabilityReport. Supported parameters: Description, Links, CVSS, Target and Class
   additionalVulnerabilityReportFields: ""
 
   # httpProxy is the HTTP proxy used by Trivy to download the vulnerabilities database from GitHub.

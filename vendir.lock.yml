@@ -1,0 +1,11 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - git:
+      commitTitle: 'release: prepare-v0.6.0 (#680)...'
+      sha: 301c17b3d1f7c28abcbadbbee056230927599e76
+      tags:
+      - v0.6.0
+    path: .
+  path: helm/trivy-operator/charts/trivy-operator
+kind: LockConfig
