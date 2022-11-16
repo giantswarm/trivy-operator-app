@@ -21,3 +21,12 @@ directories:
     includePaths:
       - deploy/crd/*
     newRootPath: deploy/crd
+- path: helm/trivy-operator/specs
+  contents:
+  - path: .
+    git:
+      url: https://github.com/giantswarm/trivy-operator-upstream
+      ref: v0.6.0
+    includePaths:
+      - deploy/specs/*
+    newRootPath: deploy/specs
