@@ -1,27 +1,18 @@
 apiVersion: v2
 appVersion: 0.2.1
-
 name: trivy-operator
-
 description: A Giant Swarm App for trivy-operator, the cluster security tool from Aqua Security.
-
 home: https://github.com/giantswarm/trivy-operator-app
-
 icon: https://s.giantswarm.io/app-icons/trivy/1/light.svg
-
 maintainers:
-- name: Giant Swarm applications team
-  url: https://github.com/giantswarm/trivy-operator-app
-
+  - name: Giant Swarm applications team
+    url: https://github.com/giantswarm/trivy-operator-app
 sources:
-- https://github.com/aquasecurity/trivy-operator
-
+  - https://github.com/aquasecurity/trivy-operator
 version: 0.2.1
-
 dependencies:
-- name: trivy-operator
-  version: "0.2.1"
-
+  - name: trivy-operator
+    version: "0.7.1"
 annotations:
   application.giantswarm.io/team: "shield"
   config.giantswarm.io/version: 1.x.x
