@@ -207,6 +207,15 @@
                 "operator": {
                     "type": "object",
                     "properties": {
+                        "configAuditScannerEnabled": {
+                            "type": "boolean"
+                        },
+                        "infraAssessmentScannerEnabled": {
+                            "type": "boolean"
+                        },
+                        "rbacAssessmentScannerEnabled": {
+                            "type": "boolean"
+                        },
                         "scanJobsConcurrentLimit": {
                             "type": "integer"
                         },
