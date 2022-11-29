@@ -11,8 +11,13 @@ rbac:
 trivy-operator:
 
   operator:
-    # Disable configAuditScanner by default
+    # Disable capabilities by default
+    # configAuditScannerEnabled the flag to enable configuration audit scanner
     configAuditScannerEnabled: false
+    # rbacAssessmentScannerEnabled the flag to enable rbac assessment scanner
+    rbacAssessmentScannerEnabled: false
+    # infraAssessmentScannerEnabled the flag to enable infra assessment scanner
+    infraAssessmentScannerEnabled: false
     # Reports are automatically deleted after this duration, causing a re-scan. Empty = never delete.
     vulnerabilityScannerReportTTL: "168h"  # 7 days
     # Generate reports for only the currently-deployed version of a replicaset.
