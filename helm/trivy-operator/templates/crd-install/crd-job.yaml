@@ -42,11 +42,6 @@ spec:
           # in the pod's logs.
 
           kubectl apply -f /data/ 2>&1
-        env:
-          - name: pod_namespace
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.namespace
         volumeMounts:
 {{- range $path, $_ := .Files.Glob "crds/**" }}
         - name: {{ $path | base | trimSuffix ".yaml" | replace "_" "-" | replace "." "-" }}
