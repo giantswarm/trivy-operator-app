@@ -30,6 +30,8 @@ trivy-operator:
   image:
     repository: "docker.io/giantswarm/trivy-operator"
 
+  excludeNamespaces: ""
+
   targetNamespaces: ""
 
   trivyOperator:
