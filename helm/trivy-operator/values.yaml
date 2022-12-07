@@ -21,7 +21,7 @@ trivy-operator:
     # exposedSecretScannerEnabled the flag to enable exposed secret scanner
     exposedSecretScannerEnabled: false
     # Reports are automatically deleted after this duration, causing a re-scan. Empty = never delete.
-    vulnerabilityScannerReportTTL: "168h"  # 7 days
+    scannerReportTTL: "168h"  # 7 days
     # Generate reports for only the currently-deployed version of a replicaset.
     vulnerabilityScannerScanOnlyCurrentRevisions: true
     # scanJobsConcurrentLimit the maximum number of scan jobs create by the operator

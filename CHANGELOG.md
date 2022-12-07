@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Disable `exposedSecretScannerEnabled` feature by default.
+- Updated `scannerReportTTL` to match upstream.
 
 ## [0.3.1] - 2022-12-01
 
