@@ -79,7 +79,7 @@ Allow the release namespace to be overridden for multi-namespace deployments in 
 {{- end }}
 
 {{/* Generate basic labels */}}
-{{- define "trivy-operator-helpers.labels" }}
+{{- define "trivy-operator-helpers.labels" -}}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/version: "{{ .Chart.Version }}"
@@ -91,3 +91,25 @@ heritage: {{ $.Release.Service | quote }}
 {{ toYaml .Values.commonLabels }}
 {{- end }}
 {{- end }}
+
+{{/*
+CRD installation helpers used by Giant Swarm.
+*/}}
+{{- define "trivy-operator.networkPolicy" -}}
+{{- printf "%s-%s" ( default .Chart.Name .Values.nameOverride | trunc 63 ) "networkpolicy" | replace "+" "_" | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+Expand the name of the chart.
+*/}}
+{{- define "name" -}}
+{{- .Chart.Name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+Selector labels
+*/}}
+{{- define "labels.selector" -}}
+app.kubernetes.io/name: {{ include "name" . | quote }}
+app.kubernetes.io/instance: {{ .Release.Name | quote }}
+{{- end -}}

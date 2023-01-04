@@ -8,6 +8,10 @@ image:
 rbac:
   pspEnabled: true
 
+# Enable network policy to allow egress connection
+networkPolicy:
+  enabled: true
+
 trivy-operator:
 
   operator:
