@@ -93,10 +93,10 @@ heritage: {{ $.Release.Service | quote }}
 {{- end }}
 
 {{/*
-CRD installation helpers used by Giant Swarm.
+Defines NetworkPolicy name prefix
 */}}
 {{- define "trivy-operator.networkPolicy" -}}
-{{- printf "%s-%s" ( default .Chart.Name .Values.nameOverride | trunc 63 ) "networkpolicy" | replace "+" "_" | trimSuffix "-" -}}
+{{- printf "%s" ( default .Chart.Name .Values.nameOverride | trunc 63 ) | replace "+" "_" | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
@@ -107,9 +107,18 @@ Expand the name of the chart.
 {{- end -}}
 
 {{/*
-Selector labels
+Trivy operator selector labels
 */}}
 {{- define "labels.selector" -}}
 app.kubernetes.io/name: {{ include "name" . | quote }}
 app.kubernetes.io/instance: {{ .Release.Name | quote }}
 {{- end -}}
+
+{{/*
+Trivy operator scanner job selector labels
+*/}}
+{{- define "scannerjob.labels.selector" -}}
+vulnerabilityReport.scanner: Trivy
+{{- end -}}
+
+app.kubernetes.io/managed-by: {{ include "name" . | quote }}
