@@ -12,14 +12,10 @@ spec:
     matchLabels:
       {{- include "labels.selector" . | nindent 6 }}
   egress:
-    # Allow egress to the internet to fetch database updates.
-    - to:
-      - ipBlock:
-          cidr: 0.0.0.0/0
-          # except:
-          #   - 10.0.0.0/8
-          #   - 172.16.0.0/12
-          #   - 192.168.0.0/16
+    # Allow egress for health checks.
+    - ports:
+      - port: 443
+        protocol: TCP
     # Allow DNS.
     - ports:
         - port: 53
