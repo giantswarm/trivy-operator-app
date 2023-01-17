@@ -9,6 +9,10 @@
 
 name: Create Update Chart PR
 on:
+  workflow_run:
+    workflows: [ Sync from fork ]
+    types:
+      - completed
   push:
     branches:
       - 'main#update-chart'
