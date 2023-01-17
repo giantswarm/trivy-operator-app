@@ -36,6 +36,7 @@ jobs:
       branch: ${{ steps.gather_facts.outputs.branch }}
       base: ${{ steps.gather_facts.outputs.base }}
       skip: ${{ steps.pr_exists.outputs.skip }}
+      last_tag: ${{ steps.gather_facts.outputs.last_tag }}
     steps:
       - name: Gather facts
         id: gather_facts
@@ -52,8 +53,13 @@ jobs:
 
           base="${base#refs/heads/}" # Strip "refs/heads/" prefix.
 
+          last_tag=$(git ls-remote --tags --sort='v:refname' --refs https://github.com/giantswarm/trivy-operator-upstream | tail -1 | cut -d '/' -f3)
+          echo "last_tag"
+
           repo_name="$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')"
-          echo "repo_name=\"$repo_name\" base=\"$base\" head=\"$head\""
+
+          echo "repo_name=\"$repo_name\" base=\"$base\" head=\"$head\" last_tag=\"$last_tag\""
+          echo "last_tag=${last_tag}" >> $GITHUB_OUTPUT
           echo "repo_name=${repo_name}" >> $GITHUB_OUTPUT
           echo "base=${base}" >> $GITHUB_OUTPUT
           echo "head=${head}" >> $GITHUB_OUTPUT
@@ -86,6 +92,8 @@ jobs:
           [ "$SHA_VENDIR" != "0b52c170f4a30c2b6213ff0048ecc89c9c25c3e4da56eb1e095fcdb335bd82ed" ] && echo "invalid vendir binary" && exit 1
           sudo mv /tmp/vendir /usr/local/bin/vendir && chmod a+x /usr/local/bin/vendir
       - name: Run update
+        env:
+          last_tag: ${{ needs.gather_facts.outputs.last_tag }}
         run: |
           # Define chart_dir
           repository="${{ needs.gather_facts.outputs.repo_name }}"
@@ -107,15 +115,19 @@ jobs:
             fi
           fi
 
+          sed -i -r "s/(ref:).*/\1 $last_tag/g" vendir.yml
+
           make update-chart APPLICATION="${chart}"
       - name: Set up git identity
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
       - name: Create update commit
+        env:
+          last_tag: ${{ needs.gather_facts.outputs.last_tag }}
         run: |
           git add -A
-          git commit -m "Sync chart with upstream."
+          git commit -m "Sync chart with upstream tag ${last_tag}."
       - name: Push changes
         env:
           remote_repo: "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
