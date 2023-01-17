@@ -12,7 +12,7 @@ spec:
     matchLabels:
       {{- include "labels.selector" . | nindent 6 }}
   egress:
-    # Allow egress to connect with master nodes & health checks.
+    # Allow egress to Kubernetes API server.
     - ports:
       - port: 443
         protocol: TCP
