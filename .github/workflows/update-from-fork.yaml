@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          persist-credentials: false
       - run: |
           # Get the last tag from fork repo
           LAST_TAG=$(git ls-remote --tags --sort='v:refname' --refs https://github.com/giantswarm/trivy-operator-upstream \
