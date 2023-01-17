@@ -118,7 +118,5 @@ app.kubernetes.io/instance: {{ .Release.Name | quote }}
 Trivy operator scanner job selector labels
 */}}
 {{- define "scannerjob.labels.selector" -}}
-vulnerabilityReport.scanner: Trivy
+app.kubernetes.io/managed-by: trivy-operator
 {{- end -}}
-
-app.kubernetes.io/managed-by: {{ include "name" . | quote }}
