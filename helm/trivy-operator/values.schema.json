@@ -59,6 +59,14 @@
         "name": {
             "type": "string"
         },
+        "networkPolicy": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                }
+            }
+        },
         "podSecurityContext": {
             "type": "object",
             "properties": {
@@ -213,6 +221,9 @@
                         "configAuditScannerEnabled": {
                             "type": "boolean"
                         },
+                        "exposedSecretScannerEnabled": {
+                            "type": "boolean"
+                        },
                         "infraAssessmentScannerEnabled": {
                             "type": "boolean"
                         },
@@ -225,7 +236,7 @@
                         "scanJobsRetryDelay": {
                             "type": "string"
                         },
-                        "vulnerabilityScannerReportTTL": {
+                        "scannerReportTTL": {
                             "type": "string"
                         },
                         "vulnerabilityScannerScanOnlyCurrentRevisions": {

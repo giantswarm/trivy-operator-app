@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `NetworkPolicy` for trivy-operator to ensure it works in namespaces with `deny-all` networkpolicy.
+
 ## [0.3.2] - 2022-12-21
 
 ### Changed
