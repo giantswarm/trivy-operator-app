@@ -8,7 +8,8 @@ spec:
     assuredConcurrencyShares: 5
     limitResponse:
       queuing:
-        handSize: {{ index .Values "trivy-operator" "operator" "scanJobsConcurrentLimit" }}
+        # Capping handSize to 25 as queueLengthLimit is capped at 100
+        handSize: {{ min (index .Values "trivy-operator" "operator" "scanJobsConcurrentLimit") 25 }}
         # We estimate 4 calls per Job: create the Job, get the logs, store the report, delete the job.
         # Allow 4 x the configured number of concurrent jobs, up to 100 max because
         # we suspect report storage is a large request and we don't want to fill the API server memory.
