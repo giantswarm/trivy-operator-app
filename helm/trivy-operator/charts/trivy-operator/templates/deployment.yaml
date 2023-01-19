@@ -38,7 +38,7 @@ spec:
             - name: OPERATOR_TARGET_NAMESPACES
               value: {{ .Values.targetNamespaces | quote }}
             - name: OPERATOR_EXCLUDE_NAMESPACES
-              value: {{ tpl .Values.excludeNamespaces . | quote }}
+              value: {{ .Values.excludeNamespaces | quote }}
             - name: OPERATOR_TARGET_WORKLOADS
               value: {{ tpl .Values.targetWorkloads . | quote }}
             - name: OPERATOR_SERVICE_ACCOUNT
@@ -89,6 +89,8 @@ spec:
               value: {{ .Values.operator.accessGlobalSecretsAndServiceAccount | quote }}
             - name: OPERATOR_BUILT_IN_TRIVY_SERVER
               value: {{ .Values.operator.builtInTrivyServer | quote }}
+            - name: TRIVY_SERVER_HEALTH_CHECK_CACHE_EXPIRATION
+              value: {{ .Values.operator.trivyServerHealthCheckCacheExpiration | quote }}
             - name: OPERATOR_MERGE_RBAC_FINDING_WITH_CONFIG_AUDIT
               value: {{ .Values.operator.mergeRbacFindingWithConfigAudit | quote }}
             {{- if gt (int .Values.operator.replicas) 1 }}
@@ -124,12 +126,20 @@ spec:
           securityContext:
             {{- . | toYaml | nindent 12 }}
           {{- end }}
+          {{- with .Values.volumeMounts }}
+          volumeMounts:
+            {{- . | toYaml | nindent 12 }}
+          {{- end }}
       {{- with .Values.image.pullSecrets }}
       imagePullSecrets:
         {{- . | toYaml | nindent 8 }}
       {{- end }}
       securityContext:
         {{- .Values.podSecurityContext | toYaml | nindent 8 }}
+      {{- with .Values.volumes }}
+      volumes:
+        {{- . | toYaml | nindent 8 }}
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- . | toYaml | nindent 8 }}

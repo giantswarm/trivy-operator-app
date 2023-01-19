@@ -100,8 +100,12 @@ data:
   trivy.registry.mirror.{{ $key }}: {{ $registry | quote }}
   {{- end }}
   trivy.severity: {{ .Values.trivy.severity | quote }}
+  trivy.slow: {{ .Values.trivy.slow | quote }}
   trivy.dbRepository: {{ .Values.trivy.dbRepository | quote }}
   trivy.command: {{ .Values.trivy.command | quote }}
+  {{- if .Values.trivy.skipDirs }}
+  trivy.skipDirs: {{ .Values.trivy.skipDirs | quote }}
+  {{- end }}
   {{- if .Values.trivy.dbRepositoryInsecure }}
   trivy.dbRepositoryInsecure: {{ .Values.trivy.dbRepositoryInsecure | quote }}
   {{- end }}
