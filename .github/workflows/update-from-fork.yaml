@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 env:
   fork_repo: https://github.com/giantswarm/trivy-operator-upstream
-  branch: 'main#update-chart'
+  BRANCH: 'main#update-chart'
 jobs:
   sync-app-trivy-operator-with-fork:
     runs-on: ubuntu-latest
@@ -27,16 +27,16 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           # Delete previous update-chart branch:
-          git push origin -d $branch
-          git checkout -b $branch
+          git push origin -d $BRANCH
+          git checkout -b $BRANCH
 
           # Modify the version in Vendir config
           sed -i -r "s/(ref:).*/\1 $LAST_TAG/g" vendir.yml
           git add vendir.yml
           git commit -m "Update app version from fork repo"
-          git push origin $branch
+          git push origin $BRANCH
   call-update-chart:
     uses: ./.github/workflows/zz_generated.update_chart.yaml
     needs: sync-app-trivy-operator-with-fork
     with:
-      branch: "${{ env.branch }}"
+      branch: "${{ env.BRANCH }}"
