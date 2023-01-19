@@ -35,5 +35,6 @@ jobs:
           git push origin $branch
   call-update-chart:
     uses: ./.github/workflows/zz_generated.update_chart.yaml
+    needs: sync-app-trivy-operator-with-fork
     with:
       branch: $branch
