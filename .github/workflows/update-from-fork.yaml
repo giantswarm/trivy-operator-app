@@ -26,7 +26,7 @@ jobs:
           # Setup git config
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git checkout -b ''main#update-chart''
+          git checkout -b 'main#update-chart'
 
           # Modify the version in Vendir config
           sed -i -r "s/(ref:).*/\1 $LAST_TAG/g" vendir.yml
@@ -35,3 +35,5 @@ jobs:
           git push origin 'main#update-chart'
   call-update-chart:
     uses: ./.github/workflows/zz_generated.update_chart.yaml
+    with:
+      branch: 'main#update-chart'
