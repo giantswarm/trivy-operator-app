@@ -42,18 +42,15 @@ jobs:
         run: |
           head="${{ inputs.branch || github.event.ref }}"
           echo "branch=${head}" >> $GITHUB_OUTPUT
-
           head="${head#refs/heads/}" # Strip "refs/heads/" prefix.
           if [[ $(echo "$head" | grep -o '#' | wc -l) -ge 1 ]]; then
             base="$(echo $head | cut -d '#' -f 1)"
           else
             base="${{ github.event.base_ref }}"
           fi
-
           base="${base#refs/heads/}" # Strip "refs/heads/" prefix.
           repo_name="$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')"
-
-          echo "repo_name=\"$repo_name\" base=\"$base\" head=\"$head\"
+          echo "repo_name=\"$repo_name\" base=\"$base\" head=\"$head\""
           echo "repo_name=${repo_name}" >> $GITHUB_OUTPUT
           echo "base=${base}" >> $GITHUB_OUTPUT
           echo "head=${head}" >> $GITHUB_OUTPUT
@@ -86,21 +83,16 @@ jobs:
           [ "$SHA_VENDIR" != "0b52c170f4a30c2b6213ff0048ecc89c9c25c3e4da56eb1e095fcdb335bd82ed" ] && echo "invalid vendir binary" && exit 1
           sudo mv /tmp/vendir /usr/local/bin/vendir && chmod a+x /usr/local/bin/vendir
       - name: Run update
-        env:
-          last_tag: ${{ needs.gather_facts.outputs.last_tag }}
         run: |
           # Define chart_dir
           repository="${{ needs.gather_facts.outputs.repo_name }}"
           chart="helm/${repository}"
-
           # Check chart directory.
           if [ ! -d "${chart}" ]
           then
             echo "Could not find chart directory '${chart}', removing app suffix."
-
             # Remove app suffix.
             chart="helm/${repository%-app}"
-
             if [ ! -d "${chart}" ]
             then
               # Print error.
@@ -108,7 +100,6 @@ jobs:
               exit 1
             fi
           fi
-
           make update-chart APPLICATION="${chart}"
       - name: Set up git identity
         run: |
@@ -117,7 +108,7 @@ jobs:
       - name: Create update commit
         run: |
           git add -A
-          git commit -m "Sync chart with upstream"
+          git commit -m "Sync chart with upstream."
       - name: Push changes
         env:
           remote_repo: "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
