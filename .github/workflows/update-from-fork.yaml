@@ -14,6 +14,9 @@ env:
 jobs:
   sync-app-trivy-operator-with-fork:
     runs-on: ubuntu-latest
+    env:
+      fork_repo: https://github.com/giantswarm/trivy-operator-upstream
+      BRANCH: 'main#update-chart'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -35,8 +38,7 @@ jobs:
           git add vendir.yml
           git commit -m "Update app version from fork repo"
           git push origin $BRANCH
-  call-update-chart:
-    uses: ./.github/workflows/zz_generated.update_chart.yaml
-    needs: sync-app-trivy-operator-with-fork
-    with:
-      branch: "${{ env.BRANCH }}"
+      - name: call-update-chart
+        uses: ./.github/workflows/zz_generated.update_chart.yaml
+        with:
+          branch: $BRANCH
