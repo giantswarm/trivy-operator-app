@@ -26,6 +26,8 @@ jobs:
           # Setup git config
           git config user.name github-actions
           git config user.email github-actions@github.com
+          # Delete previous update-chart branch:
+          git push origin -d $branch
           git checkout -b $branch
 
           # Modify the version in Vendir config
