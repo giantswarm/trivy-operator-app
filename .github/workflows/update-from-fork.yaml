@@ -1,22 +1,17 @@
 name: Sync from fork
 
 on:
-  push:
-    branches: ['test-automation']
   schedule:
-    - cron: '0 7 */7 * *' # At 07:00 on every 7th day-of-month
+    - cron: '0 8 */7 * *' # At 08:00 on every 7th day-of-month
 
   # Allows to run this workflow manually from the Actions tab
   workflow_dispatch:
 env:
   fork_repo: https://github.com/giantswarm/trivy-operator-upstream
-  BRANCH: 'main#update-chart'
+  branch: 'main#update-chart'
 jobs:
   sync-app-trivy-operator-with-fork:
     runs-on: ubuntu-latest
-    env:
-      fork_repo: https://github.com/giantswarm/trivy-operator-upstream
-      BRANCH: 'main#update-chart'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -30,14 +25,14 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           # Delete previous update-chart branch:
-          git push origin -d $BRANCH
-          git checkout -b $BRANCH
+          git push origin -d $branch
+          git checkout -b $branch
 
           # Modify the version in Vendir config
           sed -i -r "s/(ref:).*/\1 $LAST_TAG/g" vendir.yml
           git add vendir.yml
           git commit -m "Update app version from fork repo"
-          git push origin $BRANCH
+          git push origin $branch
   call-update-chart:
     uses: ./.github/workflows/zz_generated.update_chart.yaml
     needs: sync-app-trivy-operator-with-fork
