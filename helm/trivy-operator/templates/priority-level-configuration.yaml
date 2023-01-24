@@ -1,4 +1,4 @@
-apiVersion: flowcontrol.apiserver.k8s.io/v1beta1
+apiVersion: flowcontrol.apiserver.k8s.io/v1beta2
 kind: PriorityLevelConfiguration
 metadata:
   name: trivy-operator
@@ -8,6 +8,8 @@ spec:
     assuredConcurrencyShares: 5
     limitResponse:
       queuing:
+        # Capping handSize to 10. If greater than 10, entropy bits violations kicks in.
+        handSize: {{ min (index .Values "trivy-operator" "operator" "scanJobsConcurrentLimit") 10 }}
         # We estimate 4 calls per Job: create the Job, get the logs, store the report, delete the job.
         # Allow 4 x the configured number of concurrent jobs, up to 100 max because
         # we suspect report storage is a large request and we don't want to fill the API server memory.
