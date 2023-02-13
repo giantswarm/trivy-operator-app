@@ -5,6 +5,8 @@ kind: NetworkPolicy
 metadata:
   name: {{ include "trivy-operator.networkPolicy" . }}-networkpolicy
   labels: {{- include "trivy-operator-helpers.labels" . | nindent 4 }}
+  annotations:
+    ignore-check.kube-linter.io/dangling-networkpolicy: "The podselctor value, app.kubernetes.io/managed-by:trivy-operator is inherited from parent repository."
 spec:
   policyTypes:
     - Egress
@@ -35,6 +37,8 @@ kind: NetworkPolicy
 metadata:
   name: {{ include "trivy-operator.networkPolicy" . }}-scanner-job-networkpolicy
   labels: {{- include "trivy-operator-helpers.labels" . | nindent 4 }}
+  annotations:
+    ignore-check.kube-linter.io/dangling-networkpolicy: "The podselctor value, app.kubernetes.io/managed-by:trivy-operator is inherited from parent repository."
 spec:
   policyTypes:
     - Egress

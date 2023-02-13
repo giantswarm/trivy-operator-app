@@ -16,3 +16,7 @@ checks:
   - "minimum-three-replicas"  # Upstream doesn't specify, and only 1 is currently needed.
   - "no-rolling-update-strategy"  # Upstream doesn't include strategy.
   - "non-isolated-pod"
+  - "no-node-affinity" # Node affinity not required. We can have the pod scheduled on any node.
+  # This should be working according to the documentation but it's not working
+  # ignorePaths:
+  #   - ./helm/trivy-operator/charts/
