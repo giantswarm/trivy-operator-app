@@ -17,6 +17,7 @@ checks:
   - "no-rolling-update-strategy"  # Upstream doesn't include strategy.
   - "non-isolated-pod"
   - "no-node-affinity" # Node affinity not required. We can have the pod scheduled on any node.
-  # This should be working according to the documentation but it's not working
+  - "dnsconfig-options" # No explicity dns configuration required.
+  # Path exclusion should be working according to the documentation but it's not working for some reason
   # ignorePaths:
-  #   - ./helm/trivy-operator/charts/
+  #   - ./helm/trivy-operator/charts/*
