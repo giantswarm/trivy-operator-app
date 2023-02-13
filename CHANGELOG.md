@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Add conditional templating for `flowcontrol` apiVersion value.
+
+### Changed
+
 - Add `handSize` to `PriorityLevelConfiguration` to handle low count scan job concurrency edge cases. 
 
 ### Added
