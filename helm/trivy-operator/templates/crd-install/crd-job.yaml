@@ -8,6 +8,8 @@ metadata:
     # create hook dependencies in the right order
     "helm.sh/hook-weight": "-1"
     {{- include "trivy-operator.CRDInstallAnnotations" . | nindent 4 }}
+    ignore-check.kube-linter.io/no-node-affinity: "Node affinity not required. We can have the pod scheduled on any node."
+    ignore-check.kube-linter.io/dnsconfig-options: "No explicit dns configuration required."
   labels:
     app.kubernetes.io/component: {{ include "trivy-operator.crdInstall" . | quote }}
     {{- include "trivy-operator.selectorLabels" . | nindent 4 }}
