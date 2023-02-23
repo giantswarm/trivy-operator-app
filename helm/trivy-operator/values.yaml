@@ -17,11 +17,11 @@ trivy-operator:
   operator:
     # Disable capabilities by default
     # configAuditScannerEnabled the flag to enable configuration audit scanner
-    configAuditScannerEnabled: false
+    configAuditScannerEnabled: true
     # rbacAssessmentScannerEnabled the flag to enable rbac assessment scanner
-    rbacAssessmentScannerEnabled: false
+    rbacAssessmentScannerEnabled: true
     # infraAssessmentScannerEnabled the flag to enable infra assessment scanner
-    infraAssessmentScannerEnabled: false
+    infraAssessmentScannerEnabled: true
     # exposedSecretScannerEnabled the flag to enable exposed secret scanner
     exposedSecretScannerEnabled: false
     # Reports are automatically deleted after this duration, causing a re-scan. Empty = never delete.
@@ -135,7 +135,7 @@ crds:
 specs:
   image:
     tag: 1.24.1
-  install: false
+  install: true
   resources:
     requests:
       cpu: 100m
