@@ -1,4 +1,8 @@
+{{- if .Capabilities.APIVersions.Has "flowcontrol.apiserver.k8s.io/v1beta2" }}
 apiVersion: flowcontrol.apiserver.k8s.io/v1beta2
+{{- else }}
+apiVersion: flowcontrol.apiserver.k8s.io/v1beta1
+{{- end }}
 kind: PriorityLevelConfiguration
 metadata:
   name: trivy-operator

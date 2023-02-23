@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.4] - 2023-02-20
+
+### Changed
+
+- Add conditional templating for `flowcontrol` apiVersion value.
+
 ## [0.3.3] - 2023-01-24
 
 ### Changed
@@ -67,7 +73,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release containing upstream `trivy-operator` [version 0.0.5](https://github.com/aquasecurity/trivy-operator/releases/tag/v0.0.5).
 
-[Unreleased]: https://github.com/giantswarm/trivy-operator-app/compare/v0.3.3...HEAD
+[Unreleased]: https://github.com/giantswarm/trivy-operator-app/compare/v0.3.4...HEAD
+[0.3.4]: https://github.com/giantswarm/trivy-operator-app/compare/v0.3.3...v0.3.4
 [0.3.3]: https://github.com/giantswarm/trivy-operator-app/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/giantswarm/trivy-operator-app/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/giantswarm/trivy-operator-app/compare/v0.3.0...v0.3.1
