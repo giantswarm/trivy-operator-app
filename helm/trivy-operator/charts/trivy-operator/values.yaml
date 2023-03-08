@@ -38,6 +38,9 @@ operator:
   # logDevMode the flag to enable development mode (more human-readable output, extra stack traces and logging information, etc)
   logDevMode: false
 
+  # scanJobTTL the set automatic cleanup time after the job is completed
+  scanJobTTL: ""
+
   # scanJobTimeout the length of time to wait before giving up on a scan job
   scanJobTimeout: 5m
 
@@ -71,6 +74,9 @@ operator:
   # trivy.mode = ClientServer and serverURL = http://<serverServiceName>.<trivy operator namespace>:4975
   builtInTrivyServer: false
 
+  # trivyServerHealthCheckCacheExpiration The flag to set the interval for trivy server health cache before it invalidate
+  trivyServerHealthCheckCacheExpiration: 10h
+
   # metricsFindingsEnabled the flag to enable metrics for findings
   metricsFindingsEnabled: true
 
@@ -81,14 +87,19 @@ operator:
   # exposedSecretScannerEnabled the flag to enable exposed secret scanner
   exposedSecretScannerEnabled: true
 
+  # MetricsExposedSecretInfo the flag to enable metrics about exposed secrets
+  # be aware of metrics cardinality is significantly increased with this feature enabled.
+  metricsExposedSecretInfo: false
+
   # webhookBroadcastURL the flag to set reports should be sent to a webhook endpoint. "" means that the webhookBroadcastURL feature is disabled
   webhookBroadcastURL: ""
 
   # webhookBroadcastTimeout the flag to set timeout for webhook requests if webhookBroadcastURL is enabled
   webhookBroadcastTimeout: 30s
 
-  # privateRegistryScanSecretsNames is map of namespace:secrets which can be used to authenticate in private registries in case if there no imagePullSecrets provided
+  # privateRegistryScanSecretsNames is map of namespace:secrets, secrets are comma seperated which can be used to authenticate in private registries in case if there no imagePullSecrets provided example : {"mynamespace":"mySecrets,anotherSecret"}
   privateRegistryScanSecretsNames: {}
+
   # mergeRbacFindingWithConfigAudit the flag to enable merging rbac finding with config-audit report
   mergeRbacFindingWithConfigAudit: false
 
@@ -105,7 +116,8 @@ image:
 service:
   metricsPort: 80
 
-# Prometheus ServiceMonitor configuration
+# Prometheus ServiceMonitor configuration -- to install the trivy operator with the ServiceMonitor
+# you must have Prometheus already installed and running
 serviceMonitor:
   # enabled determines whether a serviceMonitor should be deployed
   enabled: false
@@ -123,7 +135,7 @@ trivyOperator:
   configAuditReportsPlugin: "Trivy"
   # scanJobCompressLogs control whether scanjob output should be compressed or plain
   scanJobCompressLogs: true
-  # scanJobTolerations tolerations to be applied to the scanner pods so that they can run on nodes with matching taints
+  # scanJobTolerations tolerations to be applied to the scanner pods and node-collector so that they can run on nodes with matching taints
   scanJobTolerations: []
   # If you do want to specify tolerations, uncomment the following lines, adjust them as necessary, and remove the
   # square brackets after 'scanJobTolerations:'.
@@ -175,7 +187,7 @@ trivyOperator:
   reportResourceLabels: ""
 
   # reportRecordFailedChecksOnly flag is to record only failed checks on misconfiguration reports (config-audit and rbac assessment)
-  reportRecordFailedChecksOnly: false
+  reportRecordFailedChecksOnly: true
 
   # skipResourceByLabels  comma-separated labels keys which trivy-operator will skip scanning on resources with matching labels
   skipResourceByLabels: ""
@@ -191,7 +203,7 @@ trivy:
   # repository of the Trivy image
   repository: ghcr.io/aquasecurity/trivy
   # tag version of the Trivy image
-  tag: 0.34.0
+  tag: 0.38.0
   # imagePullSecret is the secret name to be used when pulling trivy image from private registries example : reg-secret
   # It is the user responsibility to create the secret for the private registry in `trivy-operator` namespace
   # imagePullSecret:
@@ -200,8 +212,17 @@ trivy:
   # on the active mode other settings might be applicable or required.
   mode: Standalone
 
+  # storageClassName is the name of the storage class to be used for trivy server PVC
+  storageClassName: ""
+
+  # podLabels is the extra pod labels to be used for trivy server
+  podLabels:
+
+  # priorityClassName is the name of the priority class used for trivy server
+  priorityClassName: ""
+
   # additionalVulnerabilityReportFields is a comma separated list of additional fields which
-  # can be added to the VulnerabilityReport. Supported parameters: Description, Links, CVSS, Target and Class
+  # can be added to the VulnerabilityReport. Supported parameters: Description, Links, CVSS, Target, Class and PackageType
   additionalVulnerabilityReportFields: ""
 
   # httpProxy is the HTTP proxy used by Trivy to download the vulnerabilities database from GitHub.
@@ -237,10 +258,14 @@ trivy:
   # severity is a comma separated list of severity levels reported by Trivy.
   severity: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
 
+  # slow this flag is to use less CPU/memory for scanning though it takes more time than normal scanning. It fits small-footprint
+  slow: true
   # ignoreUnfixed is the flag to show only fixed vulnerabilities in
   # vulnerabilities reported by Trivy. Set to true to enable it.
   #
   ignoreUnfixed: false
+  # a comma separated list of directories for Trivy to skip
+  skipDirs:
 
   # offlineScan is the flag to enable the offline scan functionality in Trivy
   # This will prevent outgoing HTTP requests, e.g. to search.maven.org
@@ -254,6 +279,17 @@ trivy:
   # ignoreFile: |
   #   CVE-1970-0001
   #   CVE-1970-0002
+
+  # ignorePolicy can be used to tell Trivy to ignore vulnerabilities by a policy
+  # If multiple policies would match, then the most specific one has precedence over the others.
+  # See https://aquasecurity.github.io/trivy/latest/docs/vulnerability/examples/filter/#by-open-policy-agent) for more details.
+  #
+  # ignorePolicy.application.my-app-*: |
+  #   # applies to all workloads in namespace "application" with the name pattern "my-app-*"
+  # ignorePolicy.kube-system: |
+  #   # applies to all workloads in namespace "kube-system"
+  # ignorePolicy: |
+  #   # applies to all other workloads
 
   # resources resource requests and limits
   resources:
@@ -311,8 +347,8 @@ trivy:
   #
   supportedConfigAuditKinds: "Workload,Service,Role,ClusterRole,NetworkPolicy,Ingress,LimitRange,ResourceQuota"
 
-  # command. Either `image` or `filesystem` scanning, depending on the target type required for the scan.
-  # For 'filesystem' scanning, ensure that the `trivyOperator.scanJobPodTemplateContainerSecurityContext` is configured
+  # command. One of `image`, `filesystem` or `rootfs` scanning, depending on the target type required for the scan.
+  # For 'filesystem' and `rootfs` scanning, ensure that the `trivyOperator.scanJobPodTemplateContainerSecurityContext` is configured
   # to run as the root user (runAsUser = 0).
   command: image
   # serverUser this param is the server user to be used to download db from private registry
@@ -350,6 +386,17 @@ securityContext:
     drop:
       - ALL
 
+# volumeMounts:
+# Example:
+#  - mountPath: /tmp
+#    name: tmp-data
+#    readOnly: false
+
+# volumes:
+# Example:
+#  - name: tmp-data
+#    emptyDir: {}
+
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
@@ -372,3 +419,9 @@ priorityClassName: ""
 
   # automountServiceAccountToken the flag to enable automount for service account token
 automountServiceAccountToken: true
+
+nodeCollector:
+  # repository of the node-collector image
+  repository: ghcr.io/aquasecurity/node-collector
+  # tag version of the node-collector image
+  tag: 0.0.5
