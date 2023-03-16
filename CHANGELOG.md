@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.3.5] - 2023-03-14
 
+### Changed
+
+- Bumped the version of trivy-operator to `v0.12.0`
+
 ## [0.3.4] - 2023-02-20
 
 ### Changed
