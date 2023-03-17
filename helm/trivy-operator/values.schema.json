@@ -330,10 +330,10 @@
                 "trivy": {
                     "type": "object",
                     "properties": {
-                        "imageRef": {
+                        "mode": {
                             "type": "string"
                         },
-                        "mode": {
+                        "repository": {
                             "type": "string"
                         },
                         "resources": {
