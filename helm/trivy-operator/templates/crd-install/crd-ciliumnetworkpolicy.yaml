@@ -1,0 +1,24 @@
+{{ if .Values.ciliumNetworkPolicy.enabled }}
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: {{ include "trivy-operator.crdInstall" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "-7"
+    {{- include "trivy-operator.CRDInstallAnnotations" . | nindent 4 }}
+  labels:
+    app.kubernetes.io/component: {{ include "trivy-operator.crdInstall" . | quote }}
+    {{- include "trivy-operator.selectorLabels" . | nindent 4 }}
+    role: {{ include "trivy-operator.CRDInstallSelector" . | quote }}
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/component: {{ include "trivy-operator.crdInstall" . | quote }}
+      {{- include "trivy-operator.selectorLabels" . | nindent 6 }}
+  egress:
+    # To scrape the vault token expiration
+    - toEntities:
+        - kube-apiserver
+{{ end }}
