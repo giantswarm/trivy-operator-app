@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `Cilium Network Policy` to `trivy-operator`.
+
 ### Changed
 
 - Updated `imageRef` field to `repository` in `values.yaml` to sync with upstream format.

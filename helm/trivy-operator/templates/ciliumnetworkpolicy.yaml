@@ -1,0 +1,48 @@
+{{ if .Values.ciliumNetworkPolicy.enabled }}
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ include "trivy-operator.networkPolicy" . }}
+  labels:
+     {{- include "trivy-operator-helpers.labels" . | nindent 4 }}
+  annotations:
+    ignore-check.kube-linter.io/dangling-networkpolicy: "The podselector value, app.kubernetes.io/managed-by:trivy-operator is inherited from parent repository."
+spec:
+  endpointSelector:
+    matchLabels:
+       {{- include "labels.selector" . | nindent 6 }}
+  egress:
+    # Allow egress to Kubernetes API server.
+    - toEntities:
+        - kube-apiserver
+    # Allow DNS.
+    - toEntities:
+        - cluster
+      toPorts:
+        - ports:
+---
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ include "trivy-operator.networkPolicy" . }}-scanner-job
+  labels:
+    {{- include "trivy-operator-helpers.labels" . | nindent 4 }}
+  annotations:
+    ignore-check.kube-linter.io/dangling-networkpolicy: "The podselector value, app.kubernetes.io/managed-by:trivy-operator is inherited from parent repository."
+spec:
+  endpointSelector:
+    matchLabels:
+      {{- include "scannerjob.labels.selector" . | nindent 6 }}
+  egress:
+    # Allow egress to the internet to fetch database updates.
+    - toEntities:
+        - world
+    # Allow DNS.
+    - toEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "53"
+{{ end }}
