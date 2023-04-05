@@ -1,0 +1,26 @@
+{{- if .Capabilities.APIVersions.Has "autoscaling.k8s.io/v1" -}}
+{{- if .Values.verticalPodAutoscaler.trivyOperator.enabled -}}
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: {{ include "trivy-operator-helpers.fullname" . }}-vpa
+  namespace: {{ include "trivy-operator-helpers.namespace" . }}
+  labels:
+    {{- include "trivy-operator-helpers.labels" . | nindent 4 }}
+spec:
+  resourcePolicy:
+    containerPolicies:
+    - containerName: '*'
+    {{- if .Values.verticalPodAutoscaler.trivyOperator.containerPolicies }}
+      {{- with .Values.verticalPodAutoscaler.trivyOperator.containerPolicies -}}
+        {{ tpl (toYaml .) $ | nindent 6 }}
+      {{- end }}
+    {{- end }}
+  targetRef:
+    apiVersion: "apps/v1"
+    kind:       Deployment
+    name:       {{ include "trivy-operator-helpers.fullname" . }}
+  updatePolicy:
+    updateMode: Auto
+{{- end -}}
+{{- end -}}

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added `VerticalPodAutoscaler` for `trivy-operator` deployment.
+
 ## [0.3.6] - 2023-03-27
 
 ### Changed

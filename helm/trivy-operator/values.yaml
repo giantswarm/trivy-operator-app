@@ -12,6 +12,11 @@ rbac:
 networkPolicy:
   enabled: true
 
+verticalPodAutoscaler:
+  trivyOperator:
+    enabled: true
+    containerPolicies: {}
+
 trivy-operator:
 
   operator:
