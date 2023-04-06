@@ -10,8 +10,8 @@ directories:
     includePaths:
       - deploy/helm/**/*
     excludePaths:
-      - deploy/helm/crds
-      - deploy/helm/templates/specs
+      - deploy/helm/crds/*
+      - deploy/helm/templates/specs/*
     newRootPath: deploy/helm
 - path: helm/trivy-operator/crds
   contents:
