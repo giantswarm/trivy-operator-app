@@ -47,6 +47,9 @@ operator:
   # scanJobsConcurrentLimit the maximum number of scan jobs create by the operator
   scanJobsConcurrentLimit: 10
 
+  # scanNodeCollectorLimit the maximum number of node collector jobs create by the operator
+  scanNodeCollectorLimit: 1
+
   # scanJobsRetryDelay the duration to wait before retrying a failed scan job
   scanJobsRetryDelay: 30s
 
@@ -163,14 +166,14 @@ trivyOperator:
   # labeled with. Example: `foo=bar,env=stage` will labeled the scanner pods with the labels `foo: bar` and `env: stage`
   scanJobPodTemplateLabels: ""
 
-  # scanJobPodTemplatePodSecurityContext podSecurityContext the user wants the scanner pods to be amended with.
+  # scanJobPodTemplatePodSecurityContext podSecurityContext the user wants the scanner and node collector pods to be amended with.
   # Example:
   #   RunAsUser: 10000
   #   RunAsGroup: 10000
   #   RunAsNonRoot: true
   scanJobPodTemplatePodSecurityContext: {}
 
-  # scanJobPodTemplateContainerSecurityContext SecurityContext the user wants the scanner containers (and their
+  # scanJobPodTemplateContainerSecurityContext SecurityContext the user wants the scanner and node collector containers (and their
   # initContainers) to be amended with.
   scanJobPodTemplateContainerSecurityContext:
     allowPrivilegeEscalation: false
@@ -203,7 +206,7 @@ trivy:
   # repository of the Trivy image
   repository: ghcr.io/aquasecurity/trivy
   # tag version of the Trivy image
-  tag: 0.38.0
+  tag: 0.38.2
   # imagePullSecret is the secret name to be used when pulling trivy image from private registries example : reg-secret
   # It is the user responsibility to create the secret for the private registry in `trivy-operator` namespace
   # imagePullSecret:
@@ -357,6 +360,8 @@ trivy:
   serverPassword: ""
   # serverServiceName this param is the server service name to be used in cluster
   serverServiceName: "trivy-service"
+  # debug One of `true` or `false`. Enables debug mode.
+  debug: false
 
 compliance:
   # failEntriesLimit the flag to limit the number of fail entries per control check in the cluster compliance detail report
