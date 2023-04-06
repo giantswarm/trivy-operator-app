@@ -30,5 +30,5 @@ directories:
       ref: v0.13.0
     includePaths:
       - deploy/helm/templates/specs/*
-    newRootPath: deploy/helm/templates/specs/*
+    newRootPath: deploy/helm/templates/specs
 
