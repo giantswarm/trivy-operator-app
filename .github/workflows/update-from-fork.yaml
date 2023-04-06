@@ -9,6 +9,7 @@ on:
 env:
   fork_repo: https://github.com/giantswarm/trivy-operator-upstream
   branch: 'main#update-chart'
+  GITHUB_TOKEN: ${{ secrets.TAYLORBOT_GITHUB_ACTION }}
 jobs:
   sync-app-trivy-operator-with-fork:
     runs-on: ubuntu-latest
