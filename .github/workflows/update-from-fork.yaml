@@ -36,7 +36,7 @@ jobs:
   call-update-chart:
     uses: ./.github/workflows/zz_generated.update_chart.yaml
     needs: sync-app-trivy-operator-with-fork
-    env:
-      GITHUB_TOKEN: ${{ secrets.TAYLORBOT_GITHUB_ACTION }}
     with:
       branch: 'main#update-chart'
+    secrets:
+      TAYLORBOT_GITHUB_ACTION: ${{ secrets.TAYLORBOT_GITHUB_ACTION }}
