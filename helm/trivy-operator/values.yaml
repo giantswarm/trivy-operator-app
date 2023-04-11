@@ -124,15 +124,6 @@ trivy-operator:
         cpu: 500m
         memory: 1G
 
-  polaris:
-    imageRef: docker.io/giantswarm/polaris:4.0
-
-  conftest:
-    imageRef: docker.io/giantswarm/conftest:v0.25.0
-
-  aqua:
-    imageRef: giantswarm/scanner:5.3
-
 # We install CRDs through a Job with the helm specific crd folder.
 crds:
   image:
