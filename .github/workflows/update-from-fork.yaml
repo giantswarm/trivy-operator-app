@@ -37,3 +37,5 @@ jobs:
     needs: sync-app-trivy-operator-with-fork
     with:
       branch: 'main#update-chart'
+    secrets:
+      TAYLORBOT_GITHUB_ACTION: ${{ secrets.TAYLORBOT_GITHUB_ACTION }}

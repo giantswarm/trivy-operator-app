@@ -18,6 +18,10 @@ on:
       branch:
         required: true
         type: string
+    secrets:
+      TAYLORBOT_GITHUB_ACTION:
+        description: 'Taylorbot token for creating the PRs'
+        required: false
 jobs:
   debug_info:
     name: Debug info
