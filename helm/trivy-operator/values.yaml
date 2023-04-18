@@ -16,7 +16,7 @@ networkPolicy:
 ciliumNetworkPolicy:
   enabled: true
 
-trivyServiceName: &trivyServiceName "trivy"
+trivyServiceName: trivy
 
 verticalPodAutoscaler:
   trivyOperator:
@@ -111,7 +111,7 @@ trivy-operator:
     repository: docker.io/giantswarm/trivy
     tag: 0.37.2
     mode: ClientServer
-    serverURL: "http://{{*trivyServiceName}}:4954"
+    serverURL: "http://{{ .Values.trivyServiceName }}:4954"
     # Resources for Trivy pods created by trivy-operator
     resources:
       requests:
