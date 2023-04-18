@@ -12,6 +12,11 @@ rbac:
 networkPolicy:
   enabled: true
 
+verticalPodAutoscaler:
+  trivyOperator:
+    enabled: true
+    containerPolicies: {}
+
 trivy-operator:
 
   operator:
@@ -98,6 +103,7 @@ trivy-operator:
     # but this image is not used if using in-cluster Trivy.
     # Change or remove the `mode:` setting to let trivy-operator pull its own Trivy images.
     repository: docker.io/giantswarm/trivy
+    tag: 0.37.2
     mode: ClientServer
     serverURL: "http://trivy:4954"
     # Resources for Trivy pods created by trivy-operator

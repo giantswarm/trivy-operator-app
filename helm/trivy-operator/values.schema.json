@@ -373,6 +373,9 @@
                         },
                         "serverURL": {
                             "type": "string"
+                        },
+                        "tag": {
+                            "type": "string"
                         }
                     }
                 },
