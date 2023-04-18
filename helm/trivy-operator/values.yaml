@@ -177,4 +177,4 @@ securityContext:
 managedBy: Helm
 
 ciliumNetworkPolicy:
-  enabled: false
+  enabled: true
