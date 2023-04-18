@@ -42,15 +42,12 @@ spec:
     - toEntities:
         - world
   {{ end }}
-    - toServices:
-      - k8sService:
-          namespace: {{ .Release.Namespace }}
-          serviceName: {{ .Values.trivyServiceName }}
     # Allow DNS.
     - toEntities:
         - cluster
       toPorts:
         - ports:
             - port: "53"
+            - port: "{{ .Values.trivyServicePort | default 4954 }}"
 {{ end }}
 {{ end }}

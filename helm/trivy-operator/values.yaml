@@ -17,8 +17,9 @@ ciliumNetworkPolicy:
   enabled: true
 
 # Must match the value in trivy-operator.trivy.serverURL.
-# This should be templated in properly when possible.
+# These should be templated in properly when possible.
 trivyServiceName: trivy
+trivyServicePort: 4954
 
 verticalPodAutoscaler:
   trivyOperator:
