@@ -37,9 +37,15 @@ spec:
     matchLabels:
       {{- include "scannerjob.labels.selector" . | nindent 6 }}
   egress:
+  {{ if eq (index .Values "trivy-operator" "trivy" "mode") "Standalone"}}
     # Allow egress to the internet to fetch database updates.
     - toEntities:
         - world
+  {{ end }}
+    - toServices:
+      - k8sService:
+          namespace: {{ .Release.Namespace }}
+          serviceName: {{ .Values.trivyServiceName }}
     # Allow DNS.
     - toEntities:
         - cluster
