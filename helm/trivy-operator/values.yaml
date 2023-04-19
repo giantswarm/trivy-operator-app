@@ -8,9 +8,18 @@ image:
 rbac:
   pspEnabled: true
 
-# Enable network policy to allow egress connection
+# Enable trivy-operator network policy.
 networkPolicy:
   enabled: true
+
+# Enable additional equivalent policy for clusters using cilium.
+ciliumNetworkPolicy:
+  enabled: true
+
+# Must match the value in trivy-operator.trivy.serverURL.
+# These should be templated in properly when possible.
+trivyServiceName: trivy
+trivyServicePort: 4954
 
 verticalPodAutoscaler:
   trivyOperator:
@@ -105,7 +114,7 @@ trivy-operator:
     repository: docker.io/giantswarm/trivy
     tag: 0.37.2
     mode: ClientServer
-    serverURL: "http://trivy:4954"
+    serverURL: http://trivy:4954
     # Resources for Trivy pods created by trivy-operator
     resources:
       requests:
