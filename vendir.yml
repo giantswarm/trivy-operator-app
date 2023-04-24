@@ -10,8 +10,8 @@ directories:
     includePaths:
       - deploy/helm/**/*
     excludePaths:
-      - deploy/helm/crds
-      - deploy/helm/templates/specs
+      - deploy/helm/crds/*
+      - deploy/helm/templates/specs/*
     newRootPath: deploy/helm
 - path: helm/trivy-operator/crds
   contents:
@@ -20,8 +20,8 @@ directories:
       url: https://github.com/giantswarm/trivy-operator-upstream
       ref: v0.13.1
     includePaths:
-      - deploy/crd/*
-    newRootPath: deploy/crd
+      - deploy/helm/crds/*
+    newRootPath: deploy/helm/crds
 - path: helm/trivy-operator/specs
   contents:
   - path: .
@@ -29,6 +29,5 @@ directories:
       url: https://github.com/giantswarm/trivy-operator-upstream
       ref: v0.13.1
     includePaths:
-      - deploy/specs/*
-    newRootPath: deploy/specs
-
+      - deploy/helm/templates/specs/*
+    newRootPath: deploy/helm/templates/specs
