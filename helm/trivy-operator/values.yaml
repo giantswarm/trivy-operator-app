@@ -117,7 +117,7 @@ trivy-operator:
     image:
       registry: "docker.io"
       repository: "giantswarm/trivy"
-    tag: 0.37.2
+      tag: 0.40.0
     mode: ClientServer
     serverURL: http://trivy:4954
     # Resources for Trivy pods created by trivy-operator
