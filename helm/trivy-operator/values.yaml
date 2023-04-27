@@ -57,6 +57,10 @@ trivy-operator:
 
   targetNamespaces: ""
 
+  nodeCollector:
+    registry: "docker.io"
+    repository: "giantswarm/node-collector"
+
   trivyOperator:
     # scanJobPodTemplatePodSecurityContext podSecurityContext the user wants the scanner pods to be amended with.
     # Example:
