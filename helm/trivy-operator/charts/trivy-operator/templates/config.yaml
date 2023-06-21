@@ -22,6 +22,9 @@ data:
   {{- with .Values.trivyOperator.scanJobAutomountServiceAccountToken }}
   scanJob.automountServiceAccountToken: {{ . | quote }}
   {{- end }}
+  {{- with .Values.nodeCollector.excludeNodes }}
+  nodeCollector.excludeNodes: {{ . | quote }}
+  {{- end }}
   {{- with .Values.trivyOperator.scanJobPodTemplateLabels }}
   scanJob.podTemplateLabels: {{ . | quote }}
   {{- end }}
@@ -103,6 +106,9 @@ data:
   {{- if .Values.trivy.serverInsecure }}
   trivy.serverInsecure: {{ .Values.trivy.serverInsecure | quote }}
   {{- end }}
+  {{- if .Values.trivy.sslCertDir }}
+  trivy.sslCertDir: {{ .Values.trivy.sslCertDir | quote }}
+  {{- end }}
   {{- if .Values.trivy.noProxy }}
   trivy.noProxy: {{ .Values.trivy.noProxy | quote }}
   {{- end }}
@@ -122,6 +128,9 @@ data:
   trivy.command: {{ .Values.trivy.command | quote }}
   {{- if .Values.trivy.skipDirs }}
   trivy.skipDirs: {{ .Values.trivy.skipDirs | quote }}
+  {{- end }}
+  {{- if .Values.trivy.vulnType }}
+  trivy.vulnType: {{ .Values.trivy.vulnType | quote }}
   {{- end }}
   {{- if .Values.trivy.dbRepositoryInsecure }}
   trivy.dbRepositoryInsecure: {{ .Values.trivy.dbRepositoryInsecure | quote }}
@@ -166,8 +175,8 @@ data:
       {{- if hasKey . "memory" }}
   trivy.resources.requests.memory: {{ .memory | quote }}
       {{- end }}
-      {{- if hasKey . "ephemeral-storage" }}
-  trivy.resources.requests.ephemeral-storage: {{ .memory | quote }}
+      {{- if hasKey . "ephemeralStorage" }}
+  trivy.resources.requests.ephemeral-storage: {{ .ephemeralStorage | quote }}
       {{- end }}
     {{- end }}
     {{- with .limits }}
@@ -177,8 +186,8 @@ data:
       {{- if .memory }}
   trivy.resources.limits.memory: {{ .memory | quote }}
       {{- end }}
-      {{- if hasKey . "ephemeral-storage" }}
-  trivy.resources.limits.ephemeral-storage: {{ .memory | quote }}
+      {{- if hasKey . "ephemeralStorage" }}
+  trivy.resources.limits.ephemeral-storage: {{  .ephemeralStorage | quote }}
       {{- end }}
     {{- end }}
   {{- end }}
