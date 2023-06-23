@@ -71,3 +71,13 @@ Create the name of the service account to use.
 {{- default .Release.Namespace .Values.operator.namespace }}
 {{- end }}
 
+{{/*
+Create the trivy image to use.
+*/}}
+{{- define "trivy.registry" -}}
+{{- if .Values.global.image.registry }}
+{{- .Values.global.image.registry }}
+{{- else }}
+{{- required ".Values.trivy.image.registry is required" .Values.trivy.image.registry }}
+{{- end }}
+{{- end }}

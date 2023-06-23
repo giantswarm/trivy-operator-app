@@ -88,7 +88,7 @@ metadata:
   labels:
     {{- include "trivy-operator.labels" $ | nindent 4 }}
 data:
-  trivy.repository: "{{ required ".Values.trivy.image.registry is required" .Values.trivy.image.registry }}/{{ required ".Values.trivy.image.repository is required" .Values.trivy.image.repository }}"
+  trivy.repository: "{{ include "trivy.registry" . }}/{{ required ".Values.trivy.image.repository is required" .Values.trivy.image.repository }}"
   trivy.tag: {{ required ".Values.trivy.image.tag is required" .Values.trivy.image.tag | quote }}
   {{- if .Values.trivy.image.imagePullSecret }}
   trivy.imagePullSecret: {{ .Values.trivy.image.imagePullSecret | quote }}
