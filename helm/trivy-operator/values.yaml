@@ -182,5 +182,12 @@ securityContext:
   seccompProfile:
     type: RuntimeDefault
 
+serviceMonitor:
+  enabled: true
+  # -- (duration) Prometheus scrape interval.
+  interval: "60s"
+  # -- (duration) Prometheus scrape timeout.
+  scrapeTimeout: "45s"
+
 # managedBy is similar to .Release.Service but allows to overwrite the value
 managedBy: Helm
