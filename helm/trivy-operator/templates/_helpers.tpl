@@ -120,3 +120,12 @@ Trivy operator scanner job selector labels
 {{- define "scannerjob.labels.selector" -}}
 app.kubernetes.io/managed-by: trivy-operator
 {{- end -}}
+
+{{/*
+Define the image registry to use if global values are set.
+*/}}
+{{- define "global.imageRegistry" -}}
+{{- if ((.Values.global).image).registry -}}
+  {{- .Values.global.image.registry }}
+{{- end }}
+{{- end }}

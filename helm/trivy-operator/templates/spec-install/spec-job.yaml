@@ -31,7 +31,7 @@ spec:
         effect: NoSchedule
       containers:
       - name: kubectl
-        image: "{{ .Values.image.registry }}/giantswarm/docker-kubectl:{{ .Values.specs.image.tag }}"
+        image: "{{ include "global.imageRegistry" . | default .Values.image.registry }}/giantswarm/docker-kubectl:{{ .Values.specs.image.tag }}"
         command:
         - sh
         - -c
