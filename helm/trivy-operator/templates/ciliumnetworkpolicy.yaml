@@ -48,6 +48,7 @@ spec:
       toPorts:
         - ports:
             - port: "53"
+            - port: "1053"
             - port: "{{ .Values.trivyServicePort | default 4954 }}"
 {{ end }}
 {{ end }}

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add port `1053` to scanner job CiliumNetworkPolicy.
+
 ### Removed
 
 - Stop pushing to `openstack-app-collection`.
