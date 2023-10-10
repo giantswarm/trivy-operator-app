@@ -10,7 +10,6 @@
     ".github/workflows/pre_commit_*.yaml"
   ],
   "ignoreDeps": [
-    "architect",
     "zricethezav/gitleaks-action",
     "actions/setup-go"
   ],
