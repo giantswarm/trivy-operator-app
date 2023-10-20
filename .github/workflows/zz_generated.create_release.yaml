@@ -1,6 +1,6 @@
 # DO NOT EDIT. Generated with:
 #
-#    devctl@6.7.0
+#    devctl@6.14.0
 #
 name: Create Release
 on:
@@ -53,7 +53,7 @@ jobs:
           echo "version=${version}" >> $GITHUB_OUTPUT
       - name: Checkout code
         if: ${{ steps.get_version.outputs.version != '' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Get project.go path
         id: get_project_go_path
         if: ${{ steps.get_version.outputs.version != '' }}
@@ -103,7 +103,7 @@ jobs:
           tarball_binary_path: "*/src/${binary}"
           smoke_test: "${binary} --version"
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Update project.go
         id: update_project_go
         env:
@@ -122,8 +122,8 @@ jobs:
           fi
       - name: Set up git identity
         run: |
-          git config --local user.name "shield-automation[bot]"
-          git config --local user.email "294496+shield-automation[bot]@users.noreply.github.com"
+          git config --local user.email "dev@giantswarm.io"
+          git config --local user.name "taylorbot"
       - name: Commit changes
         run: |
           file="${{ needs.gather_facts.outputs.project_go_path }}"
@@ -131,19 +131,19 @@ jobs:
           git commit -m "Bump version to ${{ steps.update_project_go.outputs.new_version }}"
       - name: Push changes
         env:
-          REMOTE_REPO: "https://${{ github.actor }}:${{ steps.generate_token.outputs.token }}@github.com/${{ github.repository }}.git"
+          REMOTE_REPO: "https://${{ github.actor }}:${{ secrets.TAYLORBOT_GITHUB_ACTION }}@github.com/${{ github.repository }}.git"
           branch: "${{ github.ref }}-version-bump"
         run: |
           git push "${REMOTE_REPO}" HEAD:${{ env.branch }}
       - name: Create PR
         env:
-          GITHUB_TOKEN: "${{ steps.generate_token.outputs.token }}"
+          GITHUB_TOKEN: "${{ secrets.TAYLORBOT_GITHUB_ACTION }}"
           base: "${{ github.ref }}"
           branch: "${{ github.ref }}-version-bump"
           version: "${{ needs.gather_facts.outputs.version }}"
           title: "Bump version to ${{ steps.update_project_go.outputs.new_version }}"
         run: |
-          hub pull-request -f  -m "${{ env.title }}" -b ${{ env.base }} -h ${{ env.branch }} -r ${{ github.actor }}
+          gh pr create --title "${{ env.title }}" --body "" --base ${{ env.base }} --head ${{ env.branch }} --reviewer ${{ github.actor }}
   create_release:
     name: Create release
     runs-on: ubuntu-22.04
@@ -153,14 +153,8 @@ jobs:
     outputs:
       upload_url: ${{ steps.create_gh_release.outputs.upload_url }}
     steps:
-      - name: Generate token
-        id: generate_token
-        uses: tibdex/github-app-token@v1
-        with:
-          app_id: ${{ secrets.SHIELD_APP_ID }}
-          private_key: ${{ secrets.SHIELD_APP_KEY }}
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
       - name: Ensure correct version in project.go
@@ -177,22 +171,22 @@ jobs:
           path: ./CHANGELOG.md
       - name: Set up git identity
         run: |
-          git config user.name "shield-automation[bot]"
-          git config user.email "294496+shield-automation[bot]@users.noreply.github.com"
+          git config --local user.email "dev@giantswarm.io"
+          git config --local user.name "taylorbot"
       - name: Create tag
         run: |
           version="${{ needs.gather_facts.outputs.version }}"
           git tag "v$version" ${{ github.sha }}
       - name: Push tag
         env:
-          REMOTE_REPO: "https://${{ github.actor }}:${{ steps.generate_token.outputs.token }}@github.com/${{ github.repository }}.git"
+          REMOTE_REPO: "https://${{ github.actor }}:${{ secrets.TAYLORBOT_GITHUB_ACTION }}@github.com/${{ github.repository }}.git"
         run: |
           git push "${REMOTE_REPO}" --tags
       - name: Create release
         id: create_gh_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: "${{ steps.generate_token.outputs.token }}"
+          GITHUB_TOKEN: "${{ secrets.TAYLORBOT_GITHUB_ACTION }}"
         with:
           body: ${{ steps.changelog_reader.outputs.changes }}
           tag_name: "v${{ needs.gather_facts.outputs.version }}"
@@ -214,7 +208,7 @@ jobs:
           tarball_binary_path: "*/src/${binary}"
           smoke_test: "${binary} --version"
       - name: Check out the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Clone the whole history, not just the most recent commit.
       - name: Fetch all tags and branches
