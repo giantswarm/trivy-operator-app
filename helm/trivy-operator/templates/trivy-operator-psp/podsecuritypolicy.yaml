@@ -1,4 +1,4 @@
-{{- if .Values.rbac.pspEnabled }}
+{{- if not .Values.global.podSecurityStandards.enforced }}
 {{- if index .Values "trivy-operator" "operator" "kubernetesBenchmarkEnabled" }}
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy

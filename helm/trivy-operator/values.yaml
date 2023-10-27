@@ -1,12 +1,17 @@
 name: trivy-operator
 serviceType: managed
 
-image:
-  registry: docker.io
 
-# PSP is not supported upstream anymore, but we can create our own.
-rbac:
-  pspEnabled: true
+# -- global values provide a centralized configuration for 'image.registry', reducing the potential for errors.
+# If left blank, the chart will default to the individually set 'image.registry' values
+global:
+  image:
+    registry: "docker.io"
+  podSecurityStandards:
+    enforced: false
+
+image:
+  registry: "docker.io"
 
 # Enable trivy-operator network policy.
 networkPolicy:
@@ -50,7 +55,6 @@ trivy-operator:
     scanJobsRetryDelay: 30s
 
   image:
-    registry: "docker.io"
     repository: "giantswarm/trivy-operator"
 
   excludeNamespaces: ""
@@ -58,7 +62,6 @@ trivy-operator:
   targetNamespaces: ""
 
   nodeCollector:
-    registry: "docker.io"
     repository: "giantswarm/node-collector"
 
   trivyOperator:
@@ -119,9 +122,7 @@ trivy-operator:
     # but this image is not used if using in-cluster Trivy.
     # Change or remove the `mode:` setting to let trivy-operator pull its own Trivy images.
     image:
-      registry: "docker.io"
       repository: "giantswarm/trivy"
-      tag: 0.40.0
     mode: ClientServer
     serverURL: http://trivy:4954
     # Resources for Trivy pods created by trivy-operator
