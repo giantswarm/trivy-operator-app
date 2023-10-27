@@ -123,7 +123,6 @@ trivy-operator:
     # Change or remove the `mode:` setting to let trivy-operator pull its own Trivy images.
     image:
       repository: "giantswarm/trivy"
-      tag: 0.40.0
     mode: ClientServer
     serverURL: http://trivy:4954
     # Resources for Trivy pods created by trivy-operator
