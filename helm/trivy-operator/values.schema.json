@@ -246,6 +246,9 @@
                         "rbacAssessmentScannerEnabled": {
                             "type": "boolean"
                         },
+                        "sbomGenerationEnabled": {
+                            "type": "boolean"
+                        },
                         "scanJobsConcurrentLimit": {
                             "type": "integer"
                         },
