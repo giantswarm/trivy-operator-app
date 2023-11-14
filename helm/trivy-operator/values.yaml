@@ -35,6 +35,8 @@ trivy-operator:
 
   operator:
     # Disable capabilities by default
+    # -- the flag to enable sbom generation
+    sbomGenerationEnabled: false
     # configAuditScannerEnabled the flag to enable configuration audit scanner
     configAuditScannerEnabled: false
     # rbacAssessmentScannerEnabled the flag to enable rbac assessment scanner
