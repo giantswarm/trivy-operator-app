@@ -73,20 +73,20 @@ trivy-operator:
 
   tolerations:
   - key: "node-role.kubernetes.io/control-plane"
-    operator: "exists"
+    operator: "Exists"
     effect: "NoSchedule"
   - key: "node-role.kubernetes.io/master"
-    operator: "exists"
+    operator: "Exists"
     effect: "NoSchedule"
 
   trivyOperator:
 
     scanJobTolerations:
     - key: "node-role.kubernetes.io/control-plane"
-      operator: "exists"
+      operator: "Exists"
       effect: "NoSchedule"
     - key: "node-role.kubernetes.io/master"
-      operator: "exists"
+      operator: "Exists"
       effect: "NoSchedule"
 
     # scanJobPodTemplatePodSecurityContext podSecurityContext the user wants the scanner pods to be amended with.
