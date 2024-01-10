@@ -90,7 +90,7 @@ rules:
     verbs:
       - use
     resourceNames:
-      - {{ template "trivy-operator-helpers.fullname" . }}-psp
+      - privileged
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding

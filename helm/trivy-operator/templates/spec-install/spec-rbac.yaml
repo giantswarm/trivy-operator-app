@@ -35,7 +35,7 @@ rules:
   resources:
   - podsecuritypolicies
   resourceNames:
-  - {{ include "trivy-operator.specInstall" . }}
+  - privileged
   verbs:
   - use
   {{- end }}
