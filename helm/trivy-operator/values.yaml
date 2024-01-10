@@ -33,20 +33,25 @@ verticalPodAutoscaler:
 
 trivy-operator:
 
+  compliance:
+    cron: "*/1 * * * *"
+    reportType: all
+
+
   operator:
     # Disable capabilities by default
     # -- the flag to enable sbom generation
-    sbomGenerationEnabled: false
+    sbomGenerationEnabled: true
     # configAuditScannerEnabled the flag to enable configuration audit scanner
-    configAuditScannerEnabled: false
+    configAuditScannerEnabled: true
     # rbacAssessmentScannerEnabled the flag to enable rbac assessment scanner
-    rbacAssessmentScannerEnabled: false
+    rbacAssessmentScannerEnabled: true
     # infraAssessmentScannerEnabled the flag to enable infra assessment scanner
-    infraAssessmentScannerEnabled: false
+    infraAssessmentScannerEnabled: true
     # clusterComplianceEnabled the flag to enable cluster compliance scanner
-    clusterComplianceEnabled: false
+    clusterComplianceEnabled: true
     # exposedSecretScannerEnabled the flag to enable exposed secret scanner
-    exposedSecretScannerEnabled: false
+    exposedSecretScannerEnabled: true
     # Reports are automatically deleted after this duration, causing a re-scan. Empty = never delete.
     scannerReportTTL: "168h"  # 7 days
     # Generate reports for only the currently-deployed version of a replicaset.
@@ -66,7 +71,24 @@ trivy-operator:
   nodeCollector:
     repository: "giantswarm/node-collector"
 
+  tolerations:
+  - key: "node-role.kubernetes.io/control-plane"
+    operator: "exists"
+    effect: "NoSchedule"
+  - key: "node-role.kubernetes.io/master"
+    operator: "exists"
+    effect: "NoSchedule"
+
   trivyOperator:
+
+    scanJobTolerations:
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "exists"
+      effect: "NoSchedule"
+    - key: "node-role.kubernetes.io/master"
+      operator: "exists"
+      effect: "NoSchedule"
+
     # scanJobPodTemplatePodSecurityContext podSecurityContext the user wants the scanner pods to be amended with.
     # Example:
     #   RunAsUser: 10000

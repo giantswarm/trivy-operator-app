@@ -209,6 +209,17 @@
         "trivy-operator": {
             "type": "object",
             "properties": {
+                "compliance": {
+                    "type": "object",
+                    "properties": {
+                        "cron": {
+                            "type": "string"
+                        },
+                        "reportType": {
+                            "type": "string"
+                        }
+                    }
+                },
                 "excludeNamespaces": {
                     "type": "string"
                 },
@@ -338,6 +349,23 @@
                 "targetNamespaces": {
                     "type": "string"
                 },
+                "tolerations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "effect": {
+                                "type": "string"
+                            },
+                            "key": {
+                                "type": "string"
+                            },
+                            "operator": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
                 "trivy": {
                     "type": "object",
                     "properties": {
@@ -447,6 +475,23 @@
                                         "type": {
                                             "type": "string"
                                         }
+                                    }
+                                }
+                            }
+                        },
+                        "scanJobTolerations": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "effect": {
+                                        "type": "string"
+                                    },
+                                    "key": {
+                                        "type": "string"
+                                    },
+                                    "operator": {
+                                        "type": "string"
                                     }
                                 }
                             }
