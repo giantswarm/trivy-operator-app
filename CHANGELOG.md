@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Changed the CIS PSP to also be used when cluster compliance scanning is enabled.
+
 ## [0.5.1] - 2023-12-18
 
 ### Changed
