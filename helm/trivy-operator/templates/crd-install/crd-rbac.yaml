@@ -32,7 +32,7 @@ rules:
 - apiGroups:
   - policy
   resources:
-  - podsecuritypolicies
+  - {{ include "trivy-operator.crdInstall" .  }}
   resourceNames:
   - privileged
   verbs:
