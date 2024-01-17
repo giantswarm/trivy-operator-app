@@ -34,7 +34,7 @@ rules:
   resources:
   - podsecuritypolicies
   resourceNames:
-  - {{ include "trivy-operator.crdInstall" .  }}
+  - {{ include "trivy-operator.crdInstall" . }}
   verbs:
   - use
 ---

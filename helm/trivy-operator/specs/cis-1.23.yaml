@@ -8,8 +8,8 @@ metadata:
     app.kubernetes.io/version: 0.16.3
     app.kubernetes.io/managed-by: kubectl
 spec:
-  cron: "*/1 * * * *"
-  reportType: all
+  cron: "* */6 * * *"
+  reportType: summary
   compliance:
     id: cis
     title: CIS Kubernetes Benchmarks v1.23
