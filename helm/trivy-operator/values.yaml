@@ -34,24 +34,23 @@ verticalPodAutoscaler:
 trivy-operator:
 
   compliance:
-    cron: "*/1 * * * *"
-    reportType: all
-
+    cron: "* */6 * * *"
+    reportType: summary
 
   operator:
     # Disable capabilities by default
     # -- the flag to enable sbom generation
-    sbomGenerationEnabled: true
+    sbomGenerationEnabled: false
     # configAuditScannerEnabled the flag to enable configuration audit scanner
-    configAuditScannerEnabled: true
+    configAuditScannerEnabled: false
     # rbacAssessmentScannerEnabled the flag to enable rbac assessment scanner
-    rbacAssessmentScannerEnabled: true
+    rbacAssessmentScannerEnabled: false
     # infraAssessmentScannerEnabled the flag to enable infra assessment scanner
-    infraAssessmentScannerEnabled: true
+    infraAssessmentScannerEnabled: false
     # clusterComplianceEnabled the flag to enable cluster compliance scanner
-    clusterComplianceEnabled: true
+    clusterComplianceEnabled: false
     # exposedSecretScannerEnabled the flag to enable exposed secret scanner
-    exposedSecretScannerEnabled: true
+    exposedSecretScannerEnabled: false
     # Reports are automatically deleted after this duration, causing a re-scan. Empty = never delete.
     scannerReportTTL: "168h"  # 7 days
     # Generate reports for only the currently-deployed version of a replicaset.
