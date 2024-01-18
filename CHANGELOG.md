@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Changed the CIS PSP to also be used when cluster compliance scanning is enabled.
+- Update to upstream [trivy-operator](https://github.com/aquasecurity/trivy-operator) [v0.18.2](https://github.com/aquasecurity/trivy-operator/releases/tag/v0.18.2).
 
 ## [0.5.1] - 2023-12-18
 
