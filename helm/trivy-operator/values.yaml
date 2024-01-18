@@ -33,6 +33,10 @@ verticalPodAutoscaler:
 
 trivy-operator:
 
+  compliance:
+    cron: "* */6 * * *"
+    reportType: summary
+
   operator:
     # Disable capabilities by default
     # -- the flag to enable sbom generation
@@ -66,7 +70,24 @@ trivy-operator:
   nodeCollector:
     repository: "giantswarm/node-collector"
 
+  tolerations:
+  - key: "node-role.kubernetes.io/control-plane"
+    operator: "Exists"
+    effect: "NoSchedule"
+  - key: "node-role.kubernetes.io/master"
+    operator: "Exists"
+    effect: "NoSchedule"
+
   trivyOperator:
+
+    scanJobTolerations:
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Exists"
+      effect: "NoSchedule"
+    - key: "node-role.kubernetes.io/master"
+      operator: "Exists"
+      effect: "NoSchedule"
+
     # scanJobPodTemplatePodSecurityContext podSecurityContext the user wants the scanner pods to be amended with.
     # Example:
     #   RunAsUser: 10000
