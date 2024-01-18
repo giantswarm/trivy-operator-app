@@ -2,26 +2,26 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - git:
-      commitTitle: 'release: prepare 0.16.3 (#1580)...'
-      sha: 28e46f29422d815ad1db56f6db952ec0acf772ef
+      commitTitle: 'sec: fix CVE GHSA-9763-4f94-gfch (#1759)...'
+      sha: f79231b526bc647922ba501f2e547ffd4eebb8c5
       tags:
-      - v0.16.3
+      - v0.18.1
     path: .
   path: helm/trivy-operator/charts/trivy-operator
 - contents:
   - git:
-      commitTitle: 'release: prepare 0.16.3 (#1580)...'
-      sha: 28e46f29422d815ad1db56f6db952ec0acf772ef
+      commitTitle: 'sec: fix CVE GHSA-9763-4f94-gfch (#1759)...'
+      sha: f79231b526bc647922ba501f2e547ffd4eebb8c5
       tags:
-      - v0.16.3
+      - v0.18.1
     path: .
   path: helm/trivy-operator/crds
 - contents:
   - git:
-      commitTitle: 'release: prepare 0.16.3 (#1580)...'
-      sha: 28e46f29422d815ad1db56f6db952ec0acf772ef
+      commitTitle: 'sec: fix CVE GHSA-9763-4f94-gfch (#1759)...'
+      sha: f79231b526bc647922ba501f2e547ffd4eebb8c5
       tags:
-      - v0.16.3
+      - v0.18.1
     path: .
   path: helm/trivy-operator/specs
 kind: LockConfig
