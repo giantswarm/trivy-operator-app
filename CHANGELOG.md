@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Changed the CIS PSP to also be used when cluster compliance scanning is enabled.
+- Configure `gsoci.azurecr.io` as the default container image registry.
 
 ## [0.5.1] - 2023-12-18
 
