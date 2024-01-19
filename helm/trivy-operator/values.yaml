@@ -6,12 +6,12 @@ serviceType: managed
 # If left blank, the chart will default to the individually set 'image.registry' values
 global:
   image:
-    registry: "docker.io"
+    registry: "gsoci.azurecr.io"
   podSecurityStandards:
     enforced: false
 
 image:
-  registry: "docker.io"
+  registry: "gsoci.azurecr.io"
 
 # Enable trivy-operator network policy.
 networkPolicy:
