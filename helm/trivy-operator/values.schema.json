@@ -254,6 +254,9 @@
                         "infraAssessmentScannerEnabled": {
                             "type": "boolean"
                         },
+                        "metricsFindingsEnabled": {
+                            "type": "boolean"
+                        },
                         "rbacAssessmentScannerEnabled": {
                             "type": "boolean"
                         },
@@ -338,11 +341,38 @@
                         }
                     }
                 },
+                "service": {
+                    "type": "object",
+                    "properties": {
+                        "metricsPort": {
+                            "type": "integer"
+                        }
+                    }
+                },
                 "serviceAccount": {
                     "type": "object",
                     "properties": {
                         "name": {
                             "type": "string"
+                        }
+                    }
+                },
+                "serviceMonitor": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "interval": {
+                            "type": "string"
+                        },
+                        "labels": {
+                            "type": "object",
+                            "properties": {
+                                "application.giantswarm.io/team": {
+                                    "type": "string"
+                                }
+                            }
                         }
                     }
                 },
