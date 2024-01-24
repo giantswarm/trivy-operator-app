@@ -51,6 +51,7 @@ trivy-operator:
     clusterComplianceEnabled: false
     # exposedSecretScannerEnabled the flag to enable exposed secret scanner
     exposedSecretScannerEnabled: false
+    metricsFindingsEnabled: false
     # Reports are automatically deleted after this duration, causing a re-scan. Empty = never delete.
     scannerReportTTL: "168h"  # 7 days
     # Generate reports for only the currently-deployed version of a replicaset.
@@ -77,6 +78,15 @@ trivy-operator:
   - key: "node-role.kubernetes.io/master"
     operator: "Exists"
     effect: "NoSchedule"
+
+  service:
+    metricsPort: 8080
+
+  serviceMonitor:
+    enabled: true
+    interval: "60s"
+    labels:
+      application.giantswarm.io/team: shield
 
   trivyOperator:
 
