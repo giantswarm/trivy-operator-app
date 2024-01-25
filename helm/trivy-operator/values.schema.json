@@ -254,9 +254,6 @@
                         "infraAssessmentScannerEnabled": {
                             "type": "boolean"
                         },
-                        "metricsFindingsEnabled": {
-                            "type": "boolean"
-                        },
                         "rbacAssessmentScannerEnabled": {
                             "type": "boolean"
                         },
