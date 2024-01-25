@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Configure `gsoci.azurecr.io` as the default container image registry.
 - Enabled service monitor.
 - Changed metricsport value from `80` to `8080`.
+- Update CiliumNetworkPolicy to enable access to port 8080.
 
 ## [0.5.1] - 2023-12-18
 

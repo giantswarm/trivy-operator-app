@@ -22,6 +22,12 @@ spec:
         - cluster
       toPorts:
         - ports:
+  ingress:
+    - fromEntities:
+      - cluster
+      toPorts:
+      - ports:
+        - port: "8080"
 ---
 apiVersion: "cilium.io/v2"
 kind: CiliumNetworkPolicy
