@@ -13,7 +13,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Configure `gsoci.azurecr.io` as the default container image registry.
 - Enabled service monitor.
 - Changed metricsport value from `80` to `8080`.
-- Changed the default findingsmetrics value from `true` to `false`.
 
 ## [0.5.1] - 2023-12-18
 
