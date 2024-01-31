@@ -13,6 +13,7 @@ spec:
       ruleNames:
         - host-namespaces
         - autogen-host-namespaces
+        - autogen-cronjob-host-namespaces
   match:
     any:
       - resources:
