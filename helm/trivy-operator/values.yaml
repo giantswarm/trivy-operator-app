@@ -215,5 +215,9 @@ securityContext:
   seccompProfile:
     type: RuntimeDefault
 
+kyvernoPolicyExceptions:
+  enabled: true
+  namespace: giantswarm
+
 # managedBy is similar to .Release.Service but allows to overwrite the value
 managedBy: Helm

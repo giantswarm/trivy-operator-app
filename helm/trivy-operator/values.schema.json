@@ -82,6 +82,17 @@
                 }
             }
         },
+        "kyvernoPolicyExceptions": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "namespace": {
+                    "type": "string"
+                }
+            }
+        },
         "managedBy": {
             "type": "string"
         },

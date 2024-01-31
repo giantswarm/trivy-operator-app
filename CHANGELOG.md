@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added a kyverno-policy-exception for the node-collector job.
+
 ## [0.7.1] - 2024-01-31
 
 ### Changed
