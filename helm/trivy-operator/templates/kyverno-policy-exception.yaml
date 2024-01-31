@@ -17,10 +17,11 @@ spec:
     any:
       - resources:
           kinds:
-            - job
+            - Job
+            - Pod
           namespaces:
             - {{ .Release.Namespace }}
           names:
-            - node-collector-*
+            - "node-collector-*"
   {{- end -}}
 {{- end -}}
