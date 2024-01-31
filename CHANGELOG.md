@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.1] - 2024-01-31
+
 ## [0.7.0] - 2024-01-25
 
 ### Changed
@@ -143,7 +145,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release containing upstream `trivy-operator` [version 0.0.5](https://github.com/aquasecurity/trivy-operator/releases/tag/v0.0.5).
 
-[Unreleased]: https://github.com/giantswarm/trivy-operator-app/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/giantswarm/trivy-operator-app/compare/v0.7.1...HEAD
+[0.7.1]: https://github.com/giantswarm/trivy-operator-app/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/giantswarm/trivy-operator-app/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/giantswarm/trivy-operator-app/compare/v0.5.1...v0.6.0
 [0.5.1]: https://github.com/giantswarm/trivy-operator-app/compare/v0.5.0...v0.5.1
