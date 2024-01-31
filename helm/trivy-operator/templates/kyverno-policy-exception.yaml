@@ -20,6 +20,7 @@ spec:
           kinds:
             - Job
             - Pod
+            - Cronjob
           namespaces:
             - {{ .Release.Namespace }}
           names:
