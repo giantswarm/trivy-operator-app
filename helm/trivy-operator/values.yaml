@@ -183,7 +183,7 @@ crds:
 specs:
   image:
     tag: 1.24.1
-  install: false
+  install: true
   resources:
     requests:
       cpu: 100m
