@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update CiliumNetworkPolicy to enable access to port 8080.
+- Bumped `Trivy-Operator` version to `0.18.3`.
+- Enabled syncing upstream specs.
 
 ## [0.6.0] - 2024-01-25
 
