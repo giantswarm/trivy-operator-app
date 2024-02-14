@@ -56,5 +56,24 @@ spec:
             - port: "53"
             - port: "1053"
             - port: "{{ .Values.trivyServicePort | default 4954 }}"
+---
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ include "trivy-operator.networkPolicy" . }}-node-collector-job
+  labels:
+    {{- include "trivy-operator-helpers.labels" . | nindent 4 }}
+spec:
+  endpointSelector:
+    matchLabels:
+      app: node-collector
+  egress:
+    - toEntities:
+        - kube-apiserver
+      toPorts:
+        - ports:
+            - port: "443"
+            - port: "6443"
 {{ end }}
 {{ end }}
