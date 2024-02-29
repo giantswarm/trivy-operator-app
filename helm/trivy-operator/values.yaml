@@ -103,30 +103,27 @@ trivy-operator:
     #   RunAsGroup: 10000
     #   RunAsNonRoot: true
     scanJobPodTemplatePodSecurityContext:
-      runAsUser: 10000
-      runAsGroup: 10000
-      runAsNonRoot: true
+      runAsUser: 0
+      runAsGroup: 0
+      runAsNonRoot: false
       seccompProfile:
         type: RuntimeDefault
 
     scanJobPodTemplateContainerSecurityContext:
       allowPrivilegeEscalation: false
-      capabilities:
-        drop:
-        - ALL
-      privileged: false
+      privileged: true
       readOnlyRootFilesystem: true
-      runAsNonRoot: true
-      runAsUser: 10000
-      runAsGroup: 10000
+      runAsNonRoot: false
+      runAsUser: 0
+      runAsGroup: 0
       seccompProfile:
         type: RuntimeDefault
 
   # Pod securityContext
   podSecurityContext:
-    runAsNonRoot: true
-    runAsUser: 10000  # UID of `trivyoperator` user from upstream.
-    runAsGroup: 10000  # UID of `trivyoperator` user from upstream
+    runAsNonRoot: false
+    runAsUser: 0  # UID of `trivyoperator` user from upstream.
+    runAsGroup: 0 # UID of `trivyoperator` user from upstream
     seccompProfile:
       type: RuntimeDefault
 
@@ -196,23 +193,20 @@ specs:
 # Security contexts for CRD and spec installs.
 # Pod securityContext
 podSecurityContext:
-  runAsNonRoot: true
-  runAsUser: 10000
-  runAsGroup: 10000
+  runAsNonRoot: false
+  runAsUser: 0
+  runAsGroup: 0
   seccompProfile:
     type: RuntimeDefault
 
 # Container securityContext
 securityContext:
-  allowPrivilegeEscalation: false
-  capabilities:
-    drop:
-    - ALL
-  privileged: false
+  allowPrivilegeEscalation: true
+  privileged: true
   readOnlyRootFilesystem: true
-  runAsNonRoot: true
-  runAsUser: 10000
-  runAsGroup: 10000
+  runAsNonRoot: false
+  runAsUser: 0
+  runAsGroup: 0
   seccompProfile:
     type: RuntimeDefault
 
