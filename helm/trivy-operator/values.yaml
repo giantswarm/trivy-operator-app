@@ -110,7 +110,7 @@ trivy-operator:
         type: RuntimeDefault
 
     scanJobPodTemplateContainerSecurityContext:
-      allowPrivilegeEscalation: false
+      allowPrivilegeEscalation: true
       privileged: true
       readOnlyRootFilesystem: true
       runAsNonRoot: false
@@ -123,21 +123,18 @@ trivy-operator:
   podSecurityContext:
     runAsNonRoot: false
     runAsUser: 0  # UID of `trivyoperator` user from upstream.
-    runAsGroup: 0 # UID of `trivyoperator` user from upstream
+    runAsGroup: 0  # UID of `trivyoperator` user from upstream
     seccompProfile:
       type: RuntimeDefault
 
   # Container securityContext
   securityContext:
-    allowPrivilegeEscalation: false
-    capabilities:
-      drop:
-      - ALL
-    privileged: false
+    allowPrivilegeEscalation: true
+    privileged: true
     readOnlyRootFilesystem: true
     runAsNonRoot: true
-    runAsUser: 10000  # UID of `trivyoperator` user from upstream.
-    runAsGroup: 10000  # UID of `trivyoperator` user from upstream
+    runAsUser: 0  # UID of `trivyoperator` user from upstream.
+    runAsGroup: 0  # UID of `trivyoperator` user from upstream
     seccompProfile:
       type: RuntimeDefault
 
