@@ -25,7 +25,7 @@ spec:
           names:
             - "node-collector-*"
 ---
-{{ $TO := index . ".Values.trivy-operator"}}
+{{ $TO := index .Values "trivy-operator"}}
 {{ if or (eq $TO.trivy.command "filesystem") (eq $TO.trivy.command "rootfs") }}
 apiVersion: kyverno.io/v2alpha1
 kind: PolicyException
