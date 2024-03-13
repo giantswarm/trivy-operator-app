@@ -58,4 +58,3 @@ spec:
           names:
             - "scan-vulnerabilityreport-*"
 {{- end -}}
-{{- end -}}
