@@ -103,9 +103,9 @@ trivy-operator:
     #   RunAsGroup: 10000
     #   RunAsNonRoot: true
     scanJobPodTemplatePodSecurityContext:
-      runAsUser: 0
-      runAsGroup: 0
-      runAsNonRoot: false
+      runAsUser: 10000
+      runAsGroup: 10000
+      runAsNonRoot: true
       seccompProfile:
         type: RuntimeDefault
 
@@ -116,9 +116,9 @@ trivy-operator:
         - ALL
       privileged: false
       readOnlyRootFilesystem: true
-      runAsNonRoot: false
-      runAsUser: 0
-      runAsGroup: 0
+      runAsNonRoot: true
+      runAsUser: 10000
+      runAsGroup: 10000
       seccompProfile:
         type: RuntimeDefault
 
