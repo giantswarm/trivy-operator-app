@@ -25,7 +25,8 @@ spec:
           names:
             - "node-collector-*"
 ---
-{{ if or ( eq .Values.trivy-operator.trivy.command "filesystem") (eq .Values.trivy-operator.trivy.command "rootfs") }}
+{{ $TO := index . ".Values.trivy-operator"}}
+{{ if or (eq $TO.trivy.command "filesystem") (eq $TO.trivy.command "rootfs") }}
 apiVersion: kyverno.io/v2alpha1
 kind: PolicyException
 metadata:
@@ -56,4 +57,5 @@ spec:
             - {{ .Release.Namespace }}
           names:
             - "scan-vulnerabilityreport-*"
+{{- end -}}
 {{- end -}}
