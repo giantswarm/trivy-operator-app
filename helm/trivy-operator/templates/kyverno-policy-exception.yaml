@@ -57,4 +57,5 @@ spec:
             - {{ .Release.Namespace }}
           names:
             - "scan-vulnerabilityreport-*"
-{{- end -}}
+{{- end
+{{- end }}
