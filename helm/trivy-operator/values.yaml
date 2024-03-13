@@ -103,9 +103,9 @@ trivy-operator:
     #   RunAsGroup: 10000
     #   RunAsNonRoot: true
     scanJobPodTemplatePodSecurityContext:
-      runAsUser: 10000
-      runAsGroup: 10000
-      runAsNonRoot: true
+      runAsUser: 0
+      runAsGroup: 0
+      runAsNonRoot: false
       seccompProfile:
         type: RuntimeDefault
 
@@ -116,9 +116,9 @@ trivy-operator:
         - ALL
       privileged: false
       readOnlyRootFilesystem: true
-      runAsNonRoot: true
-      runAsUser: 10000
-      runAsGroup: 10000
+      runAsNonRoot: false
+      runAsUser: 0
+      runAsGroup: 0
       seccompProfile:
         type: RuntimeDefault
 
@@ -149,6 +149,7 @@ trivy-operator:
     name: "trivy-operator"
 
   trivy:
+    command: filesystem
     # Ideally, we use the in-cluster Trivy deployed from https://github.com/giantswarm/trivy-app
     # We also set the image here so that trivy-operator can be deployed "standalone",
     # but this image is not used if using in-cluster Trivy.
