@@ -24,4 +24,38 @@ spec:
             - {{ .Release.Namespace }}
           names:
             - "node-collector-*"
-{{- end -}}
+---
+{{ $TO := index .Values "trivy-operator"}}
+{{ if or (eq $TO.trivy.command "filesystem") (eq $TO.trivy.command "rootfs") }}
+apiVersion: kyverno.io/v2alpha1
+kind: PolicyException
+metadata:
+  name: {{ include "trivy-operator-helpers.name" . }}-file-system-mode-exception
+  namespace: {{ .Values.kyvernoPolicyExceptions.namespace | default .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": "pre-install,pre-upgrade"
+spec:
+  exceptions:
+    - policyName: require-run-as-nonroot
+      ruleNames:
+        - run-as-non-root
+        - autogen-run-as-non-root
+        - autogen-cronjob-run-as-non-root
+    - policyName: require-run-as-non-root-user
+      ruleNames:
+        - run-as-non-root-user
+        - autogen-run-as-non-root-user
+        - autogen-cronjob-run-as-non-root-user
+  match:
+    any:
+      - resources:
+          kinds:
+            - Job
+            - Pod
+            - CronJob
+          namespaces:
+            - {{ .Release.Namespace }}
+          names:
+            - "scan-vulnerabilityreport-*"
+{{- end }}
+{{- end }}
