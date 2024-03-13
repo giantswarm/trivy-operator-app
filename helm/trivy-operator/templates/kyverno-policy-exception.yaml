@@ -36,7 +36,7 @@ metadata:
     "helm.sh/hook": "pre-install,pre-upgrade"
 spec:
   exceptions:
-    - policyName: require-runas-nonroot
+    - policyName: require-run-as-nonroot
       ruleNames:
         - run-as-non-root
         - autogen-run-as-non-root
