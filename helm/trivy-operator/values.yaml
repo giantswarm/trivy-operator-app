@@ -149,7 +149,6 @@ trivy-operator:
     name: "trivy-operator"
 
   trivy:
-    command: filesystem
     # Ideally, we use the in-cluster Trivy deployed from https://github.com/giantswarm/trivy-app
     # We also set the image here so that trivy-operator can be deployed "standalone",
     # but this image is not used if using in-cluster Trivy.
