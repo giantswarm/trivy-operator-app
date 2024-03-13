@@ -25,7 +25,7 @@ spec:
           names:
             - "node-collector-*"
 {{- end -}}
-------------------------------------------------------------------------
+---
 {{- if or ( eq .Values.trivy-operator.trivy.command "filesystem") (eq .Values.trivy-operator.trivy.command "rootfs") }}
 apiVersion: kyverno.io/v2alpha1
 kind: PolicyException
