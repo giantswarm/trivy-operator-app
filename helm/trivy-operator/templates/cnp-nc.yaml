@@ -1,0 +1,12 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: trivy-operator-node-collector
+  namespace: trivy
+spec:
+  egress:
+  - toEntities:
+    - kube-apiserver
+  endpointSelector:
+    matchLabels:
+      app: node-collector
