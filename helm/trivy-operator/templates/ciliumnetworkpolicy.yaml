@@ -53,8 +53,11 @@ spec:
         - cluster
       toPorts:
         - ports:
+            - port: "53"
+            - port: "1053"
             - port: "{{ .Values.trivyServicePort | default 4954 }}"
-      {{- if .Values.ciliumNetworkPolicy.scanJobExtraEgress.enabled }}
+    {{ $TO := index .Values "trivy-operator"}}
+    {{- if and (.Values.ciliumNetworkPolicy.scanJobExtraEgress.enabled) (eq $TO.trivy.command "image") }}
     # Allow DNS for FQDN resolution
     - toEndpoints:
       - matchLabels:
