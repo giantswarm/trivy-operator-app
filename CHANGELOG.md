@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Expanded the Kyverno Policy Exception for the Node Collector.
+- Changed the Cilium Network Policy template to allow FQDN/DNS.
 
 ## [0.7.2] - 2024-01-31
 
