@@ -20,6 +20,19 @@ networkPolicy:
 # Enable additional equivalent policy for clusters using cilium.
 ciliumNetworkPolicy:
   enabled: true
+  scanJobExtraEgress:
+    enabled: false
+    dnsSelector:
+      rules: []
+      # - matchPattern: "*"
+      # - matchPattern: "*.amazonaws.com"
+    fqdnsConnection:
+      port: "443"     # Defaults to 443 if not set
+      protocol: TCP   # Defaults to TCP if not set
+      rules: []
+      # - matchPattern: "*"
+      # - matchPattern: "s3.*.amazonaws.com"
+      # - matchName: "s3.eu-west-1.amazonaws.com"
 
 # Must match the value in trivy-operator.trivy.serverURL.
 # These should be templated in properly when possible.

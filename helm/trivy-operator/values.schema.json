@@ -7,6 +7,36 @@
             "properties": {
                 "enabled": {
                     "type": "boolean"
+                },
+                "scanJobExtraEgress": {
+                    "type": "object",
+                    "properties": {
+                        "dnsSelector": {
+                            "type": "object",
+                            "properties": {
+                                "rules": {
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "fqdnsConnection": {
+                            "type": "object",
+                            "properties": {
+                                "port": {
+                                    "type": "string"
+                                },
+                                "protocol": {
+                                    "type": "string"
+                                },
+                                "rules": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
                 }
             }
         },
@@ -407,6 +437,9 @@
                 "trivy": {
                     "type": "object",
                     "properties": {
+                        "command": {
+                            "type": "string"
+                        },
                         "image": {
                             "type": "object",
                             "properties": {
