@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a CiliumNetworkPolicy for Node Collector jobs.
 - Added a Kyverno Policy Exception to allow scan containers to run as root when in `filesystem` or `rootfs` mode.
 
+### Changed
+
+- Expanded the Kyverno Policy Exception for the Node Collector.
+
 ## [0.7.2] - 2024-01-31
 
 ### Added

@@ -13,6 +13,16 @@ spec:
         - host-namespaces
         - autogen-host-namespaces
         - autogen-cronjob-host-namespaces
+    - policyName: disallow-host-path
+      ruleNames:
+        - host-path
+        - autogen-host-path
+        - autogen-cronjob-host-path
+    - policyName: restrict-volume-types
+      ruleNames:
+        - restricted-volumes
+        - autogen-restricted-volumes
+        - autogen-cronjob-restricted-volumes
   match:
     any:
       - resources:
