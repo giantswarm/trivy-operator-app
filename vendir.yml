@@ -6,7 +6,7 @@ directories:
   - path: .
     git:
       url: https://github.com/giantswarm/trivy-operator-upstream
-      ref: v0.18.3
+      ref: v0.19.4
     includePaths:
       - deploy/helm/**/*
     excludePaths:
@@ -17,7 +17,7 @@ directories:
   - path: .
     git:
       url: https://github.com/giantswarm/trivy-operator-upstream
-      ref: v0.18.3
+      ref: v0.19.4
     includePaths:
       - deploy/helm/crds/*
     newRootPath: deploy/helm/crds
@@ -26,7 +26,7 @@ directories:
   - path: .
     git:
       url: https://github.com/giantswarm/trivy-operator-upstream
-      ref: v0.18.3
+      ref: v0.19.4
     includePaths:
       - deploy/helm/templates/specs/*
     newRootPath: deploy/helm/templates/specs
