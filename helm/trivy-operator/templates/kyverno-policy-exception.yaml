@@ -17,7 +17,6 @@ spec:
       ruleNames:
         - host-path
         - autogen-host-path
-        - autogen-cronjob-host-path
     - policyName: restrict-volume-types
       ruleNames:
         - restricted-volumes
