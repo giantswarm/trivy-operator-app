@@ -22,7 +22,6 @@ spec:
       ruleNames:
         - restricted-volumes
         - autogen-restricted-volumes
-        - autogen-cronjob-restricted-volumes
   match:
     any:
       - resources:
