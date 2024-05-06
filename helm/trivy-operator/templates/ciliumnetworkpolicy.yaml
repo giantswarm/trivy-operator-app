@@ -1,5 +1,4 @@
 {{ if .Values.ciliumNetworkPolicy.enabled }}
-{{- if .Capabilities.APIVersions.Has "cilium.io/v2" -}}
 apiVersion: "cilium.io/v2"
 kind: CiliumNetworkPolicy
 metadata:
@@ -47,8 +46,8 @@ spec:
     # Allow egress to the internet to fetch database updates.
     - toEntities:
         - world
-  {{ end }}
-    # Allow DNS.
+  {{- end -}}
+    # Allow DNS and Trivy service connection.
     - toEntities:
         - cluster
       toPorts:
@@ -57,7 +56,7 @@ spec:
             - port: "1053"
             - port: "{{ .Values.trivyServicePort | default 4954 }}"
     {{ $TO := index .Values "trivy-operator"}}
-    {{- if and (.Values.ciliumNetworkPolicy.scanJobExtraEgress.enabled) (eq $TO.trivy.command "image") }}
+    {{- if and (.Values.ciliumNetworkPolicy.scanJobExtraEgress.enabled) (eq $TO.trivy.command "image") -}}
     # Allow DNS for FQDN resolution
     - toEndpoints:
       - matchLabels:
@@ -112,5 +111,4 @@ spec:
         - ports:
             - port: "443"
             - port: "6443"
-{{ end }}
 {{ end }}
