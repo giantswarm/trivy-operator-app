@@ -1,5 +1,5 @@
 {{- if .Values.kyvernoPolicyExceptions.enabled }}
-apiVersion: kyverno.io/v2alpha1
+apiVersion: kyverno.io/v2beta1
 kind: PolicyException
 metadata:
   name: {{ include "trivy-operator-helpers.name" . }}-exception
@@ -27,7 +27,7 @@ spec:
 ---
 {{ $TO := index .Values "trivy-operator"}}
 {{ if or (eq $TO.trivy.command "filesystem") (eq $TO.trivy.command "rootfs") }}
-apiVersion: kyverno.io/v2alpha1
+apiVersion: kyverno.io/v2beta1
 kind: PolicyException
 metadata:
   name: {{ include "trivy-operator-helpers.name" . }}-file-system-mode-exception
