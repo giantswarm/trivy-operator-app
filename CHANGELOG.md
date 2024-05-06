@@ -9,11 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Added a CiliumNetworkPolicy for Node Collector jobs.
-- Added a Kyverno Policy Exception to allow scan containers to run as root when in `filesystem` or `rootfs` mode.
+- Add a CiliumNetworkPolicy for `node-collector` jobs.
+- Add a Kyverno PolicyException to allow scan containers to run as root when in `filesystem` or `rootfs` mode.
 
 ### Changed
 
+- Extend the Kyverno PolicyException for `node-collector` jobs.
+- Change the CiliumNetworkPolicy template to allow FQDN/DNS.
 - Update `Trivy Operator` to upstream version v0.19.4.
 
 ## [0.7.2] - 2024-01-31
