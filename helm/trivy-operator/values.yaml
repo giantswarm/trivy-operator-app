@@ -80,6 +80,14 @@ trivy-operator:
 
   targetNamespaces: ""
 
+  policiesBundle:
+    # -- registry of the policies bundle
+    registry: gsoci.azurecr.io
+    # -- repository of the policies bundle
+    repository: giantswarm/trivy-policies
+    # -- tag version of the policies bundle
+    tag: 0.10.0
+
   nodeCollector:
     repository: "giantswarm/node-collector"
 

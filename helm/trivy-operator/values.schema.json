@@ -337,6 +337,20 @@
                         }
                     }
                 },
+                "policiesBundle": {
+                    "type": "object",
+                    "properties": {
+                        "registry": {
+                            "type": "string"
+                        },
+                        "repository": {
+                            "type": "string"
+                        },
+                        "tag": {
+                            "type": "string"
+                        }
+                    }
+                },
                 "securityContext": {
                     "type": "object",
                     "properties": {

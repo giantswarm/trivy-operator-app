@@ -2,26 +2,26 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - git:
-      commitTitle: 'chore: disable cluster cache (#1806)...'
-      sha: 9815acd81d1988935909d92d85fc5e58e800de3a
+      commitTitle: 'release: prepare v0.19.4 (#1981)...'
+      sha: 7782f3a916e93917928a1f61c142128cc3508839
       tags:
-      - v0.18.3
+      - v0.19.4
     path: .
   path: helm/trivy-operator/charts/trivy-operator
 - contents:
   - git:
-      commitTitle: 'chore: disable cluster cache (#1806)...'
-      sha: 9815acd81d1988935909d92d85fc5e58e800de3a
+      commitTitle: 'release: prepare v0.19.4 (#1981)...'
+      sha: 7782f3a916e93917928a1f61c142128cc3508839
       tags:
-      - v0.18.3
+      - v0.19.4
     path: .
   path: helm/trivy-operator/crds
 - contents:
   - git:
-      commitTitle: 'chore: disable cluster cache (#1806)...'
-      sha: 9815acd81d1988935909d92d85fc5e58e800de3a
+      commitTitle: 'release: prepare v0.19.4 (#1981)...'
+      sha: 7782f3a916e93917928a1f61c142128cc3508839
       tags:
-      - v0.18.3
+      - v0.19.4
     path: .
   path: helm/trivy-operator/specs
 kind: LockConfig
