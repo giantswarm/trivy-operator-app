@@ -40,6 +40,9 @@ operator:
   # -- number of old history to retain to allow rollback (if not set, default Kubernetes value is set to 10)
   revisionHistoryLimit: ~
 
+  # -- additional annotations for the operator deployment
+  annotations: {}
+
   # -- additional labels for the operator deployment
   labels: {}
 
@@ -224,7 +227,7 @@ trivyOperator:
   scanJobCompressLogs: true
   # -- scanJobAffinity affinity to be applied to the scanner pods and node-collector
   scanJobAffinity: []
-  # -- scanJobTolerations tolerations to be applied to the scanner pods and node-collector so that they can run on nodes with matching taints
+  # -- scanJobTolerations tolerations to be applied to the scanner pods so that they can run on nodes with matching taints
   scanJobTolerations: []
   # -- If you do want to specify tolerations, uncomment the following lines, adjust them as necessary, and remove the
   # square brackets after 'scanJobTolerations:'.
@@ -232,7 +235,6 @@ trivyOperator:
   #   operator: "Equal"
   #   value: "value1"
   #   effect: "NoSchedule"
-
   # -- scanJobNodeSelector nodeSelector to be applied to the scanner pods so that they can run on nodes with matching labels
   scanJobNodeSelector: {}
   # -- If you do want to specify nodeSelector, uncomment the following lines, adjust them as necessary, and remove the
@@ -240,6 +242,19 @@ trivyOperator:
   #   nodeType: worker
   #   cpu: sandylake
   #   teamOwner: operators
+
+  # -- scanJobCustomVolumesMount add custom volumes mount to the scan job
+  scanJobCustomVolumesMount: []
+  #  - name: var-lib-etcd
+  #    mountPath: /var/lib/etcd
+  #    readOnly: true
+
+  # -- scanJobCustomVolumes add custom volumes to the scan job
+  scanJobCustomVolumes: []
+  #  - name: var-lib-etcd
+  #    hostPath:
+  #    path: /var/lib/etcd
+
 
   # -- scanJobAutomountServiceAccountToken the flag to enable automount for service account token on scan job
   scanJobAutomountServiceAccountToken: false
@@ -308,7 +323,7 @@ trivy:
     # -- repository of the Trivy image
     repository: aquasecurity/trivy
     # -- tag version of the Trivy image
-    tag: 0.50.1
+    tag: 0.50.2
     # -- imagePullSecret is the secret name to be used when pulling trivy image from private registries example : reg-secret
     # It is the user responsibility to create the secret for the private registry in `trivy-operator` namespace
     imagePullSecret: ~
@@ -409,13 +424,29 @@ trivy:
   # -- ignorePolicy can be used to tell Trivy to ignore vulnerabilities by a policy
   # If multiple policies would match, then the most specific one has precedence over the others.
   # See https://aquasecurity.github.io/trivy/latest/docs/configuration/filtering/#by-open-policy-agent for more details.
+  # See https://github.com/aquasecurity/trivy/blob/v0.19.2/contrib/example_policy/basic.rego for more details on ignorePolicy filtering.
   #
   # ignorePolicy.application.my-app-.: |
-  #   # applies to all workloads in namespace "application" with the name pattern "my-app-*"
+  #  package trivy
+
+  #  import data.lib.trivy
+
+  #  default ignore = true
+  # applies to all workloads in namespace "application" with the name pattern "my-app-*"
   # ignorePolicy.kube-system: |
-  #   # applies to all workloads in namespace "kube-system"
+  #  package trivy
+
+  #  import data.lib.trivy
+
+  #  default ignore = true
+  # applies to all workloads in namespace "kube-system"
   # ignorePolicy: |
-  #   # applies to all other workloads
+  #  package trivy
+
+  #  import data.lib.trivy
+
+  #  default ignore = true
+  # applies to all other workloads
 
   # -- vulnType can be used to tell Trivy to filter vulnerabilities by a pkg-type (library, os)
   vulnType: ~
@@ -615,7 +646,7 @@ policiesBundle:
   # -- registry of the policies bundle
   registry: ghcr.io
   # -- repository of the policies bundle
-  repository: aquasecurity/trivy-policies
+  repository: aquasecurity/trivy-checks
   # -- tag version of the policies bundle
   tag: 0
    # -- registryUser is the user for the registry
@@ -637,12 +668,20 @@ nodeCollector:
   # -- repository of the node-collector image
   repository: aquasecurity/node-collector
   # -- tag version of the node-collector image
-  tag: 0.1.2
+  tag: 0.1.4
   # -- imagePullSecret is the secret name to be used when pulling node-collector image from private registries example : reg-secret
   # It is the user responsibility to create the secret for the private registry in `trivy-operator` namespace
   imagePullSecret: ~
   # -- excludeNodes comma-separated node labels that the node-collector job should exclude from scanning (example kubernetes.io/arch=arm64,team=dev)
   excludeNodes:
+  # -- tolerations to be applied to the node-collector so that they can run on nodes with matching taints
+  tolerations: []
+  # -- If you do want to specify tolerations, uncomment the following lines, adjust them as necessary, and remove the
+  # square brackets after 'scanJobTolerations:'.
+  # - key: "key1"
+  #   operator: "Equal"
+  #   value: "value1"
+  #   effect: "NoSchedule"
   # -- node-collector pod volume mounts definition for collecting config files information
   volumeMounts:
     - name: var-lib-etcd
