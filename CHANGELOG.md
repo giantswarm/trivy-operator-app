@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update `flowcontrol.apiserver.k8s.io` to v1.
+
 ## [0.8.0] - 2024-05-16
 
 ### Changed
