@@ -2,26 +2,26 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - git:
-      commitTitle: 'release: prepare v0.20.1 (#2038)...'
-      sha: e47d3f7b3536dc46168efbcdca1fbdf0ba71a6a1
+      commitTitle: 'release: prepare v0.21.1 (#2094)...'
+      sha: a8b5e42aec1e699b89713a519dc3224a853507da
       tags:
-      - v0.20.1
+      - v0.21.1
     path: .
   path: helm/trivy-operator/charts/trivy-operator
 - contents:
   - git:
-      commitTitle: 'release: prepare v0.20.1 (#2038)...'
-      sha: e47d3f7b3536dc46168efbcdca1fbdf0ba71a6a1
+      commitTitle: 'release: prepare v0.21.1 (#2094)...'
+      sha: a8b5e42aec1e699b89713a519dc3224a853507da
       tags:
-      - v0.20.1
+      - v0.21.1
     path: .
   path: helm/trivy-operator/crds
 - contents:
   - git:
-      commitTitle: 'release: prepare v0.20.1 (#2038)...'
-      sha: e47d3f7b3536dc46168efbcdca1fbdf0ba71a6a1
+      commitTitle: 'release: prepare v0.21.1 (#2094)...'
+      sha: a8b5e42aec1e699b89713a519dc3224a853507da
       tags:
-      - v0.20.1
+      - v0.21.1
     path: .
   path: helm/trivy-operator/specs
 kind: LockConfig
