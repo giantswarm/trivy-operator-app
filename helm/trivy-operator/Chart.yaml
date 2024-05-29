@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: 0.20.1
+appVersion: 0.21.1
 name: trivy-operator
 description: A Giant Swarm App for trivy-operator, the cluster security tool from Aqua Security.
 home: https://github.com/giantswarm/trivy-operator-app
