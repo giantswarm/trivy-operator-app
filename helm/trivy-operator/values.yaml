@@ -1,7 +1,6 @@
 name: trivy-operator
 serviceType: managed
 
-
 # -- global values provide a centralized configuration for 'image.registry', reducing the potential for errors.
 # If left blank, the chart will default to the individually set 'image.registry' values
 global:
@@ -16,6 +15,62 @@ image:
 # Enable trivy-operator network policy.
 networkPolicy:
   enabled: true
+
+# We install CRDs through a Job with the helm specific crd folder.
+crds:
+  image:
+    tag: 1.24.1
+  install: true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+# Upstream offers compliance specs which can be optionally installed.
+specs:
+  image:
+    tag: 1.24.1
+  install: false
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+# Security contexts for CRD and spec installs.
+# Pod securityContext
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10000
+  runAsGroup: 10000
+  seccompProfile:
+    type: RuntimeDefault
+
+# Container securityContext
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL
+  privileged: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 10000
+  runAsGroup: 10000
+  seccompProfile:
+    type: RuntimeDefault
+
+kyvernoPolicyExceptions:
+  enabled: true
+  namespace: giantswarm
+
+# managedBy is similar to .Release.Service but allows to overwrite the value
+managedBy: Helm
 
 # Enable additional equivalent policy for clusters using cilium.
 ciliumNetworkPolicy:
@@ -192,60 +247,3 @@ trivy-operator:
         memory: 1G
     command: image
     # If running Trivy-Operator with command: filesystem or rootfs, the scanjob user must be root/0.
-
-
-# We install CRDs through a Job with the helm specific crd folder.
-crds:
-  image:
-    tag: 1.24.1
-  install: true
-  resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
-    limits:
-      cpu: 500m
-      memory: 512Mi
-
-# Upstream offers compliance specs which can be optionally installed.
-specs:
-  image:
-    tag: 1.24.1
-  install: false
-  resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
-    limits:
-      cpu: 500m
-      memory: 512Mi
-
-# Security contexts for CRD and spec installs.
-# Pod securityContext
-podSecurityContext:
-  runAsNonRoot: true
-  runAsUser: 10000
-  runAsGroup: 10000
-  seccompProfile:
-    type: RuntimeDefault
-
-# Container securityContext
-securityContext:
-  allowPrivilegeEscalation: false
-  capabilities:
-    drop:
-    - ALL
-  privileged: false
-  readOnlyRootFilesystem: true
-  runAsNonRoot: true
-  runAsUser: 10000
-  runAsGroup: 10000
-  seccompProfile:
-    type: RuntimeDefault
-
-kyvernoPolicyExceptions:
-  enabled: true
-  namespace: giantswarm
-
-# managedBy is similar to .Release.Service but allows to overwrite the value
-managedBy: Helm
