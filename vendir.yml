@@ -21,12 +21,3 @@ directories:
     includePaths:
       - deploy/helm/crds/*
     newRootPath: deploy/helm/crds
-- path: helm/trivy-operator/specs
-  contents:
-  - path: .
-    git:
-      url: https://github.com/giantswarm/trivy-operator-upstream
-      ref: v0.21.1
-    includePaths:
-      - deploy/helm/templates/specs/*
-    newRootPath: deploy/helm/templates/specs
