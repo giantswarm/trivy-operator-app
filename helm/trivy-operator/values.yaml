@@ -29,19 +29,6 @@ crds:
       cpu: 500m
       memory: 512Mi
 
-# Upstream offers compliance specs which can be optionally installed.
-specs:
-  image:
-    tag: 1.24.1
-  install: false
-  resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
-    limits:
-      cpu: 500m
-      memory: 512Mi
-
 # Security contexts for CRD and spec installs.
 # Pod securityContext
 podSecurityContext:
