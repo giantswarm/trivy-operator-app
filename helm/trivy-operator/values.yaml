@@ -142,7 +142,7 @@ trivy-operator:
     registry: gsoci.azurecr.io
     # -- repository of the policies bundle
     repository: giantswarm/trivy-checks
-    # -- tag version of the policies bundle 
+    # -- tag version of the policies bundle
     tag: 0.11.0
 
   nodeCollector:
