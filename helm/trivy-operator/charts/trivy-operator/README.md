@@ -1,6 +1,6 @@
 # trivy-operator
 
-![Version: 0.23.1](https://img.shields.io/badge/Version-0.23.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.21.1](https://img.shields.io/badge/AppVersion-0.21.1-informational?style=flat-square)
+![Version: 0.23.3](https://img.shields.io/badge/Version-0.23.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.21.3](https://img.shields.io/badge/AppVersion-0.21.3-informational?style=flat-square)
 
 Keeps security report resources updated
 
@@ -93,6 +93,7 @@ Keeps security report resources updated
 | podAnnotations | object | `{}` | podAnnotations annotations added to the operator's pod |
 | podSecurityContext | object | `{}` |  |
 | policiesBundle.existingSecret | bool | `false` | existingSecret if a secret containing registry credentials that have been created outside the chart (e.g external-secrets, sops, etc...). Keys must be at least one of the following: policies.bundle.oci.user, policies.bundle.oci.password Overrides policiesBundle.registryUser, policiesBundle.registryPassword values. Note: The secret has to be named "trivy-operator". |
+| policiesBundle.insecure | bool | `false` | insecure is the flag to enable insecure connection to the policy bundle registry |
 | policiesBundle.registry | string | `"ghcr.io"` | registry of the policies bundle |
 | policiesBundle.registryPassword | string | `nil` | registryPassword is the password for the registry |
 | policiesBundle.registryUser | string | `nil` | registryUser is the user for the registry |
@@ -142,7 +143,7 @@ Keeps security report resources updated
 | trivy.image.pullPolicy | string | `"IfNotPresent"` | pullPolicy is the imge pull policy used for trivy image , valid values are (Always, Never, IfNotPresent) |
 | trivy.image.registry | string | `"ghcr.io"` | registry of the Trivy image |
 | trivy.image.repository | string | `"aquasecurity/trivy"` | repository of the Trivy image |
-| trivy.image.tag | string | `"0.51.2"` | tag version of the Trivy image |
+| trivy.image.tag | string | `"0.52.0"` | tag version of the Trivy image |
 | trivy.imageScanCacheDir | string | `"/tmp/trivy/.cache"` | imageScanCacheDir the flag to set custom path for trivy image scan `cache-dir` parameter. Only applicable in image scan mode. |
 | trivy.includeDevDeps | bool | `false` | includeDevDeps include development dependencies in the report (supported: npm, yarn) (default: false) note: this flag is only applicable when trivy.command is set to filesystem |
 | trivy.insecureRegistries | object | `{}` | The registry to which insecure connections are allowed. There can be multiple registries with different keys. |
@@ -191,7 +192,7 @@ Keeps security report resources updated
 | trivyOperator.reportRecordFailedChecksOnly | bool | `true` | reportRecordFailedChecksOnly flag is to record only failed checks on misconfiguration reports (config-audit and rbac assessment) |
 | trivyOperator.reportResourceLabels | string | `""` | reportResourceLabels comma-separated scanned resource labels which the user wants to include in the Prometheus metrics report. Example: `owner,app` |
 | trivyOperator.scanJobAffinity | list | `[]` | scanJobAffinity affinity to be applied to the scanner pods and node-collector |
-| trivyOperator.scanJobAnnotations | string | `""` | scanJobAnnotations comma-separated representation of the annotations which the user wants the scanner pods to be annotated with. Example: `foo=bar,env=stage` will annotate the scanner pods with the annotations `foo: bar` and `env: stage` |
+| trivyOperator.scanJobAnnotations | string | `""` | scanJobAnnotations comma-separated representation of the annotations which the user wants the scanner jobs and pods to be annotated with. Example: `foo=bar,env=stage` will annotate the scanner jobs and pods with the annotations `foo: bar` and `env: stage` |
 | trivyOperator.scanJobAutomountServiceAccountToken | bool | `false` | scanJobAutomountServiceAccountToken the flag to enable automount for service account token on scan job |
 | trivyOperator.scanJobCompressLogs | bool | `true` | scanJobCompressLogs control whether scanjob output should be compressed or plain |
 | trivyOperator.scanJobCustomVolumes | list | `[]` | scanJobCustomVolumes add custom volumes to the scan job |
