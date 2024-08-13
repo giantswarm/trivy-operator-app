@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Detect and use `flowcontrol/v1beta3` API if `v1` is not available.
+
 ## [0.9.0] - 2024-06-06
 
 ### Changed
