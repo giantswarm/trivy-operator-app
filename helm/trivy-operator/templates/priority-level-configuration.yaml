@@ -11,7 +11,7 @@ metadata:
 spec:
   type: Limited
   limited:
-    assuredConcurrencyShares: 5
+    nominalConcurrencyShares: 5
     limitResponse:
       queuing:
         # Capping handSize to 10. If greater than 10, entropy bits violations kicks in.
