@@ -12,7 +12,7 @@ sources:
 version: 0.9.1
 dependencies:
   - name: trivy-operator
-    version: "0.23.1"
+    version: "0.24.0"
 annotations:
   application.giantswarm.io/team: "shield"
   config.giantswarm.io/version: 1.x.x
