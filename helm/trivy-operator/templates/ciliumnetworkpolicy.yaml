@@ -45,14 +45,12 @@ spec:
       values:
       - Trivy
   egress:
-  {{- if or (eq (index .Values "trivy-operator" "trivy" "mode") "Standalone") (eq (index .Values "trivy-operator" "operator" "infraAssessmentScannerEnabled") true) }}
-    # Allow egress to the internet to fetch database updates.
+    # Allow egress to the internet to fetch database updates and trivy-checks OCI.
     - toEntities:
         - world
       toPorts:
         - ports:
             - port: "443"
-  {{- end }}
     # Allow DNS and Trivy service connection.
     - toEntities:
         - cluster
