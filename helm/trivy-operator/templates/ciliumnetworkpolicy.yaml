@@ -39,14 +39,20 @@ metadata:
     ignore-check.kube-linter.io/dangling-networkpolicy: "The podselector value, app.kubernetes.io/managed-by:trivy-operator is inherited from parent repository."
 spec:
   endpointSelector:
-    matchLabels:
-      {{- include "scannerjob.labels.selector" . | nindent 6 }}
+    matchExpressions:
+    - key: vulnerabilityReport.scanner
+      operator: In
+      values:
+      - Trivy
   egress:
-  {{ if eq (index .Values "trivy-operator" "trivy" "mode") "Standalone"}}
+  {{- if or (eq (index .Values "trivy-operator" "trivy" "mode") "Standalone") (eq (index .Values "trivy-operator" "operator" "infraAssessmentScannerEnabled") true) }}
     # Allow egress to the internet to fetch database updates.
     - toEntities:
         - world
-  {{- end -}}
+      toPorts:
+        - ports:
+            - port: "443"
+  {{- end }}
     # Allow DNS and Trivy service connection.
     - toEntities:
         - cluster

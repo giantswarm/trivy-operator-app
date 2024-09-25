@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Allow world access for jobs to fetch policies from OCI.
+
 ## [0.10.0] - 2024-08-21
 
 ### Changed
