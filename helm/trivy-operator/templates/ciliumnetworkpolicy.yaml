@@ -46,11 +46,11 @@ spec:
       - Trivy
   egress:
     # Allow egress to the internet to fetch database updates and trivy-checks OCI.
-    - toEntities:
-        - world
-      toPorts:
+    - toFQDNs:
+        - matchName: "gsoci.azurecr.io"
         - ports:
             - port: "443"
+              protocol: TCP
     # Allow DNS and Trivy service connection.
     - toEntities:
         - cluster
