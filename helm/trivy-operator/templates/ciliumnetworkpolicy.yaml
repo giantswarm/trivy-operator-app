@@ -40,6 +40,10 @@ metadata:
 spec:
   endpointSelector:
     matchExpressions:
+    - key: trivy-operator.resource.kind
+      operator: Exists
+    - key: trivy-operator.resource.name
+      operator: Exists
     - key: vulnerabilityReport.scanner
       operator: In
       values:
@@ -47,20 +51,24 @@ spec:
   egress:
     # Allow egress to the internet to fetch database updates and trivy-checks OCI.
     - toFQDNs:
-        - matchName: "gsoci.azurecr.io"
+      - matchName: "gsoci.azurecr.io"
+      - matchPattern: "*.blob.core.windows.net"
+      {{- if .Values.ciliumNetworkPolicy.scanJobExtraEgress.fqdnsConnection.rules -}}
+      # Allow additional FQDNs rules
+        {{- with .Values.ciliumNetworkPolicy.scanJobExtraEgress.fqdnsConnection.rules -}}
+        {{ toYaml .| nindent 6 }}
+        {{- end }}
+      {{- end }}
+      toPorts:
         - ports:
             - port: "443"
               protocol: TCP
-    # Allow DNS and Trivy service connection.
+    # Allow Trivy service connection.
     - toEntities:
         - cluster
       toPorts:
         - ports:
-            - port: "53"
-            - port: "1053"
             - port: "{{ .Values.trivyServicePort | default 4954 }}"
-    {{ $TO := index .Values "trivy-operator"}}
-    {{- if and (.Values.ciliumNetworkPolicy.scanJobExtraEgress.enabled) (eq $TO.trivy.command "image") -}}
     # Allow DNS for FQDN resolution
     - toEndpoints:
       - matchLabels:
@@ -75,27 +83,16 @@ spec:
             protocol: ANY
           - port: "53"
             protocol: ANY
-          {{- if .Values.ciliumNetworkPolicy.scanJobExtraEgress.dnsSelector.rules -}}
         rules:
           dns:
+          - matchName: "gsoci.azurecr.io"
+          - matchPattern: "*.blob.core.windows.net"
+          {{- if .Values.ciliumNetworkPolicy.scanJobExtraEgress.dnsSelector.rules -}}
+          # Allow additional DNS rules
             {{- with .Values.ciliumNetworkPolicy.scanJobExtraEgress.dnsSelector.rules -}}
             {{ toYaml . | nindent 10 }}
             {{- end }}
           {{- end }}
-    # Allow FQDNs connection
-    - toFQDNs:
-    {{- if .Values.ciliumNetworkPolicy.scanJobExtraEgress.fqdnsConnection.rules -}}
-      {{- with .Values.ciliumNetworkPolicy.scanJobExtraEgress.fqdnsConnection.rules -}}
-      {{ toYaml .| nindent 6 }}
-      {{- end }}
-    {{- else }}
-      - matchPattern: "*"
-    {{- end }}
-      toPorts:
-        - ports:
-            - port: {{ default "443" .Values.ciliumNetworkPolicy.scanJobExtraEgress.fqdnsConnection.port | quote }}
-              protocol: {{ default "TCP" .Values.ciliumNetworkPolicy.scanJobExtraEgress.fqdnsConnection.protocol }}
-  {{- end }}
 ---
 apiVersion: "cilium.io/v2"
 kind: CiliumNetworkPolicy
