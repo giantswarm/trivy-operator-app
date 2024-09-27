@@ -63,6 +63,13 @@ spec:
         - ports:
             - port: "443"
               protocol: TCP
+    # Allow port 80 connection to instance metadata
+    - toCIDR:
+      - "169.254.169.254/32"
+      toPorts:
+      - ports:
+        - port: "80"
+          protocol: TCP
     # Allow Trivy service connection.
     - toEntities:
         - cluster
