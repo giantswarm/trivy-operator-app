@@ -69,8 +69,8 @@ ciliumNetworkPolicy:
       # - matchPattern: "*"
       # - matchPattern: "*.amazonaws.com"
     fqdnsConnection:
-      port: "443"     # Defaults to 443 if not set
-      protocol: TCP   # Defaults to TCP if not set
+      port: "443"     # This value is now unused, we keep it for backwards compatibility.
+      protocol: TCP   # This value is now unused, we keep it for backwards compatibility.
       rules: []
       # - matchPattern: "*"
       # - matchPattern: "s3.*.amazonaws.com"
