@@ -39,20 +39,15 @@ metadata:
     ignore-check.kube-linter.io/dangling-networkpolicy: "The podselector value, app.kubernetes.io/managed-by:trivy-operator is inherited from parent repository."
 spec:
   endpointSelector:
-    matchExpressions:
-    - key: trivy-operator.resource.kind
-      operator: Exists
-    - key: trivy-operator.resource.name
-      operator: Exists
-    - key: vulnerabilityReport.scanner
-      operator: In
-      values:
-      - Trivy
+    matchLabels:
+      {{- include "scannerjob.labels.selector" . | nindent 6 }}
   egress:
     # Allow egress to the internet to fetch database updates and trivy-checks OCI.
     - toFQDNs:
-      - matchName: "gsoci.azurecr.io"
-      - matchPattern: "*.blob.core.windows.net"
+      - matchName: gsoci.azurecr.io
+      - matchPattern: '*.blob.core.windows.net'
+      - matchName: giantswarm-registry.cn-shanghai.cr.aliyuncs.com
+      - matchPattern: '*.aliyuncs.com'
       {{- if .Values.ciliumNetworkPolicy.scanJobExtraEgress.fqdnsConnection.rules -}}
       # Allow additional FQDNs rules
         {{- with .Values.ciliumNetworkPolicy.scanJobExtraEgress.fqdnsConnection.rules -}}
@@ -61,8 +56,8 @@ spec:
       {{- end }}
       toPorts:
         - ports:
-            - port: "443"
-              protocol: TCP
+          - port: "443"
+            protocol: TCP
     # Allow port 80 connection to instance metadata
     - toCIDR:
       - "169.254.169.254/32"
@@ -70,12 +65,12 @@ spec:
       - ports:
         - port: "80"
           protocol: TCP
-    # Allow Trivy service connection.
+    # Allow Trivy service connection
     - toEntities:
         - cluster
       toPorts:
         - ports:
-            - port: "{{ .Values.trivyServicePort | default 4954 }}"
+          - port: "{{ .Values.trivyServicePort | default 4954 }}"
     # Allow DNS for FQDN resolution
     - toEndpoints:
       - matchLabels:
@@ -86,14 +81,18 @@ spec:
           "k8s:k8s-app": k8s-dns-node-cache
       toPorts:
       - ports:
-          - port: "1053"
-            protocol: ANY
-          - port: "53"
-            protocol: ANY
+        - port: "1053"
+          protocol: ANY
+        - port: "53"
+          protocol: ANY
         rules:
           dns:
-          - matchName: "gsoci.azurecr.io"
-          - matchPattern: "*.blob.core.windows.net"
+          - matchName: gsoci.azurecr.io
+          - matchPattern: '*.blob.core.windows.net'
+          - matchName: giantswarm-registry.cn-shanghai.cr.aliyuncs.com
+          - matchPattern: '*.cn-shanghai.cr.aliyuncs.com'
+          - matchPattern: '*.cn-shanghai.aliyuncs.com'
+          - matchPattern: '*.oss-cn-shanghai.aliyuncs.com'
           {{- if .Values.ciliumNetworkPolicy.scanJobExtraEgress.dnsSelector.rules -}}
           # Allow additional DNS rules
             {{- with .Values.ciliumNetworkPolicy.scanJobExtraEgress.dnsSelector.rules -}}
