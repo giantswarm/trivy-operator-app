@@ -46,6 +46,14 @@ spec:
     matchLabels:
       {{- include "scannerjob.labels.selector" . | nindent 6 }}
   egress:
+    # Allow trivy service access.
+    - ports:
+        - port: "{{ .Values.trivyServicePort | default 4954 }}"
+          protocol: TCP
+      to:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: {{ .Release.Namespace }}
     # Allow egress to the internet to fetch database updates.
     - ports:
         - port: 443

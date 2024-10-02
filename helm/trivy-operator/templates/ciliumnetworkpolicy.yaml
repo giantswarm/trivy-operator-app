@@ -43,21 +43,24 @@ spec:
       {{- include "scannerjob.labels.selector" . | nindent 6 }}
   egress:
     # Allow egress to the internet to fetch database updates and trivy-checks OCI.
-    - toFQDNs:
+    - toPorts:
+        - ports:
+          - port: "443"
+            protocol: TCP
+      {{- if .Values.ciliumNetworkPolicy.scanJobExtraEgress.fqdnsConnection.rules }}
+      toFQDNs:
       - matchName: gsoci.azurecr.io
       - matchPattern: '*.blob.core.windows.net'
       - matchName: giantswarm-registry.cn-shanghai.cr.aliyuncs.com
       - matchPattern: '*.aliyuncs.com'
-      {{- if .Values.ciliumNetworkPolicy.scanJobExtraEgress.fqdnsConnection.rules -}}
       # Allow additional FQDNs rules
         {{- with .Values.ciliumNetworkPolicy.scanJobExtraEgress.fqdnsConnection.rules -}}
         {{ toYaml .| nindent 6 }}
         {{- end }}
+      {{- else }}
+      toEntities:
+        - world
       {{- end }}
-      toPorts:
-        - ports:
-          - port: "443"
-            protocol: TCP
     # Allow port 80 connection to instance metadata
     - toCIDR:
       - "169.254.169.254/32"
@@ -85,6 +88,7 @@ spec:
           protocol: ANY
         - port: "53"
           protocol: ANY
+        {{- if .Values.ciliumNetworkPolicy.scanJobExtraEgress.dnsSelector.rules }}
         rules:
           dns:
           - matchName: gsoci.azurecr.io
@@ -93,12 +97,11 @@ spec:
           - matchPattern: '*.cn-shanghai.cr.aliyuncs.com'
           - matchPattern: '*.cn-shanghai.aliyuncs.com'
           - matchPattern: '*.oss-cn-shanghai.aliyuncs.com'
-          {{- if .Values.ciliumNetworkPolicy.scanJobExtraEgress.dnsSelector.rules -}}
           # Allow additional DNS rules
             {{- with .Values.ciliumNetworkPolicy.scanJobExtraEgress.dnsSelector.rules -}}
             {{ toYaml . | nindent 10 }}
             {{- end }}
-          {{- end }}
+        {{- end }}
 ---
 apiVersion: "cilium.io/v2"
 kind: CiliumNetworkPolicy

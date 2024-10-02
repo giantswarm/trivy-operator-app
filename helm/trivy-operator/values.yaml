@@ -101,7 +101,7 @@ trivy-operator:
     # rbacAssessmentScannerEnabled the flag to enable rbac assessment scanner
     rbacAssessmentScannerEnabled: false
     # infraAssessmentScannerEnabled the flag to enable infra assessment scanner
-    infraAssessmentScannerEnabled: true
+    infraAssessmentScannerEnabled: false
     # clusterComplianceEnabled the flag to enable cluster compliance scanner
     clusterComplianceEnabled: false
     # exposedSecretScannerEnabled the flag to enable exposed secret scanner
