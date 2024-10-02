@@ -42,21 +42,38 @@ spec:
     matchLabels:
       {{- include "scannerjob.labels.selector" . | nindent 6 }}
   egress:
-  {{ if eq (index .Values "trivy-operator" "trivy" "mode") "Standalone"}}
-    # Allow egress to the internet to fetch database updates.
-    - toEntities:
+    # Allow egress to the internet to fetch database updates and trivy-checks OCI.
+    - toPorts:
+        - ports:
+          - port: "443"
+            protocol: TCP
+      {{- if .Values.ciliumNetworkPolicy.scanJobExtraEgress.fqdnsConnection.rules }}
+      toFQDNs:
+      - matchName: gsoci.azurecr.io
+      - matchPattern: '*.blob.core.windows.net'
+      - matchName: giantswarm-registry.cn-shanghai.cr.aliyuncs.com
+      - matchPattern: '*.aliyuncs.com'
+      # Allow additional FQDNs rules
+        {{- with .Values.ciliumNetworkPolicy.scanJobExtraEgress.fqdnsConnection.rules -}}
+        {{ toYaml .| nindent 6 }}
+        {{- end }}
+      {{- else }}
+      toEntities:
         - world
-  {{- end -}}
-    # Allow DNS and Trivy service connection.
+      {{- end }}
+    # Allow port 80 connection to instance metadata
+    - toCIDR:
+      - "169.254.169.254/32"
+      toPorts:
+      - ports:
+        - port: "80"
+          protocol: TCP
+    # Allow Trivy service connection
     - toEntities:
         - cluster
       toPorts:
         - ports:
-            - port: "53"
-            - port: "1053"
-            - port: "{{ .Values.trivyServicePort | default 4954 }}"
-    {{ $TO := index .Values "trivy-operator"}}
-    {{- if and (.Values.ciliumNetworkPolicy.scanJobExtraEgress.enabled) (eq $TO.trivy.command "image") -}}
+          - port: "{{ .Values.trivyServicePort | default 4954 }}"
     # Allow DNS for FQDN resolution
     - toEndpoints:
       - matchLabels:
@@ -67,31 +84,24 @@ spec:
           "k8s:k8s-app": k8s-dns-node-cache
       toPorts:
       - ports:
-          - port: "1053"
-            protocol: ANY
-          - port: "53"
-            protocol: ANY
-          {{- if .Values.ciliumNetworkPolicy.scanJobExtraEgress.dnsSelector.rules -}}
+        - port: "1053"
+          protocol: ANY
+        - port: "53"
+          protocol: ANY
+        {{- if .Values.ciliumNetworkPolicy.scanJobExtraEgress.dnsSelector.rules }}
         rules:
           dns:
+          - matchName: gsoci.azurecr.io
+          - matchPattern: '*.blob.core.windows.net'
+          - matchName: giantswarm-registry.cn-shanghai.cr.aliyuncs.com
+          - matchPattern: '*.cn-shanghai.cr.aliyuncs.com'
+          - matchPattern: '*.cn-shanghai.aliyuncs.com'
+          - matchPattern: '*.oss-cn-shanghai.aliyuncs.com'
+          # Allow additional DNS rules
             {{- with .Values.ciliumNetworkPolicy.scanJobExtraEgress.dnsSelector.rules -}}
             {{ toYaml . | nindent 10 }}
             {{- end }}
-          {{- end }}
-    # Allow FQDNs connection
-    - toFQDNs:
-    {{- if .Values.ciliumNetworkPolicy.scanJobExtraEgress.fqdnsConnection.rules -}}
-      {{- with .Values.ciliumNetworkPolicy.scanJobExtraEgress.fqdnsConnection.rules -}}
-      {{ toYaml .| nindent 6 }}
-      {{- end }}
-    {{- else }}
-      - matchPattern: "*"
-    {{- end }}
-      toPorts:
-        - ports:
-            - port: {{ default "443" .Values.ciliumNetworkPolicy.scanJobExtraEgress.fqdnsConnection.port | quote }}
-              protocol: {{ default "TCP" .Values.ciliumNetworkPolicy.scanJobExtraEgress.fqdnsConnection.protocol }}
-  {{- end }}
+        {{- end }}
 ---
 apiVersion: "cilium.io/v2"
 kind: CiliumNetworkPolicy

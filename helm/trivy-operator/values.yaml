@@ -7,14 +7,14 @@ global:
   image:
     registry: "gsoci.azurecr.io"
   podSecurityStandards:
-    enforced: false
+    enforced: true
 
 image:
   registry: "gsoci.azurecr.io"
 
 # Enable trivy-operator network policy.
 networkPolicy:
-  enabled: true
+  enabled: false
 
 # We install CRDs through a Job with the helm specific crd folder.
 crds:
@@ -63,14 +63,14 @@ managedBy: Helm
 ciliumNetworkPolicy:
   enabled: true
   scanJobExtraEgress:
-    enabled: false
+    enabled: false  # This value is now unused, we keep it for backwards compatibility.
     dnsSelector:
       rules: []
       # - matchPattern: "*"
       # - matchPattern: "*.amazonaws.com"
     fqdnsConnection:
-      port: "443"     # Defaults to 443 if not set
-      protocol: TCP   # Defaults to TCP if not set
+      port: "443"     # This value is now unused, we keep it for backwards compatibility.
+      protocol: TCP   # This value is now unused, we keep it for backwards compatibility.
       rules: []
       # - matchPattern: "*"
       # - matchPattern: "s3.*.amazonaws.com"
