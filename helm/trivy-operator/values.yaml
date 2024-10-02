@@ -7,14 +7,14 @@ global:
   image:
     registry: "gsoci.azurecr.io"
   podSecurityStandards:
-    enforced: false
+    enforced: true
 
 image:
   registry: "gsoci.azurecr.io"
 
 # Enable trivy-operator network policy.
 networkPolicy:
-  enabled: true
+  enabled: false
 
 # We install CRDs through a Job with the helm specific crd folder.
 crds:
@@ -63,7 +63,7 @@ managedBy: Helm
 ciliumNetworkPolicy:
   enabled: true
   scanJobExtraEgress:
-    enabled: false
+    enabled: false  # This value is now unused, we keep it for backwards compatibility.
     dnsSelector:
       rules: []
       # - matchPattern: "*"
@@ -101,7 +101,7 @@ trivy-operator:
     # rbacAssessmentScannerEnabled the flag to enable rbac assessment scanner
     rbacAssessmentScannerEnabled: false
     # infraAssessmentScannerEnabled the flag to enable infra assessment scanner
-    infraAssessmentScannerEnabled: false
+    infraAssessmentScannerEnabled: true
     # clusterComplianceEnabled the flag to enable cluster compliance scanner
     clusterComplianceEnabled: false
     # exposedSecretScannerEnabled the flag to enable exposed secret scanner
