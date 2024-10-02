@@ -39,7 +39,13 @@ spec:
         - -c
         - |
           set -o errexit ; set -o xtrace ; set -o nounset
-
+          
+          {{- if .Release.IsUpgrade }}
+          # Delete sboms since they create conflicts
+          kubectl delete crd sbomreports.aquasecurity.github.io
+          kubectl delete crd clustersbomreports.aquasecurity.github.io
+          {{- end }}
+          
           # piping stderr to stdout means kubectl's errors are surfaced
           # in the pod's logs.
 
