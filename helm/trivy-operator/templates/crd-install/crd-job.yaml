@@ -40,7 +40,7 @@ spec:
         - |
           set -o errexit ; set -o xtrace ; set -o nounset
           
-          {{- if .Release.IsUpgrade }}
+          {{- if and (.Release.IsUpgrade) (not .Values.trivy-operator.operator.sbomGenerationEnabled) }}
           # Delete sboms since they create conflicts
           kubectl delete crd sbomreports.aquasecurity.github.io
           kubectl delete crd clustersbomreports.aquasecurity.github.io
