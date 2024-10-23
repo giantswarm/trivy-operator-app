@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Align Trivy versions between Trivy Operator and Trivy to v0.56.1.
+
 ## [0.10.1] - 2024-10-03
 
 ### Changed
