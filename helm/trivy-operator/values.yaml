@@ -216,6 +216,14 @@ trivy-operator:
     name: "trivy-operator"
 
   trivy:
+    # -- dbRepository is the repository for the vulnerability database.
+    dbRegistry: "gsoci.azurecr.io"
+    dbRepository: "giantswarm/trivy-db"
+
+    # -- javaDbRegistry is the registry for the Java vulnerability database.
+    javaDbRegistry: "gsoci.azurecr.io"
+    javaDbRepository: "giantswarm/trivy-java-db"
+
     # Ideally, we use the in-cluster Trivy deployed from https://github.com/giantswarm/trivy-app
     # We also set the image here so that trivy-operator can be deployed "standalone",
     # but this image is not used if using in-cluster Trivy.
