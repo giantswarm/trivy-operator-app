@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.10.3] - 2024-11-05
+
 ### Changed
 
 - Use retagged trivy-db and trivy-java-db images for scan jobs and bundled trivy.
@@ -215,7 +217,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release containing upstream `trivy-operator` [version 0.0.5](https://github.com/aquasecurity/trivy-operator/releases/tag/v0.0.5).
 
-[Unreleased]: https://github.com/giantswarm/trivy-operator-app/compare/v0.10.2...HEAD
+[Unreleased]: https://github.com/giantswarm/trivy-operator-app/compare/v0.10.3...HEAD
+[0.10.3]: https://github.com/giantswarm/trivy-operator-app/compare/v0.10.2...v0.10.3
 [0.10.2]: https://github.com/giantswarm/trivy-operator-app/compare/v0.10.1...v0.10.2
 [0.10.1]: https://github.com/giantswarm/trivy-operator-app/compare/v0.10.0...v0.10.1
 [0.10.0]: https://github.com/giantswarm/trivy-operator-app/compare/v0.9.1...v0.10.0
