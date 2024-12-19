@@ -117,9 +117,9 @@ workflows:
 
       - architect/push-to-app-collection:
           context: "architect"
-          name: push-trivy-operator-to-gcp-app-collection
+          name: push-trivy-operator-to-proxmox-app-collection
           app_name: "trivy-operator"
-          app_collection_repo: "gcp-app-collection"
+          app_collection_repo: "proxmox-app-collection"
           requires:
             - push-trivy-operator-to-control-plane-catalog
           filters:
