@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update to upstream version v0.27.3.
+
 ## [0.10.3] - 2024-11-05
 
 ### Changed
@@ -161,7 +165,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Add `handSize` to `PriorityLevelConfiguration` to handle low count scan job concurrency edge cases. 
+- Add `handSize` to `PriorityLevelConfiguration` to handle low count scan job concurrency edge cases.
 
 ### Added
 
