@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Remove SBOMs CRD deletion since it's not needed anymore.
+
 ## [0.11.1] - 2025-07-30
 
 ### Changed
