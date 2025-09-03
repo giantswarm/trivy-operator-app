@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Expand scanner jobs CNP with extra port `3128`.
+
 ## [0.12.0] - 2025-08-27
 
 ### Changed

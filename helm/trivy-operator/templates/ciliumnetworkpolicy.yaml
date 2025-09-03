@@ -47,6 +47,8 @@ spec:
         - ports:
           - port: "443"
             protocol: TCP
+          - port: "3128"
+            protocol: TCP
       {{- if .Values.ciliumNetworkPolicy.scanJobExtraEgress.fqdnsConnection.rules }}
       toFQDNs:
       - matchName: gsoci.azurecr.io
