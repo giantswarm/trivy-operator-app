@@ -19,7 +19,9 @@ networkPolicy:
 # We install CRDs through a Job with the helm specific crd folder.
 crds:
   image:
-    tag: 1.24.1
+    # registry: "gsoci.azurecr.io"
+    repository: giantswarm/kubectl
+    tag: v1.33.5
   install: true
   resources:
     requests:

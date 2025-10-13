@@ -46,6 +46,9 @@
                 "image": {
                     "type": "object",
                     "properties": {
+                        "repository": {
+                            "type": "string"
+                        },
                         "tag": {
                             "type": "string"
                         }
@@ -203,49 +206,6 @@
         },
         "serviceType": {
             "type": "string"
-        },
-        "specs": {
-            "type": "object",
-            "properties": {
-                "image": {
-                    "type": "object",
-                    "properties": {
-                        "tag": {
-                            "type": "string"
-                        }
-                    }
-                },
-                "install": {
-                    "type": "boolean"
-                },
-                "resources": {
-                    "type": "object",
-                    "properties": {
-                        "limits": {
-                            "type": "object",
-                            "properties": {
-                                "cpu": {
-                                    "type": "string"
-                                },
-                                "memory": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "requests": {
-                            "type": "object",
-                            "properties": {
-                                "cpu": {
-                                    "type": "string"
-                                },
-                                "memory": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         },
         "trivy-operator": {
             "type": "object",
@@ -457,6 +417,12 @@
                         "command": {
                             "type": "string"
                         },
+                        "dbRegistry": {
+                            "type": "string"
+                        },
+                        "dbRepository": {
+                            "type": "string"
+                        },
                         "image": {
                             "type": "object",
                             "properties": {
@@ -464,6 +430,12 @@
                                     "type": "string"
                                 }
                             }
+                        },
+                        "javaDbRegistry": {
+                            "type": "string"
+                        },
+                        "javaDbRepository": {
+                            "type": "string"
                         },
                         "mode": {
                             "type": "string"
