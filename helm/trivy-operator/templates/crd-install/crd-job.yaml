@@ -34,15 +34,13 @@ spec:
       - name: kubectl
         image: "{{ .Values.global.image.registry | default .Values.image.registry }}/{{ .Values.crds.image.repository | default "giantswarm/docker-kubectl" }}:{{ .Values.crds.image.tag }}"
         command:
-        - sh
-        - -c
-        - |
-          set -o errexit ; set -o xtrace ; set -o nounset
-
-          # piping stderr to stdout means kubectl's errors are surfaced
-          # in the pod's logs.
-
-          kubectl apply --force-conflicts --server-side -f /data/ 2>&1
+        -  /usr/local/bin/kubectl
+        args:
+        -  apply
+        -  --force-conflicts
+        -  --server-side
+        -  -f
+        -  /data/
         volumeMounts:
 {{- range $path, $_ := .Files.Glob "crds/**" }}
         - name: {{ $path | base | trimSuffix ".yaml" | replace "_" "-" | replace "." "-" }}
