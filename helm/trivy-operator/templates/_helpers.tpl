@@ -82,7 +82,7 @@ Allow the release namespace to be overridden for multi-namespace deployments in 
 {{- define "trivy-operator-helpers.labels" -}}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/version: "{{ .Chart.Version }}"
+app.kubernetes.io/version: {{ .Chart.Version | replace "+" "_" | quote }}
 app.kubernetes.io/part-of: {{ template "trivy-operator-helpers.name" . }}
 chart: {{ template "trivy-operator-helpers.chartref" . }}
 release: {{ $.Release.Name | quote }}
