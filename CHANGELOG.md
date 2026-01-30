@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
-
+- Build with up-to-date pipelines.
 - Fix kubernetes version label syntax when deploying with Flux.
 
 ## [0.12.1] - 2025-09-03
