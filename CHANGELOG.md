@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Fix kubernetes version label syntax when deploying with Flux.
+- Migrate chart annotations to OCI-compatible format (change `application.giantswarm.io/team` to `io.giantswarm.application.team`, remove `config.giantswarm.io/version`).
 
 ## [0.12.1] - 2025-09-03
 
