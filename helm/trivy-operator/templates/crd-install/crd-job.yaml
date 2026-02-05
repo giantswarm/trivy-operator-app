@@ -10,6 +10,8 @@ metadata:
     {{- include "trivy-operator.CRDInstallAnnotations" . | nindent 4 }}
     ignore-check.kube-linter.io/no-node-affinity: "Node affinity not required. We can have the pod scheduled on any node."
     ignore-check.kube-linter.io/dnsconfig-options: "No explicit dns configuration required."
+    ignore-check.kube-linter.io/restart-policy: "Never is appropriate for CRD install Jobs - new pods are created on failure via backoffLimit."
+    ignore-check.kube-linter.io/job-ttl-seconds-after-finished: "Helm hook cleanup handles Job deletion."
   labels:
     app.kubernetes.io/component: {{ include "trivy-operator.crdInstall" . | quote }}
     {{- include "trivy-operator.selectorLabels" . | nindent 4 }}

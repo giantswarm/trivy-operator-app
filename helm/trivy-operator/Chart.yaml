@@ -16,5 +16,7 @@ dependencies:
 annotations:
   application.giantswarm.io/team: "shield"
   config.giantswarm.io/version: 1.x.x
+  io.giantswarm.application.audience: all
+  io.giantswarm.application.managed: "true"
   #   branch: my-branch # Used through .Chart.Annotations.branch (This is not replaced automatically)
   #   commit: f00bar # Used through .Chart.Annotations.commit (This is not replaced automatically)
