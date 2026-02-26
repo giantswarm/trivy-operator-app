@@ -9,9 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.12.2] - 2026-01-30
 
+### Added
+
+- Add `io.giantswarm.application.audience` and `io.giantswarm.application.managed` chart annotations for Backstage visibility.
+- Push to the `default` catalog.
+
 ### Changed
+
 - Build with up-to-date pipelines.
 - Fix kubernetes version label syntax when deploying with Flux.
+- Migrate chart annotations to OCI-compatible format (change `application.giantswarm.io/team` to `io.giantswarm.application.team`, remove `config.giantswarm.io/version`).
 
 ## [0.12.1] - 2025-09-03
 

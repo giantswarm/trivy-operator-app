@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   # used by renovate
   # repo: giantswarm/architect-orb
-  architect: giantswarm/architect@6.12.0
+  architect: giantswarm/architect@6.13.0
 
 workflows:
   package-and-push-chart-on-tag:
@@ -32,6 +32,21 @@ workflows:
           filters:
             tags:
               only: /^v.*/
+
+      - architect/push-to-app-catalog:
+          context: architect
+          executor: app-build-suite
+          name: push-trivy-operator-chart-to-default-catalog
+          app_catalog: default-catalog
+          app_catalog_test: default-test-catalog
+          persist_chart_archive: true
+          chart: trivy-operator
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore:
+              - main
 
       # Run app-test-suite tests.
       - architect/run-tests-with-ats:
