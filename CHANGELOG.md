@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.12.2] - 2026-01-30
+
 ### Added
 
 - Add `io.giantswarm.application.audience` and `io.giantswarm.application.managed` chart annotations for Backstage visibility.
@@ -14,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Build with up-to-date pipelines.
 - Fix kubernetes version label syntax when deploying with Flux.
 - Migrate chart annotations to OCI-compatible format (change `application.giantswarm.io/team` to `io.giantswarm.application.team`, remove `config.giantswarm.io/version`).
 
@@ -252,7 +255,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release containing upstream `trivy-operator` [version 0.0.5](https://github.com/aquasecurity/trivy-operator/releases/tag/v0.0.5).
 
-[Unreleased]: https://github.com/giantswarm/trivy-operator-app/compare/v0.12.1...HEAD
+[Unreleased]: https://github.com/giantswarm/trivy-operator-app/compare/v0.12.2...HEAD
+[0.12.2]: https://github.com/giantswarm/trivy-operator-app/compare/v0.12.1...v0.12.2
 [0.12.1]: https://github.com/giantswarm/trivy-operator-app/compare/v0.12.0...v0.12.1
 [0.12.0]: https://github.com/giantswarm/trivy-operator-app/compare/v0.11.1...v0.12.0
 [0.11.1]: https://github.com/giantswarm/trivy-operator-app/compare/v0.11.0...v0.11.1
