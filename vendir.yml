@@ -5,7 +5,8 @@ directories:
   contents:
   - path: .
     git:
-      url: https://github.com/giantswarm/trivy-operator-upstream
+      url: https://github.com/aquasecurity/trivy-operator
+      # renovate: datasource=github-tags depName=aquasecurity/trivy-operator
       ref: v0.28.0
     includePaths:
       - deploy/helm/**/*
@@ -16,7 +17,7 @@ directories:
   contents:
   - path: .
     git:
-      url: https://github.com/giantswarm/trivy-operator-upstream
+      url: https://github.com/aquasecurity/trivy-operator
       ref: v0.28.0
     includePaths:
       - deploy/helm/crds/*
