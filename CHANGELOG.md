@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Exclude scan job pods from proxy env injection to prevent node drain failures caused by Kyverno `inject-proxy-env` policy conflicts.
+
 ## [0.12.2] - 2026-01-30
 
 ### Added
