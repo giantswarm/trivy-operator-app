@@ -1,0 +1,126 @@
+{{ if .Values.ciliumNetworkPolicy.enabled }}
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ include "trivy-operator.networkPolicy" . }}
+  labels:
+     {{- include "trivy-operator-helpers.labels" . | nindent 4 }}
+  annotations:
+    ignore-check.kube-linter.io/dangling-networkpolicy: "The podselector value, app.kubernetes.io/managed-by:trivy-operator is inherited from parent repository."
+spec:
+  endpointSelector:
+    matchLabels:
+       {{- include "labels.selector" . | nindent 6 }}
+  egress:
+    # Allow egress to Kubernetes API server.
+    - toEntities:
+        - kube-apiserver
+    # Allow DNS.
+    - toEntities:
+        - cluster
+      toPorts:
+        - ports:
+  ingress:
+    - fromEntities:
+      - cluster
+      toPorts:
+      - ports:
+        - port: "8080"
+---
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ include "trivy-operator.networkPolicy" . }}-scanner-job
+  labels:
+    {{- include "trivy-operator-helpers.labels" . | nindent 4 }}
+  annotations:
+    ignore-check.kube-linter.io/dangling-networkpolicy: "The podselector value, app.kubernetes.io/managed-by:trivy-operator is inherited from parent repository."
+spec:
+  endpointSelector:
+    matchLabels:
+      {{- include "scannerjob.labels.selector" . | nindent 6 }}
+  egress:
+    # Allow egress to the internet to fetch database updates and trivy-checks OCI.
+    - toPorts:
+        - ports:
+          - port: "443"
+            protocol: TCP
+          - port: "3128"
+            protocol: TCP
+      {{- if .Values.ciliumNetworkPolicy.scanJobExtraEgress.fqdnsConnection.rules }}
+      toFQDNs:
+      - matchName: gsoci.azurecr.io
+      - matchPattern: '*.blob.core.windows.net'
+      - matchName: giantswarm-registry.cn-shanghai.cr.aliyuncs.com
+      - matchPattern: '*.aliyuncs.com'
+      # Allow additional FQDNs rules
+        {{- with .Values.ciliumNetworkPolicy.scanJobExtraEgress.fqdnsConnection.rules -}}
+        {{ toYaml .| nindent 6 }}
+        {{- end }}
+      {{- else }}
+      toEntities:
+        - world
+      {{- end }}
+    # Allow port 80 connection to instance metadata
+    - toCIDR:
+      - "169.254.169.254/32"
+      toPorts:
+      - ports:
+        - port: "80"
+          protocol: TCP
+    # Allow Trivy service connection
+    - toEntities:
+        - cluster
+      toPorts:
+        - ports:
+          - port: "{{ .Values.trivyServicePort | default 4954 }}"
+    # Allow DNS for FQDN resolution
+    - toEndpoints:
+      - matchLabels:
+          "k8s:io.kubernetes.pod.namespace": kube-system
+          "k8s:k8s-app": coredns
+      - matchLabels:
+          "k8s:io.kubernetes.pod.namespace": kube-system
+          "k8s:k8s-app": k8s-dns-node-cache
+      toPorts:
+      - ports:
+        - port: "1053"
+          protocol: ANY
+        - port: "53"
+          protocol: ANY
+        {{- if .Values.ciliumNetworkPolicy.scanJobExtraEgress.dnsSelector.rules }}
+        rules:
+          dns:
+          - matchName: gsoci.azurecr.io
+          - matchPattern: '*.blob.core.windows.net'
+          - matchName: giantswarm-registry.cn-shanghai.cr.aliyuncs.com
+          - matchPattern: '*.cn-shanghai.cr.aliyuncs.com'
+          - matchPattern: '*.cn-shanghai.aliyuncs.com'
+          - matchPattern: '*.oss-cn-shanghai.aliyuncs.com'
+          # Allow additional DNS rules
+            {{- with .Values.ciliumNetworkPolicy.scanJobExtraEgress.dnsSelector.rules -}}
+            {{ toYaml . | nindent 10 }}
+            {{- end }}
+        {{- end }}
+---
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: {{ include "trivy-operator.networkPolicy" . }}-node-collector-job
+  labels:
+    {{- include "trivy-operator-helpers.labels" . | nindent 4 }}
+spec:
+  endpointSelector:
+    matchLabels:
+      app: node-collector
+  egress:
+    - toEntities:
+        - kube-apiserver
+      toPorts:
+        - ports:
+            - port: "443"
+            - port: "6443"
+{{ end }}

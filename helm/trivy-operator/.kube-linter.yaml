@@ -1,0 +1,26 @@
+checks:
+  addAllBuiltIn: true
+  exclude:
+  - "no-read-only-root-fs"
+  - "required-annotation-email"
+  - "required-label-owner"
+  - "no-liveness-probe"
+  - "no-readiness-probe"
+  - "unset-memory-requirements"
+  - "access-to-create-pods"
+  - "unset-cpu-requirements"
+  - "run-as-non-root"
+  - "access-to-secrets"
+  - "env-var-secret" # False positive. Upstream uses an environment variable named 'OPERATOR_EXPOSED_SECRET_SCANNER_ENABLED'.
+  - "use-namespace"  # Upstream doesn't include namespace.
+  - "minimum-three-replicas"  # Upstream doesn't specify, and only 1 is currently needed.
+  - "no-rolling-update-strategy"  # Upstream doesn't include strategy.
+  - "non-isolated-pod"
+  - "no-node-affinity" # Node affinity not required. We can have the pod scheduled on any node.
+  - "dnsconfig-options" # No explicit dns configuration required.
+  - "sorted-keys" # Upstream chart has unsorted keys in labels, not worth fixing.
+  - "restart-policy" # Vendored upstream subchart doesn't set explicit restartPolicy on Deployment (defaults to Always).
+  - "job-ttl-seconds-after-finished" # CRD install job is cleaned up by Helm hooks, not ttlSecondsAfterFinished.
+  # Path exclusion not working as intended likely due to upstream bug
+  # ignorePaths:
+  #   - ./helm/trivy-operator/charts/*

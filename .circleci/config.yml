@@ -1,0 +1,61 @@
+version: 2.1
+orbs:
+  # used by renovate
+  # repo: giantswarm/architect-orb
+  architect: giantswarm/architect@6.15.0
+
+workflows:
+  package-and-push-chart-on-tag:
+    jobs:
+      # Build chart and push to catalogs.
+      - architect/push-to-app-catalog:
+          context: "architect"
+          name: push-trivy-operator-to-control-plane-catalog
+          app_catalog: "control-plane-catalog"
+          app_catalog_test: "control-plane-test-catalog"
+          chart: "trivy-operator"
+          executor: "app-build-suite"
+          # Trigger job on git tag.
+          filters:
+            tags:
+              only: /^v.*/
+
+      - architect/push-to-app-catalog:
+          context: "architect"
+          executor: "app-build-suite"
+          name: "push-trivy-operator-to-giantswarm-catalog"
+          app_catalog: "giantswarm-catalog"
+          app_catalog_test: "giantswarm-test-catalog"
+          chart: "trivy-operator"
+          persist_chart_archive: true
+          # Trigger job on git tag.
+          filters:
+            tags:
+              only: /^v.*/
+
+      - architect/push-to-app-catalog:
+          context: architect
+          executor: app-build-suite
+          name: push-trivy-operator-chart-to-default-catalog
+          app_catalog: default-catalog
+          app_catalog_test: default-test-catalog
+          persist_chart_archive: true
+          chart: trivy-operator
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore:
+              - main
+
+      # Run app-test-suite tests.
+      - architect/run-tests-with-ats:
+          name: execute chart tests
+          filters:
+            # Do not trigger the job on merge to main.
+            branches:
+              ignore:
+                - main
+          requires:
+            - push-trivy-operator-to-giantswarm-catalog
+

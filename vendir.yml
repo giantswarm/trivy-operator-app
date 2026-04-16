@@ -1,0 +1,24 @@
+apiVersion: vendir.k14s.io/v1alpha1
+kind: Config
+directories:
+- path: helm/trivy-operator/charts/trivy-operator
+  contents:
+  - path: .
+    git:
+      url: https://github.com/giantswarm/trivy-operator-upstream
+      # renovate: datasource=github-tags depName=giantswarm/trivy-operator-upstream
+      ref: v0.28.0
+    includePaths:
+      - deploy/helm/**/*
+    excludePaths:
+      - deploy/helm/crds/*
+    newRootPath: deploy/helm
+- path: helm/trivy-operator/crds
+  contents:
+  - path: .
+    git:
+      url: https://github.com/giantswarm/trivy-operator-upstream
+      ref: v0.28.0
+    includePaths:
+      - deploy/helm/crds/*
+    newRootPath: deploy/helm/crds

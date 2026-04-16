@@ -1,0 +1,69 @@
+{{- if .Values.kyvernoPolicyExceptions.enabled }}
+apiVersion: kyverno.io/v2
+kind: PolicyException
+metadata:
+  name: {{ include "trivy-operator-helpers.name" . }}-exception
+  namespace: {{ .Values.kyvernoPolicyExceptions.namespace | default .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": "pre-install,pre-upgrade"
+spec:
+  exceptions:
+    - policyName: disallow-host-namespaces
+      ruleNames:
+        - host-namespaces
+        - autogen-host-namespaces
+        - autogen-cronjob-host-namespaces
+    - policyName: disallow-host-path
+      ruleNames:
+        - host-path
+        - autogen-host-path
+    - policyName: restrict-volume-types
+      ruleNames:
+        - restricted-volumes
+        - autogen-restricted-volumes
+  match:
+    any:
+      - resources:
+          kinds:
+            - Job
+            - Pod
+            - CronJob
+          namespaces:
+            - {{ .Release.Namespace }}
+          names:
+            - "node-collector-*"
+---
+{{ $TO := index .Values "trivy-operator"}}
+{{ if or (eq $TO.trivy.command "filesystem") (eq $TO.trivy.command "rootfs") }}
+apiVersion: kyverno.io/v2
+kind: PolicyException
+metadata:
+  name: {{ include "trivy-operator-helpers.name" . }}-file-system-mode-exception
+  namespace: {{ .Values.kyvernoPolicyExceptions.namespace | default .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": "pre-install,pre-upgrade"
+spec:
+  exceptions:
+    - policyName: require-run-as-nonroot
+      ruleNames:
+        - run-as-non-root
+        - autogen-run-as-non-root
+        - autogen-cronjob-run-as-non-root
+    - policyName: require-run-as-non-root-user
+      ruleNames:
+        - run-as-non-root-user
+        - autogen-run-as-non-root-user
+        - autogen-cronjob-run-as-non-root-user
+  match:
+    any:
+      - resources:
+          kinds:
+            - Job
+            - Pod
+            - CronJob
+          namespaces:
+            - {{ .Release.Namespace }}
+          names:
+            - "scan-vulnerabilityreport-*"
+{{- end }}
+{{- end }}

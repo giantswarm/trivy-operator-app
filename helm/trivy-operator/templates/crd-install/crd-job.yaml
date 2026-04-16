@@ -1,0 +1,72 @@
+{{- if .Values.crds.install }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "trivy-operator.crdInstall" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "-1"
+    {{- include "trivy-operator.CRDInstallAnnotations" . | nindent 4 }}
+    ignore-check.kube-linter.io/no-node-affinity: "Node affinity not required. We can have the pod scheduled on any node."
+    ignore-check.kube-linter.io/dnsconfig-options: "No explicit dns configuration required."
+    ignore-check.kube-linter.io/restart-policy: "Never is appropriate for CRD install Jobs - new pods are created on failure via backoffLimit."
+    ignore-check.kube-linter.io/job-ttl-seconds-after-finished: "Helm hook cleanup handles Job deletion."
+  labels:
+    app.kubernetes.io/component: {{ include "trivy-operator.crdInstall" . | quote }}
+    {{- include "trivy-operator.selectorLabels" . | nindent 4 }}
+    role: {{ include "trivy-operator.CRDInstallSelector" . | quote }}
+spec:
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: {{ include "trivy-operator.crdInstall" . | quote }}
+        {{- include "trivy-operator.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "trivy-operator.crdInstall" . }}
+      securityContext:
+        {{- with .Values.podSecurityContext }}
+        {{- . | toYaml | nindent 8 }}
+        {{- end }}
+      tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
+      containers:
+      - name: kubectl
+        image: "{{ .Values.global.image.registry | default .Values.image.registry }}/giantswarm/docker-kubectl:{{ .Values.crds.image.tag }}"
+        command:
+        - sh
+        - -c
+        - |
+          set -o errexit ; set -o xtrace ; set -o nounset
+
+          # piping stderr to stdout means kubectl's errors are surfaced
+          # in the pod's logs.
+
+          kubectl apply --force-conflicts --server-side -f /data/ 2>&1
+        volumeMounts:
+{{- range $path, $_ := .Files.Glob "crds/**" }}
+        - name: {{ $path | base | trimSuffix ".yaml" | replace "_" "-" | replace "." "-" }}
+          mountPath: /data/{{ $path | base }}
+          subPath: {{ $path | base }}
+{{- end }}
+        resources: {{- toYaml .Values.crds.resources | nindent 10 }}
+        {{- with .Values.securityContext }}
+        securityContext:
+          {{- . | toYaml | nindent 10 }}
+        {{- end }}
+      volumes:
+{{ $currentScope := . }}
+{{- range $path, $_ := .Files.Glob "crds/**" }}
+    {{- with $currentScope }}
+      - name: {{ $path | base | trimSuffix ".yaml" | replace "_" "-" | replace "." "-" }}
+        configMap:
+          name: {{ include "trivy-operator.crdInstall" . }}-{{ $path | base | trimSuffix ".yaml" | replace "_" "-" | replace "." "-" }}
+          items:
+          - key: content
+            path: {{ $path | base }}
+{{- end }}
+{{- end }}
+      restartPolicy: Never
+  backoffLimit: 4
+{{- end }}
