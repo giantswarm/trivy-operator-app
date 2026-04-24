@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Updated `trivy-operator` to upstream version `v0.30.1`.
+
 ## [0.12.2] - 2026-01-30
 
 ### Added
@@ -152,23 +156,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add port `1053` to scanner job CiliumNetworkPolicy.
 
-### Removed
-
-- Stop pushing to `openstack-app-collection`.
-
 ### Changed
 
 - Replace deprecated toleration `node-role.kubernetes.io/master` with `node-role.kubernetes.io/control-plane` on `CRD` and `Spec` install jobs.
 
+### Removed
+
+- Stop pushing to `openstack-app-collection`.
+
 ## [0.4.0] - 2023-04-28
-
-### Changed
-
-- Update to upstream [trivy-operator](https://github.com/aquasecurity/trivy-operator) [v0.13.2](https://github.com/aquasecurity/trivy-operator/releases/tag/v0.13.2).
 
 ### Added
 
 - Add `Cilium Network Policy` to `trivy-operator`.
+
+### Changed
+
+- Update to upstream [trivy-operator](https://github.com/aquasecurity/trivy-operator) [v0.13.2](https://github.com/aquasecurity/trivy-operator/releases/tag/v0.13.2).
 
 ## [0.3.7] - 2023-04-11
 
@@ -197,13 +201,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.3.3] - 2023-01-24
 
-### Changed
-
-- Add `handSize` to `PriorityLevelConfiguration` to handle low count scan job concurrency edge cases.
-
 ### Added
 
 - Add `NetworkPolicy` for trivy-operator to ensure it works in namespaces with `deny-all` networkpolicy.
+
+### Changed
+
+- Add `handSize` to `PriorityLevelConfiguration` to handle low count scan job concurrency edge cases.
 
 ## [0.3.2] - 2022-12-21
 
