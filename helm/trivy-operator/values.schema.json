@@ -1,29 +1,25 @@
 {
-    "$schema": "http://json-schema.org/schema#",
-    "type": "object",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "properties": {
         "ciliumNetworkPolicy": {
-            "type": "object",
             "properties": {
                 "enabled": {
                     "type": "boolean"
                 },
                 "scanJobExtraEgress": {
-                    "type": "object",
                     "properties": {
                         "dnsSelector": {
-                            "type": "object",
                             "properties": {
                                 "rules": {
                                     "type": "array"
                                 }
-                            }
+                            },
+                            "type": "object"
                         },
                         "enabled": {
                             "type": "boolean"
                         },
                         "fqdnsConnection": {
-                            "type": "object",
                             "properties": {
                                 "port": {
                                     "type": "string"
@@ -34,31 +30,31 @@
                                 "rules": {
                                     "type": "array"
                                 }
-                            }
+                            },
+                            "type": "object"
                         }
-                    }
+                    },
+                    "type": "object"
                 }
-            }
+            },
+            "type": "object"
         },
         "crds": {
-            "type": "object",
             "properties": {
                 "image": {
-                    "type": "object",
                     "properties": {
                         "tag": {
                             "type": "string"
                         }
-                    }
+                    },
+                    "type": "object"
                 },
                 "install": {
                     "type": "boolean"
                 },
                 "resources": {
-                    "type": "object",
                     "properties": {
                         "limits": {
-                            "type": "object",
                             "properties": {
                                 "cpu": {
                                     "type": "string"
@@ -66,10 +62,10 @@
                                 "memory": {
                                     "type": "string"
                                 }
-                            }
+                            },
+                            "type": "object"
                         },
                         "requests": {
-                            "type": "object",
                             "properties": {
                                 "cpu": {
                                     "type": "string"
@@ -77,43 +73,45 @@
                                 "memory": {
                                     "type": "string"
                                 }
-                            }
+                            },
+                            "type": "object"
                         }
-                    }
+                    },
+                    "type": "object"
                 }
-            }
+            },
+            "type": "object"
         },
         "global": {
-            "type": "object",
             "properties": {
                 "image": {
-                    "type": "object",
                     "properties": {
                         "registry": {
                             "type": "string"
                         }
-                    }
+                    },
+                    "type": "object"
                 },
                 "podSecurityStandards": {
-                    "type": "object",
                     "properties": {
                         "enforced": {
                             "type": "boolean"
                         }
-                    }
+                    },
+                    "type": "object"
                 }
-            }
+            },
+            "type": "object"
         },
         "image": {
-            "type": "object",
             "properties": {
                 "registry": {
                     "type": "string"
                 }
-            }
+            },
+            "type": "object"
         },
         "kyvernoPolicyExceptions": {
-            "type": "object",
             "properties": {
                 "enabled": {
                     "type": "boolean"
@@ -121,7 +119,8 @@
                 "namespace": {
                     "type": "string"
                 }
-            }
+            },
+            "type": "object"
         },
         "managedBy": {
             "type": "string"
@@ -130,15 +129,14 @@
             "type": "string"
         },
         "networkPolicy": {
-            "type": "object",
             "properties": {
                 "enabled": {
                     "type": "boolean"
                 }
-            }
+            },
+            "type": "object"
         },
         "podSecurityContext": {
-            "type": "object",
             "properties": {
                 "runAsGroup": {
                     "type": "integer"
@@ -150,31 +148,31 @@
                     "type": "integer"
                 },
                 "seccompProfile": {
-                    "type": "object",
                     "properties": {
                         "type": {
                             "type": "string"
                         }
-                    }
+                    },
+                    "type": "object"
                 }
-            }
+            },
+            "type": "object"
         },
         "securityContext": {
-            "type": "object",
             "properties": {
                 "allowPrivilegeEscalation": {
                     "type": "boolean"
                 },
                 "capabilities": {
-                    "type": "object",
                     "properties": {
                         "drop": {
-                            "type": "array",
                             "items": {
                                 "type": "string"
-                            }
+                            },
+                            "type": "array"
                         }
-                    }
+                    },
+                    "type": "object"
                 },
                 "privileged": {
                     "type": "boolean"
@@ -192,66 +190,22 @@
                     "type": "integer"
                 },
                 "seccompProfile": {
-                    "type": "object",
                     "properties": {
                         "type": {
                             "type": "string"
                         }
-                    }
+                    },
+                    "type": "object"
                 }
-            }
+            },
+            "type": "object"
         },
         "serviceType": {
             "type": "string"
         },
-        "specs": {
-            "type": "object",
-            "properties": {
-                "image": {
-                    "type": "object",
-                    "properties": {
-                        "tag": {
-                            "type": "string"
-                        }
-                    }
-                },
-                "install": {
-                    "type": "boolean"
-                },
-                "resources": {
-                    "type": "object",
-                    "properties": {
-                        "limits": {
-                            "type": "object",
-                            "properties": {
-                                "cpu": {
-                                    "type": "string"
-                                },
-                                "memory": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "requests": {
-                            "type": "object",
-                            "properties": {
-                                "cpu": {
-                                    "type": "string"
-                                },
-                                "memory": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "trivy-operator": {
-            "type": "object",
             "properties": {
                 "compliance": {
-                    "type": "object",
                     "properties": {
                         "cron": {
                             "type": "string"
@@ -259,29 +213,27 @@
                         "reportType": {
                             "type": "string"
                         }
-                    }
+                    },
+                    "type": "object"
                 },
                 "excludeNamespaces": {
                     "type": "string"
                 },
                 "image": {
-                    "type": "object",
                     "properties": {
                         "repository": {
                             "type": "string"
                         }
-                    }
+                    },
+                    "type": "object"
                 },
                 "nodeCollector": {
-                    "type": "object",
                     "properties": {
                         "repository": {
                             "type": "string"
                         },
                         "tolerations": {
-                            "type": "array",
                             "items": {
-                                "type": "object",
                                 "properties": {
                                     "effect": {
                                         "type": "string"
@@ -292,13 +244,15 @@
                                     "operator": {
                                         "type": "string"
                                     }
-                                }
-                            }
+                                },
+                                "type": "object"
+                            },
+                            "type": "array"
                         }
-                    }
+                    },
+                    "type": "object"
                 },
                 "operator": {
-                    "type": "object",
                     "properties": {
                         "clusterComplianceEnabled": {
                             "type": "boolean"
@@ -330,10 +284,10 @@
                         "vulnerabilityScannerScanOnlyCurrentRevisions": {
                             "type": "boolean"
                         }
-                    }
+                    },
+                    "type": "object"
                 },
                 "podSecurityContext": {
-                    "type": "object",
                     "properties": {
                         "runAsGroup": {
                             "type": "integer"
@@ -345,17 +299,17 @@
                             "type": "integer"
                         },
                         "seccompProfile": {
-                            "type": "object",
                             "properties": {
                                 "type": {
                                     "type": "string"
                                 }
-                            }
+                            },
+                            "type": "object"
                         }
-                    }
+                    },
+                    "type": "object"
                 },
                 "policiesBundle": {
-                    "type": "object",
                     "properties": {
                         "registry": {
                             "type": "string"
@@ -366,24 +320,24 @@
                         "tag": {
                             "type": "string"
                         }
-                    }
+                    },
+                    "type": "object"
                 },
                 "securityContext": {
-                    "type": "object",
                     "properties": {
                         "allowPrivilegeEscalation": {
                             "type": "boolean"
                         },
                         "capabilities": {
-                            "type": "object",
                             "properties": {
                                 "drop": {
-                                    "type": "array",
                                     "items": {
                                         "type": "string"
-                                    }
+                                    },
+                                    "type": "array"
                                 }
-                            }
+                            },
+                            "type": "object"
                         },
                         "privileged": {
                             "type": "boolean"
@@ -401,33 +355,33 @@
                             "type": "integer"
                         },
                         "seccompProfile": {
-                            "type": "object",
                             "properties": {
                                 "type": {
                                     "type": "string"
                                 }
-                            }
+                            },
+                            "type": "object"
                         }
-                    }
+                    },
+                    "type": "object"
                 },
                 "service": {
-                    "type": "object",
                     "properties": {
                         "metricsPort": {
                             "type": "integer"
                         }
-                    }
+                    },
+                    "type": "object"
                 },
                 "serviceAccount": {
-                    "type": "object",
                     "properties": {
                         "name": {
                             "type": "string"
                         }
-                    }
+                    },
+                    "type": "object"
                 },
                 "serviceMonitor": {
-                    "type": "object",
                     "properties": {
                         "enabled": {
                             "type": "boolean"
@@ -436,14 +390,15 @@
                             "type": "string"
                         },
                         "labels": {
-                            "type": "object",
                             "properties": {
                                 "application.giantswarm.io/team": {
                                     "type": "string"
                                 }
-                            }
+                            },
+                            "type": "object"
                         }
-                    }
+                    },
+                    "type": "object"
                 },
                 "targetNamespaces": {
                     "type": "string"
@@ -452,27 +407,36 @@
                     "type": "string"
                 },
                 "trivy": {
-                    "type": "object",
                     "properties": {
                         "command": {
                             "type": "string"
                         },
+                        "dbRegistry": {
+                            "type": "string"
+                        },
+                        "dbRepository": {
+                            "type": "string"
+                        },
                         "image": {
-                            "type": "object",
                             "properties": {
                                 "repository": {
                                     "type": "string"
                                 }
-                            }
+                            },
+                            "type": "object"
+                        },
+                        "javaDbRegistry": {
+                            "type": "string"
+                        },
+                        "javaDbRepository": {
+                            "type": "string"
                         },
                         "mode": {
                             "type": "string"
                         },
                         "resources": {
-                            "type": "object",
                             "properties": {
                                 "limits": {
-                                    "type": "object",
                                     "properties": {
                                         "cpu": {
                                             "type": "string"
@@ -480,10 +444,10 @@
                                         "memory": {
                                             "type": "string"
                                         }
-                                    }
+                                    },
+                                    "type": "object"
                                 },
                                 "requests": {
-                                    "type": "object",
                                     "properties": {
                                         "cpu": {
                                             "type": "string"
@@ -491,34 +455,35 @@
                                         "memory": {
                                             "type": "string"
                                         }
-                                    }
+                                    },
+                                    "type": "object"
                                 }
-                            }
+                            },
+                            "type": "object"
                         },
                         "serverURL": {
                             "type": "string"
                         }
-                    }
+                    },
+                    "type": "object"
                 },
                 "trivyOperator": {
-                    "type": "object",
                     "properties": {
                         "scanJobPodTemplateContainerSecurityContext": {
-                            "type": "object",
                             "properties": {
                                 "allowPrivilegeEscalation": {
                                     "type": "boolean"
                                 },
                                 "capabilities": {
-                                    "type": "object",
                                     "properties": {
                                         "drop": {
-                                            "type": "array",
                                             "items": {
                                                 "type": "string"
-                                            }
+                                            },
+                                            "type": "array"
                                         }
-                                    }
+                                    },
+                                    "type": "object"
                                 },
                                 "privileged": {
                                     "type": "boolean"
@@ -536,17 +501,17 @@
                                     "type": "integer"
                                 },
                                 "seccompProfile": {
-                                    "type": "object",
                                     "properties": {
                                         "type": {
                                             "type": "string"
                                         }
-                                    }
+                                    },
+                                    "type": "object"
                                 }
-                            }
+                            },
+                            "type": "object"
                         },
                         "scanJobPodTemplatePodSecurityContext": {
-                            "type": "object",
                             "properties": {
                                 "runAsGroup": {
                                     "type": "integer"
@@ -558,19 +523,18 @@
                                     "type": "integer"
                                 },
                                 "seccompProfile": {
-                                    "type": "object",
                                     "properties": {
                                         "type": {
                                             "type": "string"
                                         }
-                                    }
+                                    },
+                                    "type": "object"
                                 }
-                            }
+                            },
+                            "type": "object"
                         },
                         "scanJobTolerations": {
-                            "type": "array",
                             "items": {
-                                "type": "object",
                                 "properties": {
                                     "effect": {
                                         "type": "string"
@@ -581,12 +545,16 @@
                                     "operator": {
                                         "type": "string"
                                     }
-                                }
-                            }
+                                },
+                                "type": "object"
+                            },
+                            "type": "array"
                         }
-                    }
+                    },
+                    "type": "object"
                 }
-            }
+            },
+            "type": "object"
         },
         "trivyServiceName": {
             "type": "string"
@@ -595,10 +563,8 @@
             "type": "integer"
         },
         "verticalPodAutoscaler": {
-            "type": "object",
             "properties": {
                 "trivyOperator": {
-                    "type": "object",
                     "properties": {
                         "containerPolicies": {
                             "type": "object"
@@ -606,9 +572,12 @@
                         "enabled": {
                             "type": "boolean"
                         }
-                    }
+                    },
+                    "type": "object"
                 }
-            }
+            },
+            "type": "object"
         }
-    }
+    },
+    "type": "object"
 }
