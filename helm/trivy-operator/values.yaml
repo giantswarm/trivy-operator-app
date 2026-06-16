@@ -154,6 +154,8 @@ trivy-operator:
 
   trivyOperator:
 
+    scanJobAnnotations: "policies.kyverno.io/inject-proxy-env=exclude"
+
     scanJobTolerations:
     - key: "node-role.kubernetes.io/control-plane"
       operator: "Exists"
