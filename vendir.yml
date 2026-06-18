@@ -18,8 +18,7 @@ directories:
   - path: .
     git:
       url: https://github.com/giantswarm/trivy-operator-upstream
-      # renovate: datasource=github-tags depName=giantswarm/trivy-operator-upstream
-      ref: v0.31.2
+      ref: v0.28.0
     includePaths:
       - deploy/helm/crds/*
     newRootPath: deploy/helm/crds
