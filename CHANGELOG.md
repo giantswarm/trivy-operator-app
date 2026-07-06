@@ -9,7 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Updated `trivy-operator` to upstream version `v0.30.1`.
 - Updated `trivy-operator` to upstream version `v0.31.2`.
 
 ## [0.12.2] - 2026-01-30
