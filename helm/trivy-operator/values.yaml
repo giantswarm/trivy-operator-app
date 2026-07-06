@@ -56,6 +56,13 @@ kyvernoPolicyExceptions:
   enabled: true
   namespace: giantswarm
 
+# Mitigation for the shared-/tmp race in trivy scan jobs (aquasecurity/trivy-operator#2859).
+# Installs a Kyverno MutatingPolicy that gives each scan-job container a unique TMPDIR,
+# preventing concurrent scans in multi-container pods from deleting each other's
+# /tmp/trivy-<pid> working directory. Requires Kyverno in the cluster.
+scanJobTmpdirFix:
+  enabled: true
+
 # managedBy is similar to .Release.Service but allows to overwrite the value
 managedBy: Helm
 

@@ -122,6 +122,14 @@
             },
             "type": "object"
         },
+        "scanJobTmpdirFix": {
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                }
+            },
+            "type": "object"
+        },
         "managedBy": {
             "type": "string"
         },
