@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Updates `giantswarm/trivy-checks` to version `v1.12.1`.
+
 ## [0.13.0] - 2026-07-06
 
 ### Changed
