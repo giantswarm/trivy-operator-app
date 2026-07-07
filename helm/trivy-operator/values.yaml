@@ -137,7 +137,7 @@ trivy-operator:
     # -- repository of the policies bundle
     repository: giantswarm/trivy-checks
     # -- tag version of the policies bundle
-    tag: 1.21.1
+    tag: 1.12.1
 
   nodeCollector:
     repository: "giantswarm/node-collector"
