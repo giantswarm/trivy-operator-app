@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Changed MutatingPolicy API version to `v1beta1`.
+
 ## [0.13.2] - 2026-07-07
 
 ### Fixed
