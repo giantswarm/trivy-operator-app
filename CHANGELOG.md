@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Updated `trivy-operator` to upstream version `v0.32.0`.
+
 ### Fixed
 
 - Changed MutatingPolicy API version to `v1beta1`.
