@@ -14,7 +14,7 @@
 # csi-attacher, ...) trigger this reliably. Giving each container its own TMPDIR
 # moves trivy's working directory to /tmp/<container>/trivy-<pid>, which is unique
 # per container, so no sibling can remove a directory still in use.
-apiVersion: policies.kyverno.io/v1
+apiVersion: policies.kyverno.io/v1beta1
 kind: MutatingPolicy
 metadata:
   name: {{ include "trivy-operator-helpers.name" . }}-scan-job-tmpdir
