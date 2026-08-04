@@ -58,4 +58,3 @@ workflows:
                 - main
           requires:
             - push-trivy-operator-to-giantswarm-catalog
-
