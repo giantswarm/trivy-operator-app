@@ -1,22 +1,19 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
-    "additionalProperties": false,
+    "additionalProperties": true,
     "properties": {
         "ciliumNetworkPolicy": {
             "type": "object",
-            "additionalProperties": false,
             "properties": {
                 "enabled": {
                     "type": "boolean"
                 },
                 "scanJobExtraEgress": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "dnsSelector": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "rules": {
                                     "type": "array"
@@ -28,7 +25,6 @@
                         },
                         "fqdnsConnection": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "port": {
                                     "type": "string"
@@ -47,11 +43,9 @@
         },
         "crds": {
             "type": "object",
-            "additionalProperties": false,
             "properties": {
                 "image": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "tag": {
                             "type": "string"
@@ -63,11 +57,9 @@
                 },
                 "resources": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "limits": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "cpu": {
                                     "type": "string"
@@ -79,7 +71,6 @@
                         },
                         "requests": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "cpu": {
                                     "type": "string"
@@ -96,11 +87,9 @@
         "global": {
             "type": "object",
             "description": "global values provide a centralized configuration for 'image.registry', reducing the potential for errors. If left blank, the chart will default to the individually set 'image.registry' values",
-            "additionalProperties": false,
             "properties": {
                 "image": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "registry": {
                             "type": "string"
@@ -109,7 +98,6 @@
                 },
                 "podSecurityStandards": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "enforced": {
                             "type": "boolean"
@@ -120,7 +108,6 @@
         },
         "image": {
             "type": "object",
-            "additionalProperties": false,
             "properties": {
                 "registry": {
                     "type": "string"
@@ -129,7 +116,6 @@
         },
         "kyvernoPolicyExceptions": {
             "type": "object",
-            "additionalProperties": false,
             "properties": {
                 "enabled": {
                     "type": "boolean"
@@ -147,7 +133,6 @@
         },
         "networkPolicy": {
             "type": "object",
-            "additionalProperties": false,
             "properties": {
                 "enabled": {
                     "type": "boolean"
@@ -156,7 +141,6 @@
         },
         "podSecurityContext": {
             "type": "object",
-            "additionalProperties": false,
             "properties": {
                 "runAsGroup": {
                     "type": "integer"
@@ -169,7 +153,6 @@
                 },
                 "seccompProfile": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "type": {
                             "type": "string"
@@ -180,7 +163,6 @@
         },
         "scanJobTmpdirFix": {
             "type": "object",
-            "additionalProperties": false,
             "properties": {
                 "enabled": {
                     "type": "boolean"
@@ -189,14 +171,12 @@
         },
         "securityContext": {
             "type": "object",
-            "additionalProperties": false,
             "properties": {
                 "allowPrivilegeEscalation": {
                     "type": "boolean"
                 },
                 "capabilities": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "drop": {
                             "type": "array",
@@ -223,7 +203,6 @@
                 },
                 "seccompProfile": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "type": {
                             "type": "string"
@@ -237,11 +216,9 @@
         },
         "trivy-operator": {
             "type": "object",
-            "additionalProperties": false,
             "properties": {
                 "compliance": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "cron": {
                             "type": "string"
@@ -256,7 +233,6 @@
                 },
                 "image": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "repository": {
                             "type": "string"
@@ -265,7 +241,6 @@
                 },
                 "nodeCollector": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "repository": {
                             "type": "string"
@@ -274,7 +249,6 @@
                             "type": "array",
                             "items": {
                                 "type": "object",
-                                "additionalProperties": false,
                                 "properties": {
                                     "effect": {
                                         "type": "string"
@@ -292,7 +266,6 @@
                 },
                 "operator": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "clusterComplianceEnabled": {
                             "type": "boolean"
@@ -329,7 +302,6 @@
                 },
                 "podSecurityContext": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "runAsGroup": {
                             "type": "integer"
@@ -342,7 +314,6 @@
                         },
                         "seccompProfile": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "type": {
                                     "type": "string"
@@ -353,7 +324,6 @@
                 },
                 "policiesBundle": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "registry": {
                             "type": "string",
@@ -371,14 +341,12 @@
                 },
                 "securityContext": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "allowPrivilegeEscalation": {
                             "type": "boolean"
                         },
                         "capabilities": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "drop": {
                                     "type": "array",
@@ -405,7 +373,6 @@
                         },
                         "seccompProfile": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "type": {
                                     "type": "string"
@@ -416,7 +383,6 @@
                 },
                 "service": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "metricsPort": {
                             "type": "integer"
@@ -425,7 +391,6 @@
                 },
                 "serviceAccount": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "name": {
                             "type": "string"
@@ -434,7 +399,6 @@
                 },
                 "serviceMonitor": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "enabled": {
                             "type": "boolean"
@@ -444,7 +408,6 @@
                         },
                         "labels": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "application.giantswarm.io/team": {
                                     "type": "string"
@@ -461,7 +424,6 @@
                 },
                 "trivy": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "command": {
                             "type": "string"
@@ -475,7 +437,6 @@
                         },
                         "image": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "repository": {
                                     "type": "string"
@@ -494,11 +455,9 @@
                         },
                         "resources": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "limits": {
                                     "type": "object",
-                                    "additionalProperties": false,
                                     "properties": {
                                         "cpu": {
                                             "type": "string"
@@ -510,7 +469,6 @@
                                 },
                                 "requests": {
                                     "type": "object",
-                                    "additionalProperties": false,
                                     "properties": {
                                         "cpu": {
                                             "type": "string"
@@ -529,18 +487,15 @@
                 },
                 "trivyOperator": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "scanJobPodTemplateContainerSecurityContext": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "allowPrivilegeEscalation": {
                                     "type": "boolean"
                                 },
                                 "capabilities": {
                                     "type": "object",
-                                    "additionalProperties": false,
                                     "properties": {
                                         "drop": {
                                             "type": "array",
@@ -567,7 +522,6 @@
                                 },
                                 "seccompProfile": {
                                     "type": "object",
-                                    "additionalProperties": false,
                                     "properties": {
                                         "type": {
                                             "type": "string"
@@ -578,7 +532,6 @@
                         },
                         "scanJobPodTemplatePodSecurityContext": {
                             "type": "object",
-                            "additionalProperties": false,
                             "properties": {
                                 "runAsGroup": {
                                     "type": "integer"
@@ -591,7 +544,6 @@
                                 },
                                 "seccompProfile": {
                                     "type": "object",
-                                    "additionalProperties": false,
                                     "properties": {
                                         "type": {
                                             "type": "string"
@@ -604,7 +556,6 @@
                             "type": "array",
                             "items": {
                                 "type": "object",
-                                "additionalProperties": false,
                                 "properties": {
                                     "effect": {
                                         "type": "string"
@@ -630,11 +581,9 @@
         },
         "verticalPodAutoscaler": {
             "type": "object",
-            "additionalProperties": false,
             "properties": {
                 "trivyOperator": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                         "containerPolicies": {
                             "type": "object",
