@@ -586,8 +586,7 @@
                     "type": "object",
                     "properties": {
                         "containerPolicies": {
-                            "type": "object",
-                            "additionalProperties": false
+                            "type": "object"
                         },
                         "enabled": {
                             "type": "boolean"
