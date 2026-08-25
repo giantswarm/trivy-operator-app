@@ -49,7 +49,6 @@ A Giant Swarm App for trivy-operator, the cluster security tool from Aqua Securi
 | securityContext.seccompProfile.type | string | `"RuntimeDefault"` |  |
 | kyvernoPolicyExceptions.enabled | bool | `true` |  |
 | kyvernoPolicyExceptions.namespace | string | `"giantswarm"` |  |
-| scanJobTmpdirFix.enabled | bool | `true` |  |
 | managedBy | string | `"Helm"` |  |
 | ciliumNetworkPolicy.enabled | bool | `true` |  |
 | ciliumNetworkPolicy.scanJobExtraEgress.enabled | bool | `false` |  |
