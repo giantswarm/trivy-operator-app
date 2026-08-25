@@ -1,0 +1,3 @@
+# Temporary fix since Kyverno CRDs are not present in kind yet
+scanJobTmpdirFix:
+  enabled: false
