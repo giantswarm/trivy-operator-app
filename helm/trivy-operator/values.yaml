@@ -86,7 +86,7 @@ verticalPodAutoscaler:
     enabled: true
     containerPolicies: {}
 
-trivy-operator:
+trivy-operator:  # @schema skipProperties: true; additionalProperties: true
 
   compliance:
     cron: "* */6 * * *"
