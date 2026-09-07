@@ -9,7 +9,7 @@ maintainers:
     url: https://github.com/giantswarm/trivy-operator-app
 sources:
   - https://github.com/aquasecurity/trivy-operator
-version: 0.14.0
+version: 0.15.0
 dependencies:
   - name: trivy-operator
     version: "0.36.0"
