@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Allow additional properties for vendored upstream chart values so upstream keys are not rejected by the generated schema.
+- Updated `trivy-operator` to upstream version `v0.34.0`.
+
+### Fixed
+
+- Take the `app.kubernetes.io/version` label from the chart app version instead of the chart version, as described in the Helm chart best practices. The chart version carries build metadata that pushed the label past the 63 byte limit and made the install fail.
 
 ## [0.14.0] - 2026-08-25
 

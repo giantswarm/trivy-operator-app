@@ -18,7 +18,7 @@ A Giant Swarm App for trivy-operator, the cluster security tool from Aqua Securi
 
 | Repository | Name | Version |
 |------------|------|---------|
-|  | trivy-operator | 0.35.0 |
+|  | trivy-operator | 0.36.0 |
 
 ## Values
 
