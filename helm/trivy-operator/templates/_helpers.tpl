@@ -75,7 +75,7 @@ Allow the release namespace to be overridden for multi-namespace deployments in 
 
 {{/* Create chart name and version as used by the chart label. */}}
 {{- define "trivy-operator-helpers.chartref" -}}
-{{- (replace "+" "_" .Chart.Version | printf "%s-%s" .Chart.Name) | trunc 63 -}}
+{{- (replace "+" "_" .Chart.Version | printf "%s-%s" .Chart.Name) | trunc 63 | trimAll "-._" -}}
 {{- end }}
 
 {{/* Generate basic labels */}}
