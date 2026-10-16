@@ -7,7 +7,7 @@ directories:
     git:
       url: https://github.com/giantswarm/trivy-operator-upstream
       # renovate: datasource=github-tags depName=giantswarm/trivy-operator-upstream
-      ref: v0.34.0
+      ref: v0.35.0
     includePaths:
       - deploy/helm/**/*
     excludePaths:
