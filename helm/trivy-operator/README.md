@@ -60,6 +60,8 @@ A Giant Swarm App for trivy-operator, the cluster security tool from Aqua Securi
 | trivyServicePort | int | `4954` |  |
 | verticalPodAutoscaler.trivyOperator.enabled | bool | `true` |  |
 | verticalPodAutoscaler.trivyOperator.containerPolicies | object | `{}` |  |
+| trivy-operator.volumes[0].name | string | `"cache-policies"` |  |
+| trivy-operator.volumes[0].emptyDir.sizeLimit | string | `"128Mi"` |  |
 | trivy-operator.compliance.cron | string | `"* */6 * * *"` |  |
 | trivy-operator.compliance.reportType | string | `"summary"` |  |
 | trivy-operator.operator.sbomGenerationEnabled | bool | `false` | the flag to enable sbom generation |
