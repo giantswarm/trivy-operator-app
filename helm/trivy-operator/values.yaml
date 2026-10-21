@@ -87,7 +87,7 @@ verticalPodAutoscaler:
     containerPolicies: {}
 
 trivy-operator:  # @schema skipProperties: true; additionalProperties: true
-  # Same single volume as the upstream default (required for the policies bundle), with a sizeLimit.
+  # Same single volume as the upstream default, with a sizeLimit.
   volumes:
     - name: cache-policies
       emptyDir:
