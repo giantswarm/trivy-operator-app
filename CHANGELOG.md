@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - set size limits for emptyDir volumes
+- Updated `trivy-operator` to upstream version `v0.36.0`.
 
 ### Fixed
 
