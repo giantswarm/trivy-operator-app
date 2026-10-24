@@ -2,10 +2,10 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - git:
-      commitTitle: 'release: prepare v0.34.0 (#3042)'
-      sha: 7107830178ae50e96e9f09d98976e51e6152759f
+      commitTitle: 'release: prepare v0.36.0 (#3109)'
+      sha: 047f1d95f4f8355569aadbdad0f1c74550c6cbec
       tags:
-      - v0.34.0
+      - v0.36.0
     path: .
   path: helm/trivy-operator/charts/trivy-operator
 - contents:
