@@ -120,13 +120,16 @@
                 }
             }
         },
+        "externalDNSIP": {
+            "type": "string"
+        },
         "gcpProject": {
             "type": "string"
         },
         "global": {
             "type": "object",
             "description": "global values provide a centralized configuration for 'image.registry', reducing the potential for errors. If left blank, the chart will default to the individually set 'image.registry' values",
-            "additionalProperties": false,
+            "additionalProperties": true,
             "properties": {
                 "image": {
                     "type": "object",
@@ -139,7 +142,7 @@
                 },
                 "podSecurityStandards": {
                     "type": "object",
-                    "additionalProperties": false,
+                    "additionalProperties": true,
                     "properties": {
                         "enforced": {
                             "type": "boolean"
@@ -147,6 +150,10 @@
                     }
                 }
             }
+        },
+        "helm": {
+            "type": "object",
+            "additionalProperties": true
         },
         "image": {
             "type": "object",
@@ -170,6 +177,9 @@
             }
         },
         "managedBy": {
+            "type": "string"
+        },
+        "managementCluster": {
             "type": "string"
         },
         "name": {
