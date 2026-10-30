@@ -1,6 +1,6 @@
 dependencies:
 - name: trivy-operator
   repository: ""
-  version: 0.36.0
-digest: sha256:26fabb312767ec0a6d27ea1a061935b37053238e63da04281f4a49a81c9dfdeb
-generated: "2026-08-28T13:45:45.181120949Z"
+  version: 0.38.1
+digest: sha256:2a9f99dba67fc110caf59ca2d191a106e540d25a70314a3b02a4fad4f4d2b50d
+generated: "2026-10-30T10:11:13.687979009Z"
