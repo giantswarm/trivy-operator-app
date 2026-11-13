@@ -1,0 +1,134 @@
+{{- if and .Values.kyvernoPolicyExceptions.enabled .Values.kyvernoPolicyExceptions.cel.enabled }}
+{{- $TO := index .Values "trivy-operator" }}
+{{- /* Names and namespace of the trivy-operator subchart's own Deployment and ServiceAccount, from the subchart's helpers. */}}
+{{- $operatorName := include "trivy-operator.fullname" (dict "Values" $TO "Release" .Release "Chart" (dict "Name" "trivy-operator")) }}
+{{- $operatorServiceAccount := default $operatorName $TO.serviceAccount.name }}
+{{- $operatorNamespace := default .Release.Namespace $TO.operator.namespace }}
+apiVersion: policies.kyverno.io/v1
+kind: PolicyException
+metadata:
+  name: {{ include "trivy-operator-helpers.name" . }}-exception
+  namespace: {{ .Values.kyvernoPolicyExceptions.namespace | default .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": "pre-install,pre-upgrade"
+    # Lower than every crd-install hook (the lowest is -7), so the exception
+    # exists before the trivy-operator-crd-install ServiceAccount (-4) is created.
+    "helm.sh/hook-weight": "-8"
+spec:
+  policyRefs:
+  - name: disallow-host-namespaces
+    kind: ValidatingPolicy
+  - name: disallow-host-path
+    kind: ValidatingPolicy
+  - name: restrict-volume-types
+    kind: ValidatingPolicy
+  # check-resources-request-and-limits-ratio is a supplemental policy and usually
+  # not enabled. It is excepted because the node-collector and
+  # scan-vulnerabilityreport Jobs and Pods fail it when the policy is enforced.
+  - name: check-resources-request-and-limits-ratio
+    kind: ValidatingPolicy
+  # require-pod-probes is a supplemental policy and usually not enabled. It is
+  # excepted because the node-collector, scan-vulnerabilityreport and
+  # trivy-operator-crd-install Job Pods fail it when the policy is enforced.
+  - name: require-pod-probes
+    kind: ValidatingPolicy
+  # require-emptydir-requests-and-limits is a supplemental policy and usually not
+  # enabled. It is excepted because the scan-vulnerabilityreport Jobs and Pods
+  # fail it when the policy is enforced.
+  - name: require-emptydir-requests-and-limits
+    kind: ValidatingPolicy
+  # require-container-requests-and-limits is a supplemental policy and usually
+  # not enabled. It is excepted because the trivy-operator Deployment and its
+  # Pods fail it when the policy is enforced.
+  - name: require-container-requests-and-limits
+    kind: ValidatingPolicy
+  # restrict-sa-automount-sa-token is a supplemental policy and usually not
+  # enabled. It is excepted because the trivy-operator and
+  # trivy-operator-crd-install ServiceAccounts fail it when the policy is
+  # enforced.
+  - name: restrict-sa-automount-sa-token
+    kind: ValidatingPolicy
+  matchConditions:
+  # Block 1 is the legacy match (node-collector Jobs created at runtime).
+  # No legacy exception covers the chart's own resources, so blocks 2-7 match
+  # them by kind, namespace and name:
+  # 2. the trivy-operator Deployment;
+  # 3. the Pods of its ReplicaSets (<name>-<pod-template-hash>-<suffix>; the
+  #    pattern excludes Job Pods such as trivy-operator-crd-install-<suffix>);
+  # 4. the trivy-operator ServiceAccount;
+  # 5. the trivy-operator-crd-install ServiceAccount (pre-install hook);
+  # 6. the trivy-operator-crd-install Job (pre-install hook) and its Pods,
+  #    which fail require-pod-probes;
+  # 7. the scan-vulnerabilityreport Jobs and Pods the operator creates at
+  #    runtime in every scan mode (the legacy file-system-mode exception only
+  #    covers filesystem/rootfs mode and only the run-as-non-root policies).
+  - name: trivy-operator-resources
+    expression: >-
+      (request.kind.kind in ['Job', 'Pod', 'CronJob'] &&
+      request.namespace == '{{ .Release.Namespace }}' &&
+      has(object.metadata.name) &&
+      object.metadata.name.startsWith('node-collector-')) ||
+      (request.kind.kind == 'Deployment' &&
+      request.namespace == '{{ $operatorNamespace }}' &&
+      has(object.metadata.name) &&
+      object.metadata.name == '{{ $operatorName }}') ||
+      (request.kind.kind == 'Pod' &&
+      request.namespace == '{{ $operatorNamespace }}' &&
+      has(object.metadata.name) &&
+      object.metadata.name.matches('^{{ $operatorName }}-[a-z0-9]+-[a-z0-9]+$')) ||
+      (request.kind.kind == 'ServiceAccount' &&
+      request.namespace == '{{ $operatorNamespace }}' &&
+      has(object.metadata.name) &&
+      object.metadata.name == '{{ $operatorServiceAccount }}') ||
+      (request.kind.kind == 'ServiceAccount' &&
+      request.namespace == '{{ .Release.Namespace }}' &&
+      has(object.metadata.name) &&
+      object.metadata.name == '{{ include "trivy-operator.crdInstall" . }}') ||
+      (request.kind.kind in ['Job', 'Pod'] &&
+      request.namespace == '{{ .Release.Namespace }}' &&
+      has(object.metadata.name) &&
+      (object.metadata.name == '{{ include "trivy-operator.crdInstall" . }}' ||
+      object.metadata.name.startsWith('{{ include "trivy-operator.crdInstall" . }}-'))) ||
+      (request.kind.kind in ['Job', 'Pod'] &&
+      request.namespace == '{{ .Release.Namespace }}' &&
+      has(object.metadata.name) &&
+      object.metadata.name.startsWith('scan-vulnerabilityreport-'))
+{{- if or (eq $TO.trivy.command "filesystem") (eq $TO.trivy.command "rootfs") }}
+---
+apiVersion: policies.kyverno.io/v1
+kind: PolicyException
+metadata:
+  name: {{ include "trivy-operator-helpers.name" . }}-file-system-mode-exception
+  namespace: {{ .Values.kyvernoPolicyExceptions.namespace | default .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": "pre-install,pre-upgrade"
+spec:
+  policyRefs:
+  - name: require-run-as-nonroot
+    kind: ValidatingPolicy
+  - name: require-run-as-non-root-user
+    kind: ValidatingPolicy
+  # check-resources-request-and-limits-ratio is a supplemental policy and usually
+  # not enabled. It is excepted because the scan-vulnerabilityreport Job and Pod
+  # fail it when the policy is enforced.
+  - name: check-resources-request-and-limits-ratio
+    kind: ValidatingPolicy
+  # require-emptydir-requests-and-limits is a supplemental policy and usually not
+  # enabled. It is excepted because the scan-vulnerabilityreport Job and Pod fail
+  # it when the policy is enforced.
+  - name: require-emptydir-requests-and-limits
+    kind: ValidatingPolicy
+  # require-pod-probes is a supplemental policy and usually not enabled. It is
+  # excepted because the scan-vulnerabilityreport Pod fails it when the policy is
+  # enforced.
+  - name: require-pod-probes
+    kind: ValidatingPolicy
+  matchConditions:
+  - name: scan-vulnerabilityreport-workloads
+    expression: >-
+      request.kind.kind in ['Job', 'Pod', 'CronJob'] &&
+      request.namespace == '{{ .Release.Namespace }}' &&
+      has(object.metadata.name) &&
+      object.metadata.name.startsWith('scan-vulnerabilityreport-')
+{{- end }}
+{{- end }}

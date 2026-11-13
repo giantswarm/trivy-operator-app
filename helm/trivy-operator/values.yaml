@@ -55,6 +55,12 @@ securityContext:
 kyvernoPolicyExceptions:
   enabled: true
   namespace: giantswarm
+  legacy:
+    # -- Render the kyverno.io/v2 PolicyException, which only applies to ClusterPolicies. Turn it off once the cluster runs the CEL policies.
+    enabled: true
+  cel:
+    # -- Render the policies.kyverno.io/v1 PolicyException, which only applies to CEL policies (ValidatingPolicy).
+    enabled: true
 
 # managedBy is similar to .Release.Service but allows to overwrite the value
 managedBy: Helm

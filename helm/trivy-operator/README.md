@@ -49,6 +49,8 @@ A Giant Swarm App for trivy-operator, the cluster security tool from Aqua Securi
 | securityContext.seccompProfile.type | string | `"RuntimeDefault"` |  |
 | kyvernoPolicyExceptions.enabled | bool | `true` |  |
 | kyvernoPolicyExceptions.namespace | string | `"giantswarm"` |  |
+| kyvernoPolicyExceptions.legacy.enabled | bool | `true` | Render the kyverno.io/v2 PolicyException, which only applies to ClusterPolicies. Turn it off once the cluster runs the CEL policies. |
+| kyvernoPolicyExceptions.cel.enabled | bool | `true` | Render the policies.kyverno.io/v1 PolicyException, which only applies to CEL policies (ValidatingPolicy). |
 | managedBy | string | `"Helm"` |  |
 | ciliumNetworkPolicy.enabled | bool | `true` |  |
 | ciliumNetworkPolicy.scanJobExtraEgress.enabled | bool | `false` |  |
