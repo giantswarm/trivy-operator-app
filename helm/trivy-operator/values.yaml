@@ -19,7 +19,7 @@ networkPolicy:
 # We install CRDs through a Job with the helm specific crd folder.
 crds:
   image:
-    tag: 1.24.1
+    tag: 1.36.4
   install: true
   resources:
     requests:

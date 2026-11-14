@@ -29,7 +29,7 @@ A Giant Swarm App for trivy-operator, the cluster security tool from Aqua Securi
 | global | object | `{"image":{"registry":"gsoci.azurecr.io"},"podSecurityStandards":{"enforced":true}}` | global values provide a centralized configuration for 'image.registry', reducing the potential for errors. If left blank, the chart will default to the individually set 'image.registry' values |
 | image.registry | string | `"gsoci.azurecr.io"` |  |
 | networkPolicy.enabled | bool | `false` |  |
-| crds.image.tag | string | `"1.24.1"` |  |
+| crds.image.tag | string | `"1.36.4"` |  |
 | crds.install | bool | `true` |  |
 | crds.resources.requests.cpu | string | `"100m"` |  |
 | crds.resources.requests.memory | string | `"256Mi"` |  |
