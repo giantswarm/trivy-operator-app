@@ -1,9 +1,11 @@
-{{- if .Values.kyvernoPolicyExceptions.enabled }}
+{{- if and .Values.kyvernoPolicyExceptions.enabled .Values.kyvernoPolicyExceptions.legacy.enabled }}
 apiVersion: kyverno.io/v2
 kind: PolicyException
 metadata:
   name: {{ include "trivy-operator-helpers.name" . }}-exception
   namespace: {{ .Values.kyvernoPolicyExceptions.namespace | default .Release.Namespace }}
+  labels:
+    policy.giantswarm.io/migrated-to-cel: "true"
   annotations:
     "helm.sh/hook": "pre-install,pre-upgrade"
 spec:
@@ -40,6 +42,8 @@ kind: PolicyException
 metadata:
   name: {{ include "trivy-operator-helpers.name" . }}-file-system-mode-exception
   namespace: {{ .Values.kyvernoPolicyExceptions.namespace | default .Release.Namespace }}
+  labels:
+    policy.giantswarm.io/migrated-to-cel: "true"
   annotations:
     "helm.sh/hook": "pre-install,pre-upgrade"
 spec:
