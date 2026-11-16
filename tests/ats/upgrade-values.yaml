@@ -1,0 +1,9 @@
+# Values for the stable release the upgrade test installs first. That
+# release's CiliumNetworkPolicy has an empty DNS port list, which the
+# CiliumNetworkPolicy CRD rejects, so it is turned off here. The upgrade to
+# the chart under test uses tests/ats/values.yaml, with the policy on.
+# Drop this file once a release with the fix is out.
+kyvernoPolicyExceptions:
+  namespace: policy-exceptions
+ciliumNetworkPolicy:
+  enabled: false
