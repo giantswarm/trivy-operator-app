@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - The `helm.sh/chart` label is valid for long chart versions: the 63-character cut trims the whole trailing run of `-`, `.` and `_`.
+- The operator's CiliumNetworkPolicy allows DNS on ports 53 and 1053. The rule had an empty port list, which the CiliumNetworkPolicy CRD rejects.
 
 ## [0.15.0] - 2026-09-07
 
