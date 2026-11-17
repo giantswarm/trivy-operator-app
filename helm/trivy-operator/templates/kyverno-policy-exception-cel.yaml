@@ -1,4 +1,4 @@
-{{- if and .Values.kyvernoPolicyExceptions.enabled .Values.kyvernoPolicyExceptions.cel.enabled }}
+{{- if .Values.kyvernoPolicyExceptions.enabled }}
 {{- $TO := index .Values "trivy-operator" }}
 {{- /* Names and namespace of the trivy-operator subchart's own Deployment and ServiceAccount, from the subchart's helpers. */}}
 {{- $operatorName := include "trivy-operator.fullname" (dict "Values" $TO "Release" .Release "Chart" (dict "Name" "trivy-operator")) }}
