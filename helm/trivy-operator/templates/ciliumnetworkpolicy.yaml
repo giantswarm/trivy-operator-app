@@ -21,6 +21,10 @@ spec:
         - cluster
       toPorts:
         - ports:
+          - port: "1053"
+            protocol: ANY
+          - port: "53"
+            protocol: ANY
   ingress:
     - fromEntities:
       - cluster
