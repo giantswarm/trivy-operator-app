@@ -150,6 +150,12 @@ trivy-operator:  # @schema skipProperties: true; additionalProperties: true
     - key: "node-role.kubernetes.io/master"
       operator: "Exists"
       effect: "NoSchedule"
+    # Giant Swarm arm64 node pools carry this taint. The node collector runs one Job pinned to each
+    # node, so without it arm64 nodes get no infra assessment. The node-collector image is multi-arch.
+    - key: "kubernetes.io/arch"
+      operator: "Equal"
+      value: "arm64"
+      effect: "NoSchedule"
 
   service:
     metricsPort: 8080
@@ -168,6 +174,11 @@ trivy-operator:  # @schema skipProperties: true; additionalProperties: true
       effect: "NoSchedule"
     - key: "node-role.kubernetes.io/master"
       operator: "Exists"
+      effect: "NoSchedule"
+    # Lets scan jobs use arm64 nodes, which carry this taint on Giant Swarm. The trivy image is multi-arch.
+    - key: "kubernetes.io/arch"
+      operator: "Equal"
+      value: "arm64"
       effect: "NoSchedule"
 
     # scanJobPodTemplatePodSecurityContext podSecurityContext the user wants the scanner pods to be amended with.
