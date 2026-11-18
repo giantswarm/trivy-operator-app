@@ -1,0 +1,24 @@
+suite: arm64 node pool tolerations
+templates:
+  - charts/trivy-operator/templates/configmaps/operator.yaml
+tests:
+  # Giant Swarm arm64 node pools carry kubernetes.io/arch=arm64:NoSchedule. The
+  # node collector pins one Job to each node, so without this toleration the Job
+  # for an arm64 node stays Pending and that node gets no infra assessment.
+  - it: node collector tolerates the arm64 taint and keeps the control-plane ones
+    asserts:
+      - matchRegex:
+          path: data["nodeCollector.tolerations"]
+          pattern: '\{"effect":"NoSchedule","key":"kubernetes.io/arch","operator":"Equal","value":"arm64"\}'
+      - matchRegex:
+          path: data["nodeCollector.tolerations"]
+          pattern: '"key":"node-role.kubernetes.io/control-plane"'
+
+  - it: scan jobs tolerate the arm64 taint and keep the control-plane ones
+    asserts:
+      - matchRegex:
+          path: data["scanJob.tolerations"]
+          pattern: '\{"effect":"NoSchedule","key":"kubernetes.io/arch","operator":"Equal","value":"arm64"\}'
+      - matchRegex:
+          path: data["scanJob.tolerations"]
+          pattern: '"key":"node-role.kubernetes.io/control-plane"'

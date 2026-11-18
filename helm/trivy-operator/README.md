@@ -89,6 +89,10 @@ A Giant Swarm App for trivy-operator, the cluster security tool from Aqua Securi
 | trivy-operator.nodeCollector.tolerations[1].key | string | `"node-role.kubernetes.io/master"` |  |
 | trivy-operator.nodeCollector.tolerations[1].operator | string | `"Exists"` |  |
 | trivy-operator.nodeCollector.tolerations[1].effect | string | `"NoSchedule"` |  |
+| trivy-operator.nodeCollector.tolerations[2].key | string | `"kubernetes.io/arch"` |  |
+| trivy-operator.nodeCollector.tolerations[2].operator | string | `"Equal"` |  |
+| trivy-operator.nodeCollector.tolerations[2].value | string | `"arm64"` |  |
+| trivy-operator.nodeCollector.tolerations[2].effect | string | `"NoSchedule"` |  |
 | trivy-operator.service.metricsPort | int | `8080` |  |
 | trivy-operator.serviceMonitor.enabled | bool | `true` |  |
 | trivy-operator.serviceMonitor.interval | string | `"60s"` |  |
@@ -99,6 +103,10 @@ A Giant Swarm App for trivy-operator, the cluster security tool from Aqua Securi
 | trivy-operator.trivyOperator.scanJobTolerations[1].key | string | `"node-role.kubernetes.io/master"` |  |
 | trivy-operator.trivyOperator.scanJobTolerations[1].operator | string | `"Exists"` |  |
 | trivy-operator.trivyOperator.scanJobTolerations[1].effect | string | `"NoSchedule"` |  |
+| trivy-operator.trivyOperator.scanJobTolerations[2].key | string | `"kubernetes.io/arch"` |  |
+| trivy-operator.trivyOperator.scanJobTolerations[2].operator | string | `"Equal"` |  |
+| trivy-operator.trivyOperator.scanJobTolerations[2].value | string | `"arm64"` |  |
+| trivy-operator.trivyOperator.scanJobTolerations[2].effect | string | `"NoSchedule"` |  |
 | trivy-operator.trivyOperator.scanJobPodTemplatePodSecurityContext.runAsUser | int | `10000` |  |
 | trivy-operator.trivyOperator.scanJobPodTemplatePodSecurityContext.runAsGroup | int | `10000` |  |
 | trivy-operator.trivyOperator.scanJobPodTemplatePodSecurityContext.runAsNonRoot | bool | `true` |  |

@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - set size limits for emptyDir volumes
 - Use the multi-arch `docker-kubectl` image `1.36.4` (was the amd64-only `1.24.1`) for the CRD install hook Job, so it also runs on arm64 nodes.
+- Node collector and vulnerability scan Jobs tolerate the `kubernetes.io/arch=arm64:NoSchedule` taint of Giant Swarm arm64 node pools, so arm64 nodes get infra assessments and can run scan jobs.
 
 ### Fixed
 
