@@ -1,2 +1,14 @@
 // Repo-owned Renovate overrides. Edit this file; devctl preserves it.
-{}
+{
+  packageRules: [
+    {
+      // Upstream chart syncs through vendir.yml wait for approval on the
+      // Dependency Dashboard and land as one grouped PR.
+      matchFileNames: [
+        'vendir.yml',
+      ],
+      prCreation: 'approval',
+      groupName: 'trivy-operator-upstream',
+    },
+  ],
+}
