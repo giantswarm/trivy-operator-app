@@ -22,10 +22,20 @@ This repository contains our packaging and Giant Swarm-specific configuration of
 
 ## Installing
 
-There are several ways to install this app onto a workload cluster.
+To install this app onto a workload cluster, deploy its chart with a Flux `HelmRelease` in your organization namespace on the management cluster, as explained in [Deploying an application via a Flux HelmRelease][helmrelease-guide]. The chart is published at `oci://gsoci.azurecr.io/charts/giantswarm/trivy-operator`.
 
-- [Using our web interface][app-ui].
-- By creating an [App resource][app-crd] in the management cluster as explained in [Getting started with App Platform][app-getting-started].
+The quickest way is [`kubectl gs deploy chart`][kubectl-gs-deploy-chart], which creates the `OCIRepository` and `HelmRelease` for you:
+
+```shell
+kubectl gs deploy chart \
+  --chart-name trivy-operator \
+  --organization ORGANIZATION \
+  --target-cluster CLUSTER \
+  --target-namespace NAMESPACE \
+  --values-file values.yaml
+```
+
+If you still deploy this app with a Giant Swarm `App` resource, that API is deprecated. See [App Platform deprecation][app-platform-deprecation] for how to migrate to a `HelmRelease`.
 
 ### Scanning Backend
 
@@ -39,22 +49,22 @@ Alternatively, you can configure Trivy Operator to use Standalone mode, which cr
 
 In either case, please note that the Trivy version set by `trivy.imageRef` must be the same version as your Trivy backend (even if the actual image is not the same), as Trivy Operator uses that value internally to determine the API format to use for Trivy.
 
-### Sample App CR and ConfigMap for the management cluster
+### Configuration
 
-If you have access to the Kubernetes API on the management cluster, you could create
-the App CR and ConfigMap directly.
+Set chart values inline in the `HelmRelease` under `spec.values`, or keep them in a `ConfigMap` or `Secret` in the same namespace and reference it from `spec.valuesFrom`. With `kubectl gs deploy chart`, use `--values-file` and `--values-from`, as described in its [configuration section][kubectl-gs-deploy-chart-config]. See the Flux [HelmRelease values reference][flux-helmrelease-values] for how values from several sources are merged.
 
-See our [full reference on how to configure apps][app-config] for more details.
+The available values and their defaults are in [`helm/trivy-operator/values.yaml`](helm/trivy-operator/values.yaml).
 
 ## Credit
 
 - [`trivy-operator`][trivy-operator-upstream]
 
-[app-config]: https://docs.giantswarm.io/app-platform/app-configuration/
-[app-crd]: https://docs.giantswarm.io/ui-api/management-api/crd/apps.application.giantswarm.io/
-[app-getting-started]: https://docs.giantswarm.io/app-platform/getting-started/
-[app-ui]: https://docs.giantswarm.io/ui-api/web/app-platform/#installing-an-app
-[managed-security]: https://docs.giantswarm.io/app-platform/apps/security/
+[app-platform-deprecation]: https://docs.giantswarm.io/overview/fleet-management/app-management/app-platform-deprecation/
+[flux-helmrelease-values]: https://fluxcd.io/flux/components/helm/helmreleases/#values
+[helmrelease-guide]: https://docs.giantswarm.io/tutorials/fleet-management/app-platform/deploy-app-helmrelease/
+[kubectl-gs-deploy-chart]: https://docs.giantswarm.io/reference/kubectl-gs/deploy-chart/
+[kubectl-gs-deploy-chart-config]: https://docs.giantswarm.io/reference/kubectl-gs/deploy-chart/#configuration
+[managed-security]: https://docs.giantswarm.io/overview/security/platform-security/
 [starboard]: https://github.com/aquasecurity/starboard
 [starboard-app]: https://github.com/giantswarm/starboard-app
 [starboard-exporter]: https://github.com/giantswarm/starboard-exporter
